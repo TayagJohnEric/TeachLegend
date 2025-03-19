@@ -1,5 +1,7 @@
 @extends('layouts.admin.app')
 
+@section('title', 'Admin Manage Products')
+
 @section('content')
 
 <div class="container mx-auto px-4 py-6 max-w-[112rem]">
@@ -9,7 +11,7 @@
             Add New Product
         </button>
         <button type="button" onclick="openCategoryModal()" class="text-sm px-4 py-3 bg-white text-gray-700 rounded-md border border-gray-200 hover:border-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
-            Add New Category
+            Add New Category 
         </button>
     </div>
     
