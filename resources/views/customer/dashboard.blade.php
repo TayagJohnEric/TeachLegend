@@ -1,5 +1,6 @@
 @extends('layouts.customer.app')
 
+@section('title', "Dashboard")
 <!-- Main Content -->
 @section('content')
 <div class="flex-1 overflow-y-auto p-4">
