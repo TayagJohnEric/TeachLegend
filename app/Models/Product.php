@@ -38,5 +38,19 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function getDiscountPercentAttribute()
+    {
+        if (isset($this->attributes['sale_price']) && $this->attributes['sale_price'] < $this->attributes['price']) {
+            return round((($this->attributes['price'] - $this->attributes['sale_price']) / $this->attributes['price']) * 100);
+        }
+        
+        return null;
+    }
+
+    public function getIsNewAttribute()
+    {
+        return $this->created_at->diffInDays(now()) < 7;
+    }
 }
 

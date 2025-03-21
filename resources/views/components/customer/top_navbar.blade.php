@@ -1,5 +1,5 @@
 <!-- Top Navigation Bar -->
-<div class="z-10">
+<div class="z-10 bg-white">
     <div class="px-4 py-3 flex justify-between items-center">
       
       <!-- Left Side - Burger Menu (Mobile Only) -->
@@ -24,7 +24,7 @@
   
         <!-- Cart Icon with Counter -->
         <div class="relative">
-          <a href="#" class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none">
+          <a href="{{ route('cart.view')}}" class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 stroke-linecap="round"

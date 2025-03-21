@@ -11,9 +11,16 @@
   <!-- Inter Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-     body {
-      font-family: 'Inter', sans-serif;
-    }
+    html, body {
+    width: 100%;
+    overflow-x: hidden;
+     
+
+body, .flex-1 {
+  font-family: 'Inter', sans-serif;
+}
+}
+  
       /* Modal background overlay */
 /* Modal background overlay */
 .modal-overlay {
@@ -39,19 +46,18 @@
 }
   </style>
 </head>
-<body class="bg-gray-100">
-  <div>
-    <!-- Sidebar Menu -->
-    @include('components.customer.sidebar')
+<body class=" bg-[#F6F5FA] h-screen overflow-hidden">
+  <!-- Sidebar -->
+  @include('components.customer.sidebar')
 
-    <!-- Content Area -->
-    <div class="flex-1 flex flex-col w-full">
-      <!-- Top Navigation Bar -->
-      @include('components.customer.top_navbar')
-      
-      <!-- Main Content Area -->
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 flex flex-col h-screen overflow-hidden">
+    <!-- Top Navigation Bar -->
+    @include('components.customer.top_navbar')
+
+    <!-- Scrollable Content -->
+    <div class="flex-1 overflow-y-auto p-6">
       @yield('content')
-      
     </div>
   </div>
 </body>

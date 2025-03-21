@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminManageProductController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Customer\CustomerDashboardController;
+use App\Http\Controllers\Customer\CustomerCategoryController;
+use App\Http\Controllers\Customer\CustomerCartController;
+use App\Http\Controllers\Customer\CustomerProductController;
 use App\Http\Controllers\Technician\TeachnicianDashboardController;
 
 
@@ -51,9 +54,18 @@ Route::post('/admin/categories/store', [AdminCategoryController::class, 'store']
 Route::get('/customer/dashboard', [CustomerDashboardController::class, 'dashboard'])
     ->name('customer.dashboard')
     ->middleware(['auth', 'role:customer']);
+    Route::get('/categories/{category}', [CustomerCategoryController::class, 'show'])->name('customer.categories.show');
 
-
-
+    Route::middleware(['auth'])->group(function () {
+        Route::post('/cart/add/{productId}', [CustomerCartController::class, 'addToCart'])->name('cart.add');
+        Route::get('/cart', [CustomerCartController::class, 'viewCart'])->name('cart.view');
+        Route::delete('/cart/remove/{id}', [CustomerCartController::class, 'removeFromCart'])->name('cart.remove');
+    });
+    Route::patch('/cart/update/{id}', [CustomerCartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/clear', [CustomerCartController::class, 'clear'])->name('cart.clear');
+    Route::get('/products', [CustomerProductController::class, 'index'])->name('products.index');
+    Route::get('/products/{product}', [CustomerProductController::class, 'show'])->name('products.show');
+   
 
 
 

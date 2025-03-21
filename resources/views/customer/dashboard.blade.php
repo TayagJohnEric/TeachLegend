@@ -1,9 +1,9 @@
 @extends('layouts.customer.app')
-
 @section('title', "Dashboard")
 <!-- Main Content -->
 @section('content')
-<div class="flex-1 overflow-y-auto p-4">
+  <!-- Page Content -->
+  <div class="flex-1 overflow-y-auto p-4">
     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Dashboard</h2>
     <!-- Dashboard content with enhanced visuals -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
