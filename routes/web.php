@@ -10,6 +10,7 @@ use App\Http\Controllers\Customer\CustomerDashboardController;
 use App\Http\Controllers\Customer\CustomerCategoryController;
 use App\Http\Controllers\Customer\CustomerCartController;
 use App\Http\Controllers\Customer\CustomerProductController;
+use App\Http\Controllers\Customer\CustomerCheckoutController;
 use App\Http\Controllers\Technician\TeachnicianDashboardController;
 
 
@@ -65,12 +66,15 @@ Route::get('/customer/dashboard', [CustomerDashboardController::class, 'dashboar
     Route::delete('/cart/clear', [CustomerCartController::class, 'clear'])->name('cart.clear');
     Route::get('/products', [CustomerProductController::class, 'index'])->name('products.index');
     Route::get('/products/{product}', [CustomerProductController::class, 'show'])->name('products.show');
-   
+    Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CustomerCheckoutController::class, 'process'])->name('checkout.process');
 
 
 
 
+    
 
+    
 //Technician Route
 Route::get('/technician/dashboard', [TeachnicianDashboardController::class, 'dashboard'])
     ->name('technician.dashboard')

@@ -15,8 +15,8 @@ class CustomerCartController extends Controller
     public function viewCart()
     {
         $cartItems = Cart::where('user_id', Auth::id())->with('product')->get();
-
-        return view('customer.cart', compact('cartItems'));
+        $totalProducts = $cartItems->sum('quantity');
+        return view('customer.cart', compact('cartItems','totalProducts'));
     }
 
 
