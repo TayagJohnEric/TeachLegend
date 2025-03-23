@@ -19,6 +19,10 @@ class Product extends Model
         'compatibility_data'
     ];
 
+    protected $casts = [
+        'compatibility_data' => 'array',
+    ];
+    
     public function category()
     {
         return $this->belongsTo(Category::class);

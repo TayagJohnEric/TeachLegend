@@ -40,12 +40,12 @@
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div class="col-span-1">
                         <label class="block text-sm font-medium text-gray-700">Name</label>
-                        <input type="text" name="name" id="name" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12  focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                        <input type="text" name="name" id="name" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12" required>
                     </div>
 
                     <div class="col-span-1">
                         <label class="block text-sm font-medium text-gray-700">Category</label>
-                        <select name="category_id" id="category_id" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12  focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                        <select name="category_id" id="category_id" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12" required>
                             <option value="">Select Category</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -55,12 +55,12 @@
 
                     <div class="col-span-1">
                         <label class="block text-sm font-medium text-gray-700">Price</label>
-                        <input type="number" name="price" id="price" step="0.01" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                        <input type="number" name="price" id="price" step="0.01" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12" required>
                     </div>
 
                     <div class="col-span-1">
                         <label class="block text-sm font-medium text-gray-700">Stock</label>
-                        <input type="number" name="stock" id="stock" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12  focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                        <input type="number" name="stock" id="stock" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12" required>
                     </div>
 
                     <div class="col-span-2">
@@ -73,19 +73,37 @@
 
                     <div class="col-span-2">
                         <label class="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea name="description" id="description" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-24  focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="3"></textarea>
+                        <textarea name="description" id="description" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-24" rows="3"></textarea>
                     </div>
 
-                    <div class="col-span-2">
-                        <label class="block text-sm font-medium text-gray-700">Compatibility Data (JSON)</label>
-                        <textarea name="compatibility_data" id="compatibility_data" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-24  focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="3"></textarea>
+                    <!-- Compatibility Data -->
+                    <div class="col-span-2 bg-white p-4 rounded-md">
+                        <h3 class="font-semibold text-gray-700">Compatibility Information</h3>
+
+                        <label class="block text-sm font-medium text-gray-700 mt-3">Motherboard Compatibility</label>
+                        <input type="text" name="motherboards" placeholder="ASUS ROG Strix Z690, MSI MEG Z790" class="mt-1 block w-full border px-4 py-3 rounded-lg">
+
+                        <label class="block text-sm font-medium text-gray-700 mt-3">CPU Socket Type</label>
+                        <input type="text" name="socket_type" placeholder="LGA1700, AM5" class="mt-1 block w-full border px-4 py-3 rounded-lg">
+
+                        <label class="block text-sm font-medium text-gray-700 mt-3">RAM Type</label>
+                        <input type="text" name="ram_type" placeholder="DDR4, DDR5" class="mt-1 block w-full border px-4 py-3 rounded-lg">
+
+                        <label class="block text-sm font-medium text-gray-700 mt-3">Storage Type</label>
+                        <input type="text" name="storage_type" placeholder="SATA, NVMe M.2" class="mt-1 block w-full border px-4 py-3 rounded-lg">
+
+                        <label class="block text-sm font-medium text-gray-700 mt-3">GPU PCIe Slot</label>
+                        <input type="text" name="gpu_pcie_slot" placeholder="PCIe 4.0, PCIe 5.0" class="mt-1 block w-full border px-4 py-3 rounded-lg">
+
+                        <label class="block text-sm font-medium text-gray-700 mt-3">Operating System Compatibility</label>
+                        <input type="text" name="os_compatibility" placeholder="Windows 11, Linux Ubuntu" class="mt-1 block w-full border px-4 py-3 rounded-lg">
                     </div>
                 </div>
             </div>
 
             <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
-                <button type="button" onclick="closeProductModal()" class="px-4 py-3 bg-gray-200 text-gray-700 text-sm rounded-lg mr-2 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">Cancel</button>
-                <button type="submit" class="px-4 py-3 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2">Save Product</button>
+                <button type="button" onclick="closeProductModal()" class="px-4 py-3 bg-gray-200 text-gray-700 text-sm rounded-lg mr-2">Cancel</button>
+                <button type="submit" class="px-4 py-3 bg-gray-900 text-white text-sm rounded-lg">Save Product</button>
             </div>
         </form>
     </div>
@@ -159,13 +177,13 @@
                 <div class="col-span-1">
                     <label class="block text-sm font-medium text-gray-700">Name</label>
                     <input type="text" name="name" id="edit_name"
-                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12">
                 </div>
 
                 <div class="col-span-1">
                     <label class="block text-sm font-medium text-gray-700">Category</label>
                     <select name="category_id" id="edit_category_id"
-                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12">
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
@@ -175,44 +193,68 @@
                 <div class="col-span-1">
                     <label class="block text-sm font-medium text-gray-700">Price</label>
                     <input type="number" step="0.01" name="price" id="edit_price"
-                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12">
                 </div>
 
                 <div class="col-span-1">
                     <label class="block text-sm font-medium text-gray-700">Stock</label>
                     <input type="number" name="stock" id="edit_stock"
-                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12">
                 </div>
+                
+                   
 
                 <div class="col-span-2">
                     <label class="block text-sm font-medium text-gray-700">Description</label>
                     <textarea name="description" id="edit_description"
-                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-24 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-24"
                         rows="3"></textarea>
                 </div>
 
                 <div class="col-span-2">
                     <label class="block text-sm font-medium text-gray-700">Image</label>
                     <input type="file" name="image" id="edit_image"
-                        class="mt-1 block w-full px-4 py-3 h-12 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    class="mt-1 block w-full  px-4 py-3 h-12 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                     <div id="current_image" class="mt-2"></div>
                 </div>
 
-                <div class="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700">Compatibility Data</label>
-                    <textarea name="compatibility_data" id="edit_compatibility_data"
-                        class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-24 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        rows="3"></textarea>
+                <!-- Compatibility Data -->
+                <div class="col-span-2 bg-white p-4 rounded-md">
+                    <h3 class="font-semibold text-gray-700">Compatibility Information</h3>
+
+                    <label class="block text-sm font-medium text-gray-700 mt-3">Compatible Motherboards</label>
+                    <input type="text" name="motherboards" id="edit_motherboards"
+                        class="mt-1 block w-full border px-4 py-3 rounded-lg">
+
+                    <label class="block text-sm font-medium text-gray-700 mt-3">CPU Socket Type</label>
+                    <input type="text" name="socket_type" id="edit_socket_type"
+                        class="mt-1 block w-full border px-4 py-3 rounded-lg">
+
+                    <label class="block text-sm font-medium text-gray-700 mt-3">RAM Type</label>
+                    <input type="text" name="ram_type" id="edit_ram_type"
+                        class="mt-1 block w-full border px-4 py-3 rounded-lg">
+
+                    <label class="block text-sm font-medium text-gray-700 mt-3">Storage Type</label>
+                    <input type="text" name="storage_type" id="edit_storage_type"
+                        class="mt-1 block w-full border px-4 py-3 rounded-lg">
+
+                    <label class="block text-sm font-medium text-gray-700 mt-3">GPU PCIe Slot</label>
+                    <input type="text" name="gpu_pcie_slot" id="edit_gpu_pcie_slot"
+                        class="mt-1 block w-full border px-4 py-3 rounded-lg">
+
+                    <label class="block text-sm font-medium text-gray-700 mt-3">Operating System Compatibility</label>
+                    <input type="text" name="os_compatibility" id="edit_os_compatibility"
+                        class="mt-1 block w-full border px-4 py-3 rounded-lg">
                 </div>
             </div>
 
             <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
                 <button type="button" onclick="closeEditModal()"
-                    class="px-4 py-3 bg-gray-200 text-gray-700 text-sm rounded-lg mr-2 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                    class="px-4 py-3 bg-gray-200 text-gray-700 text-sm rounded-lg mr-2">
                     Cancel
                 </button>
                 <button type="submit"
-                    class="px-4 py-3 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    class="px-4 py-3 bg-gray-900 text-white text-sm rounded-lg">
                     Update Product
                 </button>
             </div>
@@ -438,14 +480,14 @@ function closeCategoryModal() {
     function editProduct(productId) {
     const modal = document.getElementById('editProductModal');
 
-    // Set the form action URL
+    // Set the form action URL dynamically
     document.getElementById('editProductForm').action = `/admin/products/${productId}`;
 
     // Show modal with smooth animation
     modal.classList.remove('hidden');
     setTimeout(() => modal.classList.add('modal-active'), 10);
 
-    // Fetch the product data and populate the form
+    // Fetch product data and populate the form
     fetch(`/admin/products/${productId}/edit`)
         .then(response => response.json())
         .then(data => {
@@ -454,7 +496,6 @@ function closeCategoryModal() {
             document.getElementById('edit_price').value = data.price;
             document.getElementById('edit_stock').value = data.stock;
             document.getElementById('edit_description').value = data.description;
-            document.getElementById('edit_compatibility_data').value = data.compatibility_data;
 
             // Display current image if available
             if (data.image) {
@@ -467,6 +508,27 @@ function closeCategoryModal() {
             } else {
                 document.getElementById('current_image').innerHTML = '<span class="text-xs text-gray-500">No current image</span>';
             }
+
+            // Handle compatibility data safely
+            let compatibility = {};
+            if (data.compatibility_data) {
+                try {
+                    // If it's a string, parse it; otherwise use as is
+                    compatibility = typeof data.compatibility_data === 'string' 
+                        ? JSON.parse(data.compatibility_data) 
+                        : data.compatibility_data;
+                } catch (e) {
+                    console.error('Error parsing compatibility data:', e);
+                    compatibility = {};
+                }
+            }
+
+            document.getElementById('edit_motherboards').value = compatibility.motherboards ? compatibility.motherboards.join(', ') : '';
+            document.getElementById('edit_socket_type').value = compatibility.socket_type || '';
+            document.getElementById('edit_ram_type').value = compatibility.ram_type || '';
+            document.getElementById('edit_storage_type').value = compatibility.storage_type || '';
+            document.getElementById('edit_gpu_pcie_slot').value = compatibility.gpu_pcie_slot || '';
+            document.getElementById('edit_os_compatibility').value = compatibility.os_compatibility || '';
         })
         .catch(error => {
             console.error('Error fetching product data:', error);
@@ -485,6 +547,7 @@ function closeEditModal() {
     setTimeout(() => {
         modal.classList.add('hidden');
         document.getElementById('editProductForm').reset();
+        document.getElementById('current_image').innerHTML = ''; // Clear image preview
     }, 300);
 }
 
