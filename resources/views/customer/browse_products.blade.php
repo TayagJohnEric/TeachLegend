@@ -2,6 +2,39 @@
 
 @section('title', 'All Products')
 
+<style>
+    body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    .stars {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+    }
+
+    .stars input {
+        display: none;
+    }
+
+    .stars label {
+        font-size: 40px;
+        color: gray;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .stars input:checked ~ label {
+        color: gold;
+    }
+
+    .stars label:hover,
+    .stars label:hover ~ label {
+        color: gold;
+    }
+</style>
+
 @section('content')
 <div class="min-h-screen p-4 md:p-6 lg:p-8">
     <div class="max-w-[85rem] mx-auto">
@@ -52,6 +85,26 @@
                                     alt="{{ $product->name }}" 
                                     class="absolute inset-0 w-full h-full object-contain p-2">
 
+
+                                    
+
+
+
+<!-- View Icon Button -->
+<button class="absolute bottom-2 right-2 bg-gray-700 text-white p-2 rounded-full hover:bg-gray-900 transition"
+    onclick="openProductModal({{ $product->id }})">
+
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2C8.13 2 4.62 4.13 2 7c2.62 2.87 6.13 5 10 5s7.38-2.13 10-5c-2.62-2.87-6.13-5-10-5zm0 14c-4.42 0-8.41-1.79-11.32-4.68A19.92 19.92 0 0 1 12 22a19.92 19.92 0 0 1 11.32-4.68C20.41 14.21 16.42 16 12 16z"></path>
+    </svg>
+</button>
+
+
+
+
+
+
+
                                 <!-- Product Badges -->
                                 @if($product->created_at->diffInDays(now()) < 7)
                                     <span class="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-md">NEW</span>
@@ -79,18 +132,8 @@
                                 <p class="hidden sm:block text-gray-500 text-xs md:text-sm mb-2 line-clamp-2">
                                     {{ Str::limit($product->description, 30, '...') }}
                                 </p>
-
-                                <!-- Product Compatibility (if available) - Hidden on smallest screens -->
-                                @if($product->compatibility_data)
-                                    <div class="hidden sm:flex flex-wrap gap-1 mb-2">
-                                        @foreach(json_decode($product->compatibility_data) as $compatibility)
-                                            <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
-                                                {{ $compatibility }}
-                                            </span>
-                                        @endforeach
-                                    </div>
-                                @endif
-
+                                
+                             
                                 <!-- Product Price -->
                                 <div class="flex items-center mb-2 sm:mb-3">
                                     @if(isset($product->sale_price) && $product->sale_price < $product->price)
@@ -106,6 +149,7 @@
                                         </span>
                                     @endif
                                 </div>
+                                
 
                                 <!-- Stock Status -->
                                 @if($product->stock <= 0)
@@ -158,6 +202,63 @@
     </div>
 </div>
 
+<!-- Product Details Modal -->
+<div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50" data-product-id="">
+    <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg relative">
+        <!-- Close Button -->
+        <button onclick="closeProductModal()" class="absolute top-3 right-3 text-gray-700 hover:text-red-500">
+            &times;
+        </button>
+
+        <!-- Product Content -->
+        <div id="modalContent">
+            <h2 id="modalProductName" class="text-xl font-bold mb-2"></h2>
+            <img id="modalProductImage" class="w-full h-40 object-contain mb-3">
+            <p id="modalProductDescription" class="text-gray-600 text-sm mb-3"></p>
+            <p class="text-lg font-semibold">
+                Price: <span id="modalProductPrice" class="text-blue-600"></span>
+            </p>
+
+            <!-- Rating Display -->
+            <div class="flex items-center mt-3">
+                <span id="modalProductRating" class="text-yellow-500 text-lg font-bold"></span>
+                <span class="ml-1 text-gray-500 text-sm">(out of 5)</span>
+                <span id="modalTotalReviews" class="text-gray-500 text-sm ml-2"></span>
+            </div>
+
+            <!-- User Reviews -->
+            <div id="reviewsContainer" class="mt-4 max-h-40 overflow-y-auto border-t pt-2">
+                <!-- Reviews will be dynamically added here -->
+            </div>
+
+            <!-- Add Review Form -->
+            <div class="mt-4">
+                <h3 class="text-md font-semibold mb-2">Leave a Review</h3>
+                <div class="stars mb-2">
+                    <input type="radio" id="star5" name="rating" value="5">
+                    <label for="star5">★</label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4">★</label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3">★</label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2">★</label>
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1">★</label>
+                </div>
+                <textarea id="reviewText" class="w-full border p-2 rounded" placeholder="Write your review here..."></textarea>
+                <button onclick="submitReview()" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
+                    Submit Review
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <script>
     document.getElementById('category-filter').addEventListener('change', function() {
         var selectedUrl = this.value;
@@ -171,5 +272,93 @@
         currentUrl.searchParams.set('sort', this.value);
         window.location.href = currentUrl.toString();
     });
+
+    function openProductModal(productId) {
+    fetch(`/products/${productId}/details`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch product details');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.product) {
+                document.getElementById('modalProductName').textContent = data.product.name;
+                document.getElementById('modalProductImage').src = data.product.image || '{{ asset("images/placeholder.png") }}';
+                document.getElementById('modalProductDescription').textContent = data.product.description || 'No description available.';
+                document.getElementById('modalProductPrice').textContent = `$${data.product.price}`;
+                document.getElementById('modalProductRating').textContent = data.average_rating || 'N/A';
+                document.getElementById('modalTotalReviews').textContent = `(${data.total_reviews || 0} reviews)`;
+
+                let reviewsContainer = document.getElementById('reviewsContainer');
+                reviewsContainer.innerHTML = '';
+                if (data.reviews && data.reviews.length > 0) {
+                    data.reviews.forEach(review => {
+                        let reviewElement = `<div class="border-b py-2">
+                            <p class="text-yellow-500">★ ${review.rating}</p>
+                            <p class="text-gray-700">${review.review_text}</p>
+                            <p class="text-sm text-gray-500">- User ${review.user_id}</p>
+                        </div>`;
+                        reviewsContainer.innerHTML += reviewElement;
+                    });
+                } else {
+                    reviewsContainer.innerHTML = '<p class="text-gray-500 text-sm">No reviews yet.</p>';
+                }
+
+                // Set product ID in modal
+                document.getElementById('productModal').setAttribute('data-product-id', productId);
+                document.getElementById('productModal').classList.remove('hidden');
+            } else {
+                alert('Product details not found.');
+            }
+        })
+        .catch(error => console.error('Error fetching product details:', error));
+}
+
+function submitReview() {
+    let selectedRating = document.querySelector('input[name="rating"]:checked')?.value;
+    let reviewText = document.getElementById('reviewText').value;
+    let productId = document.getElementById('productModal').getAttribute('data-product-id'); // Get product ID from modal
+
+    if (!selectedRating) {
+        alert("Please select a star rating.");
+        return;
+    }
+
+    if (!reviewText.trim()) {
+        alert("Please write a review.");
+        return;
+    }
+
+    fetch(`/products/${productId}/reviews`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ rating: selectedRating, review_text: reviewText })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to submit review');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert(data.message);
+        closeProductModal();
+        openProductModal(productId); // Refresh modal with updated reviews
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function closeProductModal() {
+    document.getElementById('productModal').classList.add('hidden');
+}
+
 </script>
+
+
+
+
 @endsection

@@ -11,6 +11,7 @@ use App\Http\Controllers\Customer\CustomerCategoryController;
 use App\Http\Controllers\Customer\CustomerCartController;
 use App\Http\Controllers\Customer\CustomerProductController;
 use App\Http\Controllers\Customer\CustomerCheckoutController;
+use App\Http\Controllers\Customer\CustomerReviewController;
 use App\Http\Controllers\Technician\TeachnicianDashboardController;
 
 
@@ -66,8 +67,11 @@ Route::get('/customer/dashboard', [CustomerDashboardController::class, 'dashboar
     Route::delete('/cart/clear', [CustomerCartController::class, 'clear'])->name('cart.clear');
     Route::get('/products', [CustomerProductController::class, 'index'])->name('products.index');
     Route::get('/products/{product}', [CustomerProductController::class, 'show'])->name('products.show');
+    Route::get('/products/{id}/details', [CustomerProductController::class, 'productDetails'])->name('products.details');
     Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CustomerCheckoutController::class, 'process'])->name('checkout.process');
+    Route::post('/products/{id}/reviews', [CustomerReviewController::class, 'store'])->middleware('auth');
+
 
 
 

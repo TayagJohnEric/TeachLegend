@@ -54,4 +54,20 @@ class CustomerProductController extends Controller
     {
         return view('products.show', compact('product'));
     }
+    
+    public function productDetails($id)
+    {
+        $product = Product::with('reviews.user')->findOrFail($id);
+
+        // Calculate Average Rating
+        $averageRating = $product->reviews()->avg('rating') ?? 0;
+        $totalReviews = $product->reviews()->count();
+
+        return response()->json([
+            'product' => $product,
+            'average_rating' => number_format($averageRating, 1),
+            'total_reviews' => $totalReviews,
+            'reviews' => $product->reviews
+        ]);
+    }
 }

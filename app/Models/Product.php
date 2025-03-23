@@ -56,5 +56,15 @@ class Product extends Model
     {
         return $this->created_at->diffInDays(now()) < 7;
     }
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->avg('rating') ?: 0;
+    }
+    
+    // Count reviews
+    public function getReviewsCountAttribute()
+    {
+        return $this->reviews()->count();
+    }
 }
 
