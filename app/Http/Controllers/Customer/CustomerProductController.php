@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
+
 
 class CustomerProductController extends Controller
 {
@@ -50,24 +53,10 @@ class CustomerProductController extends Controller
         return view('customer.browse_products', compact('products', 'categories'));
     }
 
-    public function show(Product $product)
-    {
-        return view('products.show', compact('product'));
-    }
-    
-    public function productDetails($id)
-    {
-        $product = Product::with('reviews.user')->findOrFail($id);
+    public function show($id)
+{
+    $product = Product::with('category')->findOrFail($id);
+    return response()->json($product);
+}
 
-        // Calculate Average Rating
-        $averageRating = $product->reviews()->avg('rating') ?? 0;
-        $totalReviews = $product->reviews()->count();
-
-        return response()->json([
-            'product' => $product,
-            'average_rating' => number_format($averageRating, 1),
-            'total_reviews' => $totalReviews,
-            'reviews' => $product->reviews
-        ]);
-    }
 }

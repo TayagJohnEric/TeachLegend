@@ -51,7 +51,6 @@ Route::post('/admin/categories/store', [AdminCategoryController::class, 'store']
 
 
 
-
 //Customer Route
 Route::get('/customer/dashboard', [CustomerDashboardController::class, 'dashboard'])
     ->name('customer.dashboard')
@@ -66,11 +65,9 @@ Route::get('/customer/dashboard', [CustomerDashboardController::class, 'dashboar
     Route::patch('/cart/update/{id}', [CustomerCartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/clear', [CustomerCartController::class, 'clear'])->name('cart.clear');
     Route::get('/products', [CustomerProductController::class, 'index'])->name('products.index');
-    Route::get('/products/{product}', [CustomerProductController::class, 'show'])->name('products.show');
-    Route::get('/products/{id}/details', [CustomerProductController::class, 'productDetails'])->name('products.details');
     Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CustomerCheckoutController::class, 'process'])->name('checkout.process');
-    Route::post('/products/{id}/reviews', [CustomerReviewController::class, 'store'])->middleware('auth');
+    Route::get('/products/{id}', [CustomerProductController::class, 'show'])->name('products.show');
 
 
 
