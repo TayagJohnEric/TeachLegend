@@ -188,12 +188,15 @@
 <!-- Product Modal with Scrollable Content -->
 <div id="productModal" class="fixed inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-md relative max-h-[90vh] overflow-y-auto">
-        <!-- Close (X) Button -->
-        <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-600 hover:text-gray-800">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
+        
+      <!-- Sticky Close Button -->
+<div class="sticky top-0 bg-transparent z-10 flex justify-end p-2">
+    <button onclick="closeModal()" class="text-gray-600 hover:text-gray-800">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+</div>
 
         <h2 id="modalProductName" class="text-xl font-bold text-gray-800"></h2>
         <img id="modalProductImage" class="w-full h-48 object-contain my-3" src="" alt="">
@@ -252,6 +255,7 @@
         </button>
     </div>
 </div>
+
 
 
 
@@ -464,8 +468,7 @@
                 reviewElement.innerHTML = `
                     <div class="flex justify-between items-center">
                         <div>
-                            <div class="font-medium">${review.user ? review.user.name : 'Anonymous'}</div>
-                            <div class="text-sm text-gray-500">${formattedDate}</div>
+<div class="font-medium">${review.user ? `${review.user.first_name} ${review.user.last_name}` : 'Anonymous'}</div>                            <div class="text-sm text-gray-500">${formattedDate}</div>
                         </div>
                         <div>${stars}</div>
                     </div>
