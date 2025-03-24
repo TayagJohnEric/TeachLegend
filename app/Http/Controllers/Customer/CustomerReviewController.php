@@ -11,22 +11,78 @@ use Illuminate\Support\Facades\Auth;
 class CustomerReviewController extends Controller
 {
     
-    // Store a new review
-    public function store(Request $request, $productId)
+    public function store(Request $request)
     {
-        $request->validate([
+        // Validate request
+        $validated = $request->validate([
+            'product_id' => 'required|exists:products,id',
             'rating' => 'required|integer|min:1|max:5',
-            'review_text' => 'nullable|string|max:500',
+            'review_text' => 'nullable|string|max:1000',
         ]);
 
-        // Create review
+        // Check if user already reviewed this product
+        $existingReview = Review::where('user_id', Auth::id())
+            ->where('product_id', $request->product_id)
+            ->first();
+
+        if ($existingReview) {
+            // Update existing review
+            $existingReview->rating = $request->rating;
+            $existingReview->review_text = $request->review_text;
+            $existingReview->save();
+
+            return redirect()->back()->with('success', 'Your review has been updated!');
+        }
+
+        // Create new review
         Review::create([
-            'user_id' => Auth::id(), 
-            'product_id' => $productId,
+            'user_id' => Auth::id(),
+            'product_id' => $request->product_id,
             'rating' => $request->rating,
-            'review_text' => $request->review_text
+            'review_text' => $request->review_text,
         ]);
 
-        return response()->json(['message' => 'Review added successfully!']);
+        return redirect()->back()->with('success', 'Thank you for your review!');
+    }
+
+    /**
+     * Show the form for creating a new review.
+     *
+     * @param  int  $productId
+     * @return \Illuminate\Http\Response
+     */
+    public function create($productId)
+    {
+        // Check if product exists
+        $product = Product::findOrFail($productId);
+        
+        // Check if user already reviewed this product
+        $existingReview = null;
+        if (Auth::check()) {
+            $existingReview = Review::where('user_id', Auth::id())
+                ->where('product_id', $productId)
+                ->first();
+        }
+        
+        return view('reviews.create', [
+            'product' => $product,
+            'existingReview' => $existingReview
+        ]);
+    }
+
+    /**
+     * Get reviews for a specific product.
+     *
+     * @param  int  $productId
+     * @return \Illuminate\Http\Response
+     */
+    public function getProductReviews($productId)
+    {
+        $reviews = Review::where('product_id', $productId)
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+            
+        return response()->json($reviews);
     }
 }

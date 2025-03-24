@@ -20,34 +20,40 @@ class CustomerCartController extends Controller
     }
 
 
-    public function addToCart($productId)
-    {
-        // Ensure the user is authenticated
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please login to add items to your cart.');
-        }
-
-        $user = Auth::user();
-        $product = Product::findOrFail($productId);
-
-        // Check if the product is already in the user's cart
-        $cartItem = Cart::where('user_id', $user->id)->where('product_id', $productId)->first();
-
-        if ($cartItem) {
-            // If exists, increase the quantity
-            $cartItem->increment('quantity');
-        } else {
-            // If not, add new entry
-            Cart::create([
-                'user_id' => $user->id,
-                'product_id' => $productId,
-                'quantity' => 1,
-            ]);
-        }
-
-        return redirect()->back()->with('success', 'Product added to cart successfully.');
+    public function addToCart(Request $request, $productId)
+{
+    // Ensure the user is authenticated
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Please login to add items to your cart.');
     }
 
+    $user = Auth::user();
+    $product = Product::findOrFail($productId);
+    $quantity = max(1, (int) $request->input('quantity', 1)); // Ensure at least 1
+
+    // Validate stock availability
+    if ($quantity > $product->stock) {
+        return redirect()->back()->with('error', 'Selected quantity exceeds available stock.');
+    }
+
+    // Check if the product is already in the user's cart
+    $cartItem = Cart::where('user_id', $user->id)->where('product_id', $productId)->first();
+
+    if ($cartItem) {
+        // Ensure the total does not exceed available stock
+        $newQuantity = min($cartItem->quantity + $quantity, $product->stock);
+        $cartItem->update(['quantity' => $newQuantity]);
+    } else {
+        // Add new entry
+        Cart::create([
+            'user_id' => $user->id,
+            'product_id' => $productId,
+            'quantity' => $quantity,
+        ]);
+    }
+
+    return redirect()->back()->with('success', 'Product added to cart successfully.');
+}
 
 
     public function removeFromCart($id)
