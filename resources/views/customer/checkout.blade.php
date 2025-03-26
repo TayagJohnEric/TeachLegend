@@ -4,29 +4,38 @@
 
 @section('content')
 <div class="container mx-auto py-8">
-    <h2 class="text-3xl font-bold text-gray-800 mb-4">Checkout</h2>
+    <h2 class="text-3xl font-bold mb-6">Checkout</h2>
 
-    <form action="{{ route('checkout.process') }}" method="POST">
+    <form method="POST" action="{{ route('customer.checkout.process') }}">
         @csrf
+
         <div class="mb-4">
-            <label class="block text-gray-700 font-bold mb-2">Shipping Address</label>
-            <input type="text" name="shipping_address" class="border p-2 w-full" required>
+            <label for="shipping_address" class="block text-lg font-medium">Shipping Address</label>
+            <input type="text" id="shipping_address" name="shipping_address" class="w-full border rounded-lg px-4 py-2" required>
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 font-bold mb-2">Payment Method</label>
-            <select name="payment_method" class="border p-2 w-full" required>
+            <label class="block text-lg font-medium">Payment Method</label>
+            <select name="payment_method" class="w-full border rounded-lg px-4 py-2" required>
                 <option value="credit_card">Credit Card</option>
                 <option value="paypal">PayPal</option>
-                <option value="cash_on_delivery">Cash on Delivery</option>
+                <option value="cod">Cash on Delivery</option>
             </select>
         </div>
 
         <div class="mb-6">
-            <p class="text-lg font-semibold">Total: ${{ number_format($totalAmount, 2) }}</p>
+            <h3 class="text-xl font-semibold">Order Summary</h3>
+            <ul class="mt-4">
+                @foreach ($cartItems as $item)
+                    <li class="border-b py-2">
+                        {{ $item->product->name }} (x{{ $item->quantity }}) - ${{ number_format($item->product->price * $item->quantity, 2) }}
+                    </li>
+                @endforeach
+            </ul>
+            <p class="text-lg font-bold mt-4">Total: ${{ number_format($totalAmount, 2) }}</p>
         </div>
 
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg">
             Place Order
         </button>
     </form>

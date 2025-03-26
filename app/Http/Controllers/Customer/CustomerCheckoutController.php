@@ -12,75 +12,87 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
-
+use Illuminate\Support\Facades\Log;
 
 class CustomerCheckoutController extends Controller
 {
-    public function index()
-    {
-        $cartItems = Cart::where('user_id', Auth::id())->with('product')->get();
-        $totalAmount = $cartItems->sum(fn ($item) => $item->product->price * $item->quantity);
+    
+   // Display Checkout Page
+   public function checkout()
+   {
+       $cartItems = Cart::where('user_id', Auth::id())->with('product')->get();
+       
+       if ($cartItems->isEmpty()) {
+           return redirect()->route('cart.view')->with('error', 'Your cart is empty.');
+       }
 
-        return view('customer.checkout', compact('cartItems', 'totalAmount'));
-    }
+       $totalAmount = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
 
-    public function process(Request $request)
-    {
-        $request->validate([
-            'shipping_address' => 'required|string|max:255',
-            'payment_method' => 'required|in:credit_card,paypal,cash_on_delivery',
-        ]);
+       return view('customer.checkout', compact('cartItems', 'totalAmount'));
+   }
 
-        $cartItems = Cart::where('user_id', Auth::id())->with('product')->get();
-        if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.view')->with('error', 'Your cart is empty.');
-        }
+   // Process Checkout
+   public function processCheckout(Request $request)
+   {
+       $request->validate([
+           'shipping_address' => 'required|string|max:255',
+           'payment_method' => 'required|in:credit_card,paypal,cod',
+       ]);
 
-        $totalAmount = $cartItems->sum(fn ($item) => $item->product->price * $item->quantity);
+       $user = Auth::user();
+       $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
 
-        DB::beginTransaction();
+       if ($cartItems->isEmpty()) {
+           return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+       }
 
-        try {
-            $order = Order::create([
-                'user_id' => Auth::id(),
-                'order_status' => 'pending',
-                'total_amount' => $totalAmount,
-                'shipping_address' => $request->shipping_address,
-            ]);
+       $totalAmount = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
 
-            foreach ($cartItems as $cartItem) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $cartItem->product->id,
-                    'quantity' => $cartItem->quantity,
-                    'price_at_purchase' => $cartItem->product->price,
-                ]);
+       DB::beginTransaction();
+       try {
+           // Create an Order
+           $order = Order::create([
+               'user_id' => $user->id,
+               'order_status' => 'pending',
+               'total_amount' => $totalAmount,
+               'shipping_address' => $request->shipping_address,
+           ]);
 
-                // Reduce stock
-                $cartItem->product->decrement('stock', $cartItem->quantity);
-            }
+           // Create Order Items and Deduct Stock
+           foreach ($cartItems as $cartItem) {
+               $product = $cartItem->product;
+               
+               if ($cartItem->quantity > $product->stock) {
+                   throw new \Exception("Product {$product->name} is out of stock.");
+               }
 
-            SimulatedPayment::create([
-                'user_id' => Auth::id(),
-                'order_id' => $order->id,
-                'payment_method' => $request->payment_method,
-                'payment_status' => $request->payment_method === 'cash_on_delivery' ? 'pending' : 'successful',
-                'transaction_reference' => Str::random(12),
-            ]);
+               OrderItem::create([
+                   'order_id' => $order->id,
+                   'product_id' => $product->id,
+                   'quantity' => $cartItem->quantity,
+                   'price_at_purchase' => $product->price,
+               ]);
 
-            // Clear cart
-            Cart::where('user_id', Auth::id())->delete();
+               $product->decrement('stock', $cartItem->quantity);
+           }
 
-            // Update order status
-            $order->update(['order_status' => ($request->payment_method === 'cash_on_delivery' ? 'processing' : 'completed')]);
+           // Create Simulated Payment
+           $payment = SimulatedPayment::create([
+               'user_id' => $user->id,
+               'order_id' => $order->id,
+               'payment_method' => $request->payment_method,
+               'payment_status' => 'pending',
+               'transaction_reference' => Str::random(10),
+           ]);
 
-            DB::commit();
+           // Clear Cart
+           Cart::where('user_id', $user->id)->delete();
 
-            return redirect()->route('cart.view')->with('success', 'Order placed successfully.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->route('cart.view')->with('error', 'Something went wrong.');
-        }
-    }
+           DB::commit();
+           return redirect()->route('customer.orders')->with('success', 'Order placed successfully.');
+       } catch (\Exception $e) {
+           DB::rollBack();
+           return redirect()->route('customer.checkout')->with('error', $e->getMessage());
+       }
+   }
 }

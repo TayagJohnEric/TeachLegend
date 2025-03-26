@@ -12,6 +12,7 @@ use App\Http\Controllers\Customer\CustomerCartController;
 use App\Http\Controllers\Customer\CustomerProductController;
 use App\Http\Controllers\Customer\CustomerCheckoutController;
 use App\Http\Controllers\Customer\CustomerReviewController;
+use App\Http\Controllers\Customer\CustomerOrderController;
 use App\Http\Controllers\Technician\TeachnicianDashboardController;
 
 
@@ -65,21 +66,22 @@ Route::get('/customer/dashboard', [CustomerDashboardController::class, 'dashboar
     Route::patch('/cart/update/{id}', [CustomerCartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/clear', [CustomerCartController::class, 'clear'])->name('cart.clear');
     Route::get('/products', [CustomerProductController::class, 'index'])->name('products.index');
-    Route::get('/checkout', [CustomerCheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CustomerCheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/products/{id}', [CustomerProductController::class, 'show'])->name('products.show');
-
+   
 
 /// Store a new review
 Route::post('/reviews', [CustomerReviewController::class, 'store'])->name('reviews.store');
-
 // Get reviews for a product (for AJAX requests)
 Route::get('/products/{product}/reviews', [CustomerReviewController::class, 'getProductReviews'])->name('products.reviews');
-
 // Create a review form (if you need a separate page)
 Route::get('/products/{product}/review', [CustomerReviewController::class, 'create'])->name('reviews.create');
 
+Route::get('/orders', [CustomerOrderController::class, 'index'])->name('customer.orders');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/checkout', [CustomerCheckoutController::class, 'checkout'])->name('customer.checkout');
+    Route::post('/checkout/process', [CustomerCheckoutController::class, 'processCheckout'])->name('customer.checkout.process');
+});
 
 
 

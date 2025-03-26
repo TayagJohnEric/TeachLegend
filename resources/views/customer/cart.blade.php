@@ -71,7 +71,7 @@
     @endif
     @if(!$cartItems->isEmpty())
     <div class="mt-6">
-        <a href="{{ route('checkout.index') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
+        <a href="{{ route('customer.checkout') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
             Proceed to Checkout
         </a>
     </div>
