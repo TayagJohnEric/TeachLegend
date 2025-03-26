@@ -38,16 +38,16 @@ class CustomerCheckoutController extends Controller
            'shipping_address' => 'required|string|max:255',
            'payment_method' => 'required|in:credit_card,paypal,cod',
        ]);
-
+   
        $user = Auth::user();
        $cartItems = Cart::where('user_id', $user->id)->with('product')->get();
-
+   
        if ($cartItems->isEmpty()) {
            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
        }
-
+   
        $totalAmount = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
-
+   
        DB::beginTransaction();
        try {
            // Create an Order
@@ -57,37 +57,39 @@ class CustomerCheckoutController extends Controller
                'total_amount' => $totalAmount,
                'shipping_address' => $request->shipping_address,
            ]);
-
+   
            // Create Order Items and Deduct Stock
            foreach ($cartItems as $cartItem) {
                $product = $cartItem->product;
-               
+   
                if ($cartItem->quantity > $product->stock) {
                    throw new \Exception("Product {$product->name} is out of stock.");
                }
-
+   
                OrderItem::create([
                    'order_id' => $order->id,
                    'product_id' => $product->id,
                    'quantity' => $cartItem->quantity,
                    'price_at_purchase' => $product->price,
                ]);
-
+   
                $product->decrement('stock', $cartItem->quantity);
            }
-
+   
+           // Determine Payment Status based on Payment Method
+           $paymentStatus = in_array($request->payment_method, ['credit_card', 'paypal']) ? 'completed' : 'pending';
            // Create Simulated Payment
            $payment = SimulatedPayment::create([
                'user_id' => $user->id,
                'order_id' => $order->id,
                'payment_method' => $request->payment_method,
-               'payment_status' => 'pending',
+               'payment_status' => $paymentStatus,
                'transaction_reference' => Str::random(10),
            ]);
-
+   
            // Clear Cart
            Cart::where('user_id', $user->id)->delete();
-
+   
            DB::commit();
            return redirect()->route('customer.orders')->with('success', 'Order placed successfully.');
        } catch (\Exception $e) {
@@ -95,4 +97,5 @@ class CustomerCheckoutController extends Controller
            return redirect()->route('customer.checkout')->with('error', $e->getMessage());
        }
    }
+   
 }

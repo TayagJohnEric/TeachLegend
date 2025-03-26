@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminManageProductController;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Customer\CustomerDashboardController;
 use App\Http\Controllers\Customer\CustomerCategoryController;
 use App\Http\Controllers\Customer\CustomerCartController;
@@ -46,6 +47,11 @@ Route::get('/admin/products/{product}/edit', [AdminManageProductController::clas
 Route::put('/admin/products/{product}', [AdminManageProductController::class, 'update'])->name('admin.products.update')->middleware(['auth', 'role:admin']);
 Route::delete('/admin/products/{product}', [AdminManageProductController::class, 'destroy'])->name('admin.products.destroy')->middleware(['auth', 'role:admin']);
 Route::post('/admin/categories/store', [AdminCategoryController::class, 'store'])->name('admin.categories.store');
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders');
+    Route::post('/admin/orders/update-status/{order}', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.update-status');
+});
+
 
 
 
