@@ -1,5 +1,5 @@
 <!-- Top Navigation Bar -->
-<div class="z-10 bg-white">
+<div class="z-10 ">
     <div class="px-4 py-3 flex justify-between items-center">
       
       <!-- Left Side - Burger Menu (Mobile Only) -->

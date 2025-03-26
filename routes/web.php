@@ -48,7 +48,7 @@ Route::put('/admin/products/{product}', [AdminManageProductController::class, 'u
 Route::delete('/admin/products/{product}', [AdminManageProductController::class, 'destroy'])->name('admin.products.destroy')->middleware(['auth', 'role:admin']);
 Route::post('/admin/categories/store', [AdminCategoryController::class, 'store'])->name('admin.categories.store');
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders');
+    Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
     Route::post('/admin/orders/update-status/{order}', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.update-status');
 });
 
@@ -69,7 +69,7 @@ Route::get('/customer/dashboard', [CustomerDashboardController::class, 'dashboar
         Route::get('/cart', [CustomerCartController::class, 'viewCart'])->name('cart.view');
         Route::delete('/cart/remove/{id}', [CustomerCartController::class, 'removeFromCart'])->name('cart.remove');
     });
-    Route::patch('/cart/update/{id}', [CustomerCartController::class, 'update'])->name('cart.update');
+    Route::put('/cart/update/{cartId}', [CustomerCartController::class, 'updateCart'])->name('cart.update');
     Route::delete('/cart/clear', [CustomerCartController::class, 'clear'])->name('cart.clear');
     Route::get('/products', [CustomerProductController::class, 'index'])->name('products.index');
     Route::get('/products/{id}', [CustomerProductController::class, 'show'])->name('products.show');

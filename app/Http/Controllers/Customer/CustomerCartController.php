@@ -20,41 +20,53 @@ class CustomerCartController extends Controller
     }
 
 
-    public function addToCart(Request $request, $productId)
+    public function updateCart(Request $request, $cartId)
 {
-    // Ensure the user is authenticated
-    if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'Please login to add items to your cart.');
-    }
+    $request->validate([
+        'quantity' => 'required|integer|min:1',
+    ]);
 
-    $user = Auth::user();
-    $product = Product::findOrFail($productId);
-    $quantity = max(1, (int) $request->input('quantity', 1)); // Ensure at least 1
+    $cartItem = Cart::findOrFail($cartId);
+    $product = $cartItem->product;
 
-    // Validate stock availability
-    if ($quantity > $product->stock) {
-        return redirect()->back()->with('error', 'Selected quantity exceeds available stock.');
-    }
+    // Ensure quantity does not exceed stock
+    $newQuantity = min($request->quantity, $product->stock);
+    $cartItem->update(['quantity' => $newQuantity]);
 
-    // Check if the product is already in the user's cart
-    $cartItem = Cart::where('user_id', $user->id)->where('product_id', $productId)->first();
-
-    if ($cartItem) {
-        // Ensure the total does not exceed available stock
-        $newQuantity = min($cartItem->quantity + $quantity, $product->stock);
-        $cartItem->update(['quantity' => $newQuantity]);
-    } else {
-        // Add new entry
-        Cart::create([
-            'user_id' => $user->id,
-            'product_id' => $productId,
-            'quantity' => $quantity,
-        ]);
-    }
-
-    return redirect()->back()->with('success', 'Product added to cart successfully.');
+    return response()->json(['success' => 'Cart updated successfully.']);
 }
 
+
+
+    public function addToCart(Request $request, $productId)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please login to add items to your cart.');
+        }
+
+        $user = Auth::user();
+        $product = Product::findOrFail($productId);
+        $quantity = max(1, (int) $request->input('quantity', 1));
+
+        if ($quantity > $product->stock) {
+            return redirect()->back()->with('error', 'Selected quantity exceeds available stock.');
+        }
+
+        $cartItem = Cart::where('user_id', $user->id)->where('product_id', $productId)->first();
+
+        if ($cartItem) {
+            $newQuantity = min($cartItem->quantity + $quantity, $product->stock);
+            $cartItem->update(['quantity' => $newQuantity]);
+        } else {
+            Cart::create([
+                'user_id' => $user->id,
+                'product_id' => $productId,
+                'quantity' => $quantity,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Product added to cart successfully.');
+    }
 
     public function removeFromCart($id)
     {
@@ -64,30 +76,6 @@ class CustomerCartController extends Controller
         return redirect()->back()->with('success', 'Item removed from cart.');
     }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        $cartItem = Cart::findOrFail($id);
-        
-        // Ensure the cart item belongs to the authenticated user
-        if ($cartItem->user_id !== Auth::id()) {
-            return redirect()->route('cart.index')->with('error', 'You do not have permission to update this item.');
-        }
-        
-        // Check product stock availability
-        $product = Product::findOrFail($cartItem->product_id);
-        if ($request->quantity > $product->stock) {
-            return redirect()->route('cart.index')->with('error', 'The requested quantity exceeds available stock.');
-        }
-        
-        $cartItem->quantity = $request->quantity;
-        $cartItem->save();
-        
-        return redirect()->route('cart.index')->with('success', 'Cart updated successfully.');
-    }
 
     public function clear()
     {

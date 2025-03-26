@@ -38,7 +38,7 @@
           <span class="font-medium">Manage Users</span>
         </a>
 
-       <a href="{{ route('admin.orders') }}" 
+       <a href="{{ route('admin.orders.index') }}" 
    class="flex items-center px-4 py-3 rounded-md transition-colors 
           {{ request()->is('admin/orders') ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600' }}">
   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">

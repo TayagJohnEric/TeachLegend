@@ -41,7 +41,7 @@
 <div class="min-h-screen p-4 md:p-6 lg:p-8">
     <div class="max-w-[85rem] mx-auto">
         <!-- Promotional Banner -->
-        <div class="w-full bg-blue-600 text-white h-[100px] flex items-center justify-center text-lg font-bold shadow-md rounded-lg mb-6">
+        <div class="w-full bg-gradient-to-r from-blue-600 to-indigo-800 text-white h-[100px] flex items-center justify-center text-lg font-bold shadow-md rounded-lg mb-6">
             🎉 Limited Time Offer: Up to <span class="text-yellow-300 mx-1">50% OFF</span> + Free Shipping! 🚚
         </div>
 
@@ -57,23 +57,26 @@
                     
                     <!-- Filter and Sort Options -->
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                        <select id="category-filter" class="w-full sm:w-auto border border-gray-300 rounded-md p-2 text-sm focus:ring-blue-500 focus:border-blue-500">
-                            <option value="{{ route('products.index') }}">All Categories</option>
-                            @foreach($categories as $category)
-                                <option value="{{ route('products.index', ['category' => $category->id]) }}"
-                                    {{ request()->get('category') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        
-                        <select id="sort-order" class="w-full sm:w-auto border border-gray-300 rounded-md p-2 text-sm focus:ring-blue-500 focus:border-blue-500">
-                            <option value="newest" {{ request()->get('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
-                            <option value="price_low" {{ request()->get('sort') == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
-                            <option value="price_high" {{ request()->get('sort') == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
-                            <option value="name_asc" {{ request()->get('sort') == 'name_asc' ? 'selected' : '' }}>Name: A to Z</option>
-                            <option value="name_desc" {{ request()->get('sort') == 'name_desc' ? 'selected' : '' }}>Name: Z to A</option>
-                        </select>
+                        <select id="category-filter"
+                        class="w-full sm:w-auto border border-gray-300 rounded-lg p-3 text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:border-blue-400">
+                        <option value="{{ route('products.index') }}">All Categories</option>
+                        @foreach($categories as $category)
+                            <option value="{{ route('products.index', ['category' => $category->id]) }}"
+                                {{ request()->get('category') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    
+                    <select id="sort-order"
+                        class="w-full sm:w-auto border border-gray-300 rounded-lg p-3 text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:border-blue-400">
+                        <option value="newest" {{ request()->get('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
+                        <option value="price_low" {{ request()->get('sort') == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
+                        <option value="price_high" {{ request()->get('sort') == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
+                        <option value="name_asc" {{ request()->get('sort') == 'name_asc' ? 'selected' : '' }}>Name: A to Z</option>
+                        <option value="name_desc" {{ request()->get('sort') == 'name_desc' ? 'selected' : '' }}>Name: Z to A</option>
+                    </select>
+                    
                     </div>
                 </div>
 
@@ -122,14 +125,14 @@
                        <div class="flex items-center mb-2 sm:mb-3">
                            @if(isset($product->sale_price) && $product->sale_price < $product->price)
                                <span class="text-gray-900 font-bold text-sm sm:text-base md:text-lg">
-                                   ${{ number_format($product->sale_price, 2) }}
+                                ₱{{ number_format($product->sale_price, 2) }}
                                </span>
                                <span class="text-gray-500 line-through text-xs ml-1 sm:ml-2">
-                                   ${{ number_format($product->price, 2) }}
+                                ₱{{ number_format($product->price, 2) }}
                                </span>
                            @else
                                <span class="text-gray-900 font-bold text-sm sm:text-base md:text-lg">
-                                   ${{ number_format($product->price, 2) }}
+                                ₱{{ number_format($product->price, 2) }}
                                </span>
                            @endif
                        </div>
@@ -142,15 +145,9 @@
                        @endif
                
                        <form method="POST" action="{{ route('cart.add', $product->id) }}" onclick="event.stopPropagation();">
-                        @csrf
-                        <div class="hidden sm:flex items-center gap-2 mb-3">
-                            <label for="quantity{{ $product->id }}" class="text-gray-700 text-sm font-semibold">Qty:</label>
-                            <input type="number" name="quantity" id="quantity{{ $product->id }}" value="1" min="1" max="{{ $product->stock }}"
-                                   class="w-12 sm:w-16 border border-gray-300 rounded-md text-center text-gray-700 p-1 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-                    
+                        @csrf                 
                         <button type="submit" 
-                                class="w-full flex items-center justify-center gap-1 sm:gap-2 bg-blue-600 hover:bg-blue-700 text-white py-1 sm:py-2 px-2 sm:px-4 text-xs sm:text-sm rounded-md transition-colors duration-200 {{ $product->stock <= 0 ? 'opacity-50 cursor-not-allowed' : '' }}" 
+                                class="w-full flex items-center justify-center gap-1 sm:gap-2 bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-blue-700 text-white py-1 sm:py-2 px-2 sm:px-4 text-xs sm:text-sm rounded-md transition-colors duration-200 {{ $product->stock <= 0 ? 'opacity-50 cursor-not-allowed' : '' }}" 
                                 {{ $product->stock <= 0 ? 'disabled' : '' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -229,7 +226,7 @@
             <label for="review_text" class="text-gray-700">Leave a review:</label>
             <textarea name="review_text" id="review_text" class="w-full border border-gray-300 rounded-md p-2 text-sm focus:ring-blue-500 focus:border-blue-500 mt-1"></textarea>
             
-            <button type="submit" class="w-full bg-blue-500 text-white py-2 mt-4 rounded-md hover:bg-blue-600">
+            <button type="submit" class="w-full  bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-2 mt-4 rounded-md hover:bg-blue-600">
                 Submit Review
             </button>
         </form>
@@ -250,9 +247,24 @@
             </div>
         </div>
 
-        <button onclick="closeModal()" class="w-full bg-red-500 text-white py-2 mt-4 rounded-md hover:bg-red-600">
-            Close
-        </button>
+        <form method="POST" action="{{ route('cart.add', $product->id) }}" onclick="event.stopPropagation();">
+            @csrf                 
+            <button type="submit" 
+                    class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-blue-700 text-white py-2 text-sm rounded-md transition-colors duration-200 {{ $product->stock <= 0 ? 'opacity-50 cursor-not-allowed' : '' }}" 
+                    {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                <span>{{ $product->stock <= 0 ? 'Out of Stock' : 'Add to Cart' }}</span>
+            </button>
+        </form>
+        
+        <!-- Close Button (for reference) -->
+        <button onclick="closeModal()" 
+        class="w-full bg-white text-gray-800 border border-gray-200 py-2 text-sm rounded-md hover:border-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+    Close
+</button>        
     </div>
 </div>
 
@@ -336,7 +348,7 @@
 
                     document.getElementById('modalProductCategory').textContent = "Category: " + product.category.name;
                     document.getElementById('modalProductDescription').textContent = product.description || "No description available.";
-                    document.getElementById('modalProductPrice').textContent = `Price: $${product.price}`;
+                    document.getElementById('modalProductPrice').textContent = `Price: ₱${product.price}`;
                     document.getElementById('modalProductStock').textContent = product.stock > 0 ? `Stock: ${product.stock}` : "Out of stock";
                     
                     // Check if user has already reviewed this product
