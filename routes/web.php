@@ -89,19 +89,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CustomerCheckoutController::class, 'checkout'])->name('customer.checkout');
     Route::post('/checkout/process', [CustomerCheckoutController::class, 'processCheckout'])->name('customer.checkout.process');
 });
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/pc-builder', [CustomerPcBuildConfigurationController::class, 'index'])
-        ->name('pc-builder.index');
-    Route::post('/pc-builder', [CustomerPcBuildConfigurationController::class, 'store'])
-        ->name('pc-builder.store');
-    Route::get('/pc-builder/{id}', [CustomerPcBuildConfigurationController::class, 'show'])
-        ->name('pc-builder.show');
-    Route::get('/pc-builder/list', [CustomerPcBuildConfigurationController::class, 'list'])
-        ->name('pc-builder.list');
-    Route::delete('/pc-builder/{id}', [CustomerPcBuildConfigurationController::class, 'destroy'])
-        ->name('pc-builder.destroy');
-});
+Route::get('/pc-builder', [CustomerPcBuildConfigurationController::class, 'index'])
+->name('pc-builder.index')
+->middleware('auth');
+Route::post('/pc-builder', [CustomerPcBuildConfigurationController::class, 'store'])
+->name('pc-builder.store')
+->middleware('auth');
+Route::get('/pc-builder/{id}', [CustomerPcBuildConfigurationController::class, 'show'])
+->name('pc-builder.show')
+->middleware('auth');
+Route::delete('/pc-builder/{id}', [CustomerPcBuildConfigurationController::class, 'destroy'])
+->name('pc-builder.destroy')
+->middleware('auth');
+Route::get('/my-builds', [CustomerPcBuildConfigurationController::class, 'list'])
+    ->name('pc-builds.list')
+    ->middleware('auth');
 
 
 

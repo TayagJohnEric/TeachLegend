@@ -38,10 +38,10 @@
 
 
 @section('content')
-<div class="min-h-screen p-4 md:p-6 lg:p-8">
+<div class="min-h-screen">
     <div class="max-w-[85rem] mx-auto">
         <!-- Promotional Banner -->
-        <div class="w-full bg-gradient-to-r from-blue-600 to-indigo-800 text-white h-[100px] flex items-center justify-center text-lg font-bold shadow-md rounded-lg mb-6">
+        <div class="w-full bg-gradient-to-r from-blue-600 to-indigo-800 text-white h-[100px] flex items-center justify-center text-lg font-bold shadow-md rounded-lg mb-6 hover:shadow-xl transition-shadow duration-300">
             🎉 Limited Time Offer: Up to <span class="text-yellow-300 mx-1">50% OFF</span> + Free Shipping! 🚚
         </div>
 
@@ -51,7 +51,7 @@
             <!-- Products Content -->
             <div class="w-full order-1 lg:order-2">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-800">
+                    <h1 class="text-xl md:text-2xl font-bold text-gray-700">
                         All Products
                     </h1>
                     
@@ -93,8 +93,8 @@
                            class="absolute inset-0 w-full h-full object-contain p-2">
                
                        <!-- Product Badges -->
-                       @if($product->created_at->diffInDays(now()) < 7)
-                           <span class="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-md">NEW</span>
+                       @if($product->created_at->diffInDays(now()) < 1)
+                           <span class="absolute top-2 right-2 bg-red-800 text-white text-xs font-bold px-2 py-1 rounded-md">NEW</span>
                        @endif
                
                        @if(isset($product->discount_percent) && $product->discount_percent > 0)
@@ -106,25 +106,21 @@
                
                    <div class="p-3 sm:p-4 text-left"> <!-- Added text-left here -->
 
-                       <!-- Category -->
-                       <div class="text-xs text-gray-500 mb-1">
-                           {{ $product->category->name }}
-                       </div>
                
                        <!-- Product Name -->
                        <h3 class="text-gray-900 font-semibold text-sm sm:text-base md:text-lg mb-1 line-clamp-1">
                            {{ $product->name }}
                        </h3>
-               
-                       <!-- Product Description - Hidden on smallest screens -->
-                       <p class="hidden sm:block text-gray-500 text-xs md:text-sm mb-2 line-clamp-2">
-                           {{ Str::limit($product->description, 30, '...') }}
-                       </p>
+
+                         <!-- Category -->
+                         <div class="text-sm text-gray-500 mb-1">
+                            {{ $product->category->name }}
+                        </div>
                
                        <!-- Product Price -->
                        <div class="flex items-center mb-2 sm:mb-3">
                            @if(isset($product->sale_price) && $product->sale_price < $product->price)
-                               <span class="text-gray-900 font-bold text-sm sm:text-base md:text-lg">
+                               <span class="text-gray-900 font-medium text-sm sm:text-base md:text-lg">
                                 ₱{{ number_format($product->sale_price, 2) }}
                                </span>
                                <span class="text-gray-500 line-through text-xs ml-1 sm:ml-2">
@@ -195,9 +191,9 @@
     </button>
 </div>
 
-        <h2 id="modalProductName" class="text-xl font-bold text-gray-800"></h2>
+        <h2 id="modalProductName" class="text-xl font-bold text-gray-700"></h2>
         <img id="modalProductImage" class="w-full h-48 object-contain my-3" src="" alt="">
-        <p id="modalProductCategory" class="text-sm text-gray-600"></p>
+        <p id="modalProductCategory" class="text-sm text-gray-700"></p>
         <p id="modalProductDescription" class="text-gray-600 mt-2 text-sm"></p>
         <p id="modalProductPrice" class="text-lg font-bold text-blue-600 mt-3"></p>
         <p id="modalProductStock" class="text-sm text-red-500"></p>
@@ -454,7 +450,7 @@
                     document.getElementById('reviewCount').textContent = data.total || data.data.length;
                 }
             } else {
-                reviewsContainer.innerHTML = '<div class="text-center text-gray-500">No reviews yet. Be the first to review!</div>';
+                reviewsContainer.innerHTML = '<div class="text-center text-sm text-gray-500">No reviews yet. Be the first to review!</div>';
                 return;
             }
             

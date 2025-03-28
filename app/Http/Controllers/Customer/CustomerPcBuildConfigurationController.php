@@ -91,16 +91,17 @@ class CustomerPcBuildConfigurationController extends Controller
     ]);
 }
 
-    // List user's saved PC builds
-    public function list()
+
+public function list()
     {
-        if (!Auth::check()) {
-            abort(403, 'User not authenticated');
-        }
+        $user = Auth::user();
+    $pcBuilds = PcBuildConfiguration::with('user')
+        ->where('user_id', $user->id)
+        ->get();
 
-        $pcBuilds = PcBuildConfiguration::where('user_id', Auth::id())->latest()->paginate(5);
-
-        return view('customer.pc_builder_list', compact('pcBuilds'));
+    return view('customer.pc_builder_list', [
+        'pcBuilds' => $pcBuilds
+    ]);
     }
 
     // Delete a saved PC build

@@ -30,14 +30,19 @@
         </div>
     @endif
 
+    <!-- Checkout Form -->
     <form method="POST" action="{{ route('customer.checkout.process') }}">
         @csrf
 
+        <!-- Shipping Address -->
         <div class="mb-4">
             <label for="shipping_address" class="block text-lg font-medium">Shipping Address</label>
-            <input type="text" id="shipping_address" name="shipping_address" class="w-full border rounded-lg px-4 py-2" required value="{{ old('shipping_address') }}">
+            <input type="text" id="shipping_address" name="shipping_address" 
+                   class="w-full border rounded-lg px-4 py-2" required 
+                   value="{{ old('shipping_address') }}">
         </div>
 
+        <!-- Payment Method -->
         <div class="mb-4">
             <label class="block text-lg font-medium">Payment Method</label>
             <select name="payment_method" class="w-full border rounded-lg px-4 py-2" required>
@@ -47,18 +52,43 @@
             </select>
         </div>
 
+        <!-- Order Summary -->
         <div class="mb-6">
             <h3 class="text-xl font-semibold">Order Summary</h3>
-            <ul class="mt-4">
-                @foreach ($cartItems as $item)
-                    <li class="border-b py-2">
-                        {{ $item->product->name }} (x{{ $item->quantity }}) - ${{ number_format($item->product->price * $item->quantity, 2) }}
-                    </li>
-                @endforeach
-            </ul>
+
+            <!-- Cart Items -->
+            @if(!$cartItems->isEmpty())
+                <h4 class="text-lg font-semibold mt-4">Cart Items</h4>
+                <ul class="mt-2">
+                    @foreach ($cartItems as $item)
+                        <li class="border-b py-2 flex justify-between">
+                            <span>{{ $item->product->name }} (x{{ $item->quantity }})</span>
+                            <span>${{ number_format($item->product->price * $item->quantity, 2) }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+
+            <!-- PC Build Summary -->
+            @if($pcBuild)
+                <h4 class="text-lg font-semibold mt-6">PC Build Summary</h4>
+                <p><strong>Budget:</strong> ${{ number_format($pcBuild->budget, 2) }}</p>
+                <ul class="mt-2">
+                    @foreach ($selectedProducts as $product)
+                        <li class="border-b py-2 flex justify-between">
+                            <span>{{ $product->name }}</span>
+                            <span>${{ number_format($product->price, 2) }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+                <input type="hidden" name="pc_build_id" value="{{ $pcBuild->id }}">
+            @endif
+
+            <!-- Total Cost -->
             <p class="text-lg font-bold mt-4">Total: ${{ number_format($totalAmount, 2) }}</p>
         </div>
 
+        <!-- Checkout Button -->
         <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg">
             Place Order
         </button>
