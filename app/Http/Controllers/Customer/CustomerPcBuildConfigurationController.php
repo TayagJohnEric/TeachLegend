@@ -41,11 +41,14 @@ class CustomerPcBuildConfigurationController extends Controller
         $request->validate([
             'selected_components' => 'required|array|min:4|max:10',
             'selected_components.*' => 'exists:products,id',
-            'budget' => 'required|numeric|min:500|',
+            'budget' => 'required|numeric|min:500|max:500000', // Updated limits
         ], [
             'selected_components.required' => 'You must select at least 4 components.',
             'budget.required' => 'Please enter a budget.',
+            'budget.min' => 'Budget must be at least $500.',
+            'budget.max' => 'Budget cannot exceed $500,000.',
         ]);
+        
 
         // Calculate total build cost
         $totalCost = Product::whereIn('id', $request->selected_components)->sum('price');

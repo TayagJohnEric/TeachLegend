@@ -59,6 +59,13 @@
                     Delete Build
                 </button>
             </form>
+
+            <a href="{{ route('customer.checkout') }}" class="inline-block bg-gradient-to-r from-blue-600 to-indigo-800 hover: text-white font-bold py-3 px-8 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 shadow-lg hover:shadow-xl">
+                Proceed to Checkout
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
         </div>
     </div>
 </div>
