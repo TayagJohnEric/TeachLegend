@@ -34,7 +34,7 @@
 
                     <div class="mb-4">
                         <p class="text-gray-700"><strong>Shipping Address:</strong> {{ $order->shipping_address }}</p>
-                        <p class="text-gray-700"><strong>Total Amount:</strong> ${{ number_format($order->total_amount, 2) }}</p>
+                        <p class="text-gray-700"><strong>Total Amount:</strong> ₱{{ number_format($order->total_amount, 2) }}</p>
                     </div>
 
                     <h4 class="text-md font-semibold text-gray-800 mb-3">Order Items:</h4>
@@ -48,7 +48,7 @@
                                     </a>
                                 </div>
                                 <div class="text-gray-700">
-                                    <span class="font-medium">${{ number_format($item->price_at_purchase, 2) }}</span> x {{ $item->quantity }}
+                                    <span class="font-medium">₱{{ number_format($item->price_at_purchase, 2) }}</span> x {{ $item->quantity }}
                                 </div>
                             </li>
                         @endforeach

@@ -21,7 +21,8 @@
   
         <!-- Search Bar -->
         @include('components.searchbar')
-  
+
+   
         <!-- Cart Icon with Counter -->
         <div class="relative">
           <a href="{{ route('cart.view')}}" class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none">

@@ -12,6 +12,7 @@ class PcBuildConfiguration extends Model
         'user_id',
         'selected_components',
         'budget',
+        'total_cost', // Added this field
         'estimated_performance',
     ];
   

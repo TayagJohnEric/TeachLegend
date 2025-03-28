@@ -14,6 +14,7 @@ use App\Http\Controllers\Customer\CustomerProductController;
 use App\Http\Controllers\Customer\CustomerCheckoutController;
 use App\Http\Controllers\Customer\CustomerReviewController;
 use App\Http\Controllers\Customer\CustomerOrderController;
+use App\Http\Controllers\Customer\CustomerPcBuildConfigurationController;
 use App\Http\Controllers\Technician\TeachnicianDashboardController;
 
 
@@ -89,12 +90,25 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout/process', [CustomerCheckoutController::class, 'processCheckout'])->name('customer.checkout.process');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/pc-builder', [CustomerPcBuildConfigurationController::class, 'index'])
+        ->name('pc-builder.index');
+    Route::post('/pc-builder', [CustomerPcBuildConfigurationController::class, 'store'])
+        ->name('pc-builder.store');
+    Route::get('/pc-builder/{id}', [CustomerPcBuildConfigurationController::class, 'show'])
+        ->name('pc-builder.show');
+    Route::get('/pc-builder/list', [CustomerPcBuildConfigurationController::class, 'list'])
+        ->name('pc-builder.list');
+    Route::delete('/pc-builder/{id}', [CustomerPcBuildConfigurationController::class, 'destroy'])
+        ->name('pc-builder.destroy');
+});
 
 
 
 
 
-    
+
+
 
     
 //Technician Route
