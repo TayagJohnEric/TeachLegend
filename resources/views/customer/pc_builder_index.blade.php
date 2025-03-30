@@ -4,13 +4,14 @@
 
 @section('content')
 <div class="container mx-auto px-4">
-    {{-- Error Handling --}}
+
+    {{-- 🚨 General Error Handling (Top of Page) --}}
     @if ($errors->any())
-        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded relative mb-4">
-            <strong class="font-bold">Oops! Some issues were found:</strong>
-            <ul class="list-disc list-inside">
+        <div class="bg-red-50 border border-red-400 text-red-800 px-4 py-3 rounded-lg mb-4">
+            <strong class="font-bold">🚨 Oops! Some issues were found:</strong>
+            <ul class="list-disc list-inside mt-2">
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                    <li>⚠️ {{ $error }}</li>
                 @endforeach
             </ul>
         </div>
@@ -20,10 +21,11 @@
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             
-            {{-- Budget and Summary Sidebar --}}
+            {{-- 💰 Budget & Summary Sidebar --}}
             <div class="md:col-span-1">
                 <div class="space-y-6 md:sticky md:top-0">
-                    {{-- Budget Input --}}
+                    
+                    {{-- 💰 Budget Input --}}
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
                         <div class="bg-blue-600 text-white px-4 py-3">
                             <h3 class="text-xl font-semibold">Build Budget</h3>
@@ -41,13 +43,15 @@
                                 required
                             >
                             <p class="text-xs text-gray-500 mt-2">Budget range: $500 - $500,000</p>
+                            
+                            {{-- Display budget validation errors here --}}
                             @error('budget')
-                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
+                                <p class="text-red-600 text-sm mt-2">💰 {{ $message }}</p>
                             @enderror
                         </div>
                     </div>
             
-                    {{-- Build Summary --}}
+                    {{-- 🛠️ Build Summary --}}
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
                         <div class="bg-gray-200 text-gray-800 px-4 py-3">
                             <h3 class="text-xl font-semibold">Build Summary</h3>
@@ -55,24 +59,35 @@
                         <div class="p-4 space-y-2">
                             <p class="text-gray-600">Total Cost: <span id="total-cost" class="font-bold text-blue-600">$0.00</span></p>
                             <p class="text-gray-600">Remaining Budget: <span id="remaining-budget" class="font-bold text-green-600">$0.00</span></p>
-                            <p id="component-warning" class="text-red-600 font-bold hidden">⚠️ Warning: A CPU and GPU are required!</p>
+                            <p id="component-warning" class="text-red-600 font-bold hidden">⚠️ Warning: A CPU, RAM, and Storage are required!</p>
                             <div id="selected-components-list" class="mt-3 space-y-2"></div>
+
+                            {{-- 🔧 Display Compatibility Warnings Here --}}
+                            @error('selected_components')
+                                <div class="bg-yellow-50 border border-yellow-400 text-yellow-800 px-4 py-3 rounded-lg mt-4">
+                                    <strong class="font-bold">⚠️ Compatibility Issues Detected:</strong>
+                                    <ul class="list-disc list-inside mt-2">
+                                        @foreach ($errors->get('selected_components') as $error)
+                                            <li>🔧 {{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @enderror
                         </div>
                     </div>
 
-                    {{-- Submit Button (Immediately Below Build Summary) --}}
+                    {{-- ✅ Submit Button --}}
                     <button 
                         type="submit" 
                         id="save-build-btn"
                         class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-                        disabled
                     >
                         Save PC Build
                     </button>
                 </div>
             </div>
 
-            {{-- Components Selection --}}
+            {{-- 🖥️ Components Selection --}}
             <div class="md:col-span-3 space-y-6">
                 @foreach ($categories as $categoryName => $products)
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -106,76 +121,83 @@
                         </div>
                     </div>
                 @endforeach
-
-                @error('selected_components')
-                    <p class="text-red-600 text-sm">{{ $message }}</p>
-                @enderror
             </div>
         </div>
     </form>
 </div>
 
+
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll('.component-checkbox');
-        const totalCostDisplay = document.getElementById('total-cost');
-        const remainingBudgetDisplay = document.getElementById('remaining-budget');
-        const budgetInput = document.getElementById('budget-input');
-        const selectedComponentsList = document.getElementById('selected-components-list');
-        const componentWarning = document.getElementById('component-warning');
-        const saveBuildBtn = document.getElementById('save-build-btn');
+   document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll('.component-checkbox');
+    const totalCostDisplay = document.getElementById('total-cost');
+    const remainingBudgetDisplay = document.getElementById('remaining-budget');
+    const budgetInput = document.getElementById('budget-input');
+    const selectedComponentsList = document.getElementById('selected-components-list');
+    const componentWarning = document.getElementById('component-warning');
+    const saveBuildBtn = document.getElementById('save-build-btn');
 
-        function updateTotalCost() {
-    let totalCost = 0;
-    let hasCPU = false;
-    let hasGPU = false;
-    selectedComponentsList.innerHTML = ""; 
-
-    checkboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-            const price = parseFloat(checkbox.dataset.price);
-            totalCost += price;
-
-            const category = checkbox.dataset.category;
-            if (category.includes("CPU")) hasCPU = true;
-            if (category.includes("GPU")) hasGPU = true;
-
-            const productName = checkbox.closest('.border').querySelector('h4').textContent;
-            const productImage = checkbox.closest('.border').querySelector('img').src;
-
-            const componentHTML = `
-                <div class="flex items-center space-x-3 border p-2 rounded-lg bg-gray-100">
-                    <img src="${productImage}" class="w-10 h-10 object-cover rounded" alt="${productName}">
-                    <div>
-                        <span class="block text-gray-800 font-semibold">${productName}</span>
-                        <span class="block text-sm text-gray-600">${category}</span> <!-- Category Label -->
-                    </div>
-                </div>
-            `;
-            selectedComponentsList.innerHTML += componentHTML;
-        }
-    });
-
-    totalCostDisplay.textContent = `$${totalCost.toFixed(2)}`;
-    const budget = parseFloat(budgetInput.value) || 0;
-    let remainingBudget = budget - totalCost;
-
-    remainingBudgetDisplay.textContent = `$${Math.max(remainingBudget, 0).toFixed(2)}`;
-    remainingBudgetDisplay.classList.toggle('text-red-600', remainingBudget < 0);
-    remainingBudgetDisplay.classList.toggle('text-green-600', remainingBudget >= 0);
-
-    componentWarning.classList.toggle("hidden", hasCPU && hasGPU);
-    saveBuildBtn.disabled = remainingBudget < 0;
-}
-
+    function updateTotalCost() {
+        let totalCost = 0;
+        let hasCPU = false;
+        let hasGPU = false;
+        selectedComponentsList.innerHTML = "";
 
         checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updateTotalCost);
-        });
-        budgetInput.addEventListener('input', updateTotalCost);
+            if (checkbox.checked) {
+                const price = parseFloat(checkbox.dataset.price) || 0;
+                totalCost += price;
 
-        updateTotalCost();
-    });
-</script>
+                const category = checkbox.dataset.category;
+                if (category.includes("CPU")) hasCPU = true;
+                if (category.includes("GPU")) hasGPU = true;
+
+                // Extract product details
+                const productName = checkbox.closest('.border').querySelector('h4').textContent;
+                const productImage = checkbox.closest('.border').querySelector('img').src;
+
+                // Append selected component to the list
+                selectedComponentsList.innerHTML += `
+                    <div class="flex items-center space-x-3 border p-2 rounded-lg bg-gray-100">
+                        <img src="${productImage}" class="w-10 h-10 object-cover rounded" alt="${productName}">
+                        <div>
+                            <span class="block text-gray-800 font-semibold">${productName}</span>
+                            <span class="block text-sm text-gray-600">${category}</span>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        // Update total cost display
+        totalCostDisplay.textContent = `$${totalCost.toFixed(2)}`;
+        const budget = parseFloat(budgetInput.value) || 0;
+        const remainingBudget = budget - totalCost;
+
+        // Update remaining budget display
+        remainingBudgetDisplay.textContent = `$${Math.max(remainingBudget, 0).toFixed(2)}`;
+        remainingBudgetDisplay.classList.toggle('text-red-600', remainingBudget < 0);
+        remainingBudgetDisplay.classList.toggle('text-green-600', remainingBudget >= 0);
+
+        // Show/hide warning if CPU or GPU is missing
+        componentWarning.classList.toggle("hidden", hasCPU && hasGPU);
+
+        // Disable the save button if the budget is exceeded
+        saveBuildBtn.disabled = remainingBudget < 0;
+    }
+
+    // Event listeners for checkboxes and budget input
+    checkboxes.forEach(checkbox => checkbox.addEventListener('change', updateTotalCost));
+    budgetInput.addEventListener('input', updateTotalCost);
+
+    // Initial call to update total cost and component validation on page load
+    updateTotalCost();
+});
+
+
+    </script>
+    
+
 
 @endsection

@@ -52,6 +52,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
     Route::post('/admin/orders/update-status/{order}', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.update-status');
 });
+Route::delete('/admin/categories/{id}', [AdminCategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
 
 
@@ -102,8 +103,9 @@ Route::delete('/pc-builder/{id}', [CustomerPcBuildConfigurationController::class
 ->name('pc-builder.destroy')
 ->middleware('auth');
 Route::get('/my-builds', [CustomerPcBuildConfigurationController::class, 'list'])
-    ->name('pc-builds.list')
+    ->name('pc-builder.list')
     ->middleware('auth');
+    Route::post('/pc-build/check-compatibility', [CustomerPcBuildConfigurationController::class, 'checkComponentCompatibility']);
 
 
 

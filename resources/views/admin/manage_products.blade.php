@@ -48,9 +48,12 @@
                         <select name="category_id" id="category_id" class="mt-1 block w-full border border-gray-200 rounded-lg px-4 py-3 h-12" required>
                             <option value="">Select Category</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
                             @endforeach
                         </select>
+                        
                     </div>
 
                     <div class="col-span-1">
@@ -309,6 +312,25 @@
                 </button>
             </div>
         </form>
+        <!-- Category List in Modal -->
+<div class="px-6 py-4">
+    <h3 class="text-lg font-medium text-gray-900 mb-2">Categories</h3>
+    <ul id="categoryList" class="space-y-2">
+        @foreach($categories as $category)
+        <li class="flex justify-between items-center bg-gray-100 px-4 py-2 rounded-md">
+            <span>{{ $category->name }}</span>
+            <button onclick="deleteCategory({{ $category->id }})"
+                class="text-red-500 hover:text-red-700 focus:outline-none">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </li>
+        @endforeach
+    </ul>
+</div>
+
     </div>
 </div>
 
@@ -600,6 +622,34 @@ document.getElementById('deleteConfirmModal').addEventListener('click', function
                 deleteModal.classList.add("hidden");
             }
         });
+</script>
+
+
+<script>
+
+function deleteCategory(categoryId) {
+    if (!confirm('Are you sure you want to delete this category?')) return;
+
+    fetch(`/admin/categories/${categoryId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Category deleted successfully');
+            location.reload();
+        } else {
+            alert('Error deleting category');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
 </script>
 
 
