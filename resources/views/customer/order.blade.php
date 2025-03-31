@@ -3,21 +3,24 @@
 @section('title', 'Your Orders')
 
 @section('content')
-<div class="container mx-auto py-8">
-    <h2 class="text-3xl font-bold mb-6 text-gray-800">Your Orders</h2>
+<div class="container mx-auto">
+   {{-- Orders Header & Total Orders in One Box --}}
+   <div class="mx-3 bg-white py-3 px-2 sm:py-4 sm:px-6 rounded-lg shadow-sm flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-5">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-700">Your Orders</h2>
+   </div>
 
     @if($orders->isEmpty())
-        <div class="bg-white shadow-lg rounded-lg p-8 text-center">
-            <p class="text-xl text-gray-600 mb-6">You have not placed any orders yet.</p>
-            <a href="{{ route('products.index') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
+        <div class="mx-3  rounded-lg p-8 text-center">
+            <p class="text-base sm:text-lg text-gray-400 mb-4 sm:mb-6">You have not placed any orders yet.</p>
+            <a href="{{ route('products.index') }}" class="inline-block bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-blue-700 text-white font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
                 Start Shopping
             </a>
         </div>
     @else
-        <div class="space-y-6">
+        <div class="space-y-4">  {{-- Reduced spacing --}}
             @foreach($orders as $order)
-                <div class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-200">
-                    <div class="flex justify-between items-center border-b pb-4 mb-4">
+                <div class="mx-3 bg-white shadow-sm rounded-lg p-6 hover:shadow-lg transition duration-200">
+                    <div class="flex justify-between items-center border-b pb-4 mb-3"> {{-- Reduced bottom margin --}}
                         <div>
                             <h3 class="text-lg font-semibold text-gray-900">Order #{{ $order->id }}</h3>
                             <p class="text-sm text-gray-600">Placed on {{ $order->created_at->format('F j, Y, g:i a') }}</p>
@@ -32,13 +35,13 @@
                         </div>
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-3"> {{-- Reduced bottom margin --}}
                         <p class="text-gray-700"><strong>Shipping Address:</strong> {{ $order->shipping_address }}</p>
                         <p class="text-gray-700"><strong>Total Amount:</strong> ₱{{ number_format($order->total_amount, 2) }}</p>
                     </div>
 
-                    <h4 class="text-md font-semibold text-gray-800 mb-3">Order Items:</h4>
-                    <ul class="space-y-3">
+                    <h4 class="text-md font-semibold text-gray-800 mb-2">Order Items:</h4> {{-- Reduced bottom margin --}}
+                    <ul class="space-y-2"> {{-- Reduced spacing between items --}}
                         @foreach($order->orderItems as $item)
                             <li class="flex justify-between items-center border-b py-2">
                                 <div class="flex items-center">

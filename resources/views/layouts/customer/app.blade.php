@@ -56,7 +56,7 @@
     @include('components.customer.top_navbar')
 
     <!-- Scrollable Content -->
-    <div class="flex-1 overflow-y-auto p-6">
+    <div class="flex-1 overflow-y-auto ">
       @yield('content')
     </div>
   </div>
