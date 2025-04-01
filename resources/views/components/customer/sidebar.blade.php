@@ -4,9 +4,9 @@
     
     <div id="sidebar" class="fixed lg:sticky xl:sticky top-0 inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 xl:translate-x-0 w-64 bg-white shadow-sm flex flex-col  z-30 transition-transform duration-300 ease-in-out h-screen overflow-hidden">
       <!-- Logo/Title -->
-      <div class="p-4 ">
-        <h1 class="text-xl font-semibold text-gray-800">TechStore</h1>
-      </div>
+<div class="p-4 flex ">
+  <h1 class="text-xl font-semibold text-gray-800 text-center">TechStore</h1>
+</div>
       
       <!-- Menu Items -->
       <div class="flex-1 overflow-y-auto py-2">

@@ -68,6 +68,16 @@ class CustomerCartController extends Controller
         return redirect()->back()->with('success', 'Product added to cart successfully.');
     }
 
+    public function getCartCount()
+    {
+        if (!Auth::check()) {
+            return response()->json(['count' => 0]);
+        }
+        
+        $count = Cart::where('user_id', Auth::id())->sum('quantity');
+        return response()->json(['count' => $count]);
+    }
+
     public function removeFromCart($id)
     {
         $cartItem = Cart::where('id', $id)->where('user_id', Auth::id())->firstOrFail();

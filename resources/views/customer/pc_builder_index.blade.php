@@ -58,7 +58,7 @@
  </style>
 
 
-<div class="container mx-auto px-2 sm:px-4">
+<div class="container mx-auto px-2 py-3 sm:px-4 py-3">
 
     {{-- 🚨 General Error Handling (Top of Page) --}}
     @if ($errors->any())
@@ -90,7 +90,7 @@
                 <div class="sticky-sidebar">
                     
                     {{-- 💰 Budget Input --}}
-                    <div class="bg-white shadow-md rounded-lg overflow-hidden m-1">
+                    <div class="bg-white shadow-sm rounded-lg overflow-hidden m-1">
                         <div class="bg-white text-white px-3 py-2 md:px-4 md:py-3">
                             <h3 class="text-lg md:text-xl font-semibold text-gray-800">Build Budget</h3>
                         </div>
@@ -117,7 +117,7 @@
                     </div>
             
                     {{-- 🛠️ Build Summary --}}
-                    <div class="bg-white shadow-md rounded-lg overflow-hidden m-1">
+                    <div class="bg-white shadow-sm rounded-lg overflow-hidden m-1">
                         <div class="bg-white text-gray-800 px-3 py-2 md:px-4 md:py-3">
                             <h3 class="text-lg md:text-xl font-semibold">Build Summary</h3>
                         </div>

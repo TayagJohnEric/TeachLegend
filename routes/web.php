@@ -73,6 +73,7 @@ Route::get('/customer/dashboard', [CustomerDashboardController::class, 'dashboar
     });
     Route::put('/cart/update/{cartId}', [CustomerCartController::class, 'updateCart'])->name('cart.update');
     Route::delete('/cart/clear', [CustomerCartController::class, 'clear'])->name('cart.clear');
+    Route::get('/cart/count', [CustomerCartController::class, 'getCartCount'])->name('cart.count');
     Route::get('/products', [CustomerProductController::class, 'index'])->name('products.index');
     Route::get('/products/{id}', [CustomerProductController::class, 'show'])->name('products.show');
    
@@ -106,7 +107,6 @@ Route::get('/my-builds', [CustomerPcBuildConfigurationController::class, 'list']
     ->name('pc-builder.list')
     ->middleware('auth');
     Route::post('/pc-build/check-compatibility', [CustomerPcBuildConfigurationController::class, 'checkComponentCompatibility']);
-
 
 
 
