@@ -38,7 +38,7 @@
 
 
 @section('content')
-<div class="min-h-screen">
+<div class="min-h-screen px-4 py-5">
     <div class="max-w-[85rem] mx-auto">
         <!-- Promotional Banner -->
         <div class="w-full bg-gradient-to-r from-blue-600 to-indigo-800 text-white h-[100px] flex items-center justify-center text-lg font-bold shadow-md rounded-lg mb-6 hover:shadow-xl transition-shadow duration-300">
@@ -58,7 +58,7 @@
                     <!-- Filter and Sort Options -->
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                         <select id="category-filter"
-                        class="w-full sm:w-auto border border-gray-300 rounded-lg p-3 text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:border-blue-400">
+                        class="w-full sm:w-auto  rounded-lg p-3 text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:border-blue-400">
                         <option value="{{ route('products.index') }}">All Categories</option>
                         @foreach($categories as $category)
                             <option value="{{ route('products.index', ['category' => $category->id]) }}"
@@ -69,7 +69,7 @@
                     </select>
                     
                     <select id="sort-order"
-                        class="w-full sm:w-auto border border-gray-300 rounded-lg p-3 text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:border-blue-400">
+                        class="w-full sm:w-auto rounded-lg p-3 text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out hover:border-blue-400">
                         <option value="newest" {{ request()->get('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
                         <option value="price_low" {{ request()->get('sort') == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
                         <option value="price_high" {{ request()->get('sort') == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
@@ -83,7 +83,7 @@
                 <!-- Product Grid - Modified to show 2 products per row on mobile -->
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                     @forelse ($products as $product)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 transition-transform duration-300 hover:shadow-xl hover:scale-105 relative cursor-pointer" 
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:scale-105 relative cursor-pointer" 
                     onclick="showProductModal({{ $product->id }})">
                    
                    <div class="relative pt-[100%]">
@@ -91,11 +91,7 @@
                        <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/placeholder.png') }}" 
                            alt="{{ $product->name }}" 
                            class="absolute inset-0 w-full h-full object-contain p-2">
-               
-                       <!-- Product Badges -->
-                       @if($product->created_at->diffInDays(now()) < 1)
-                           <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">NEW</span>
-                       @endif
+        
                
                        @if(isset($product->discount_percent) && $product->discount_percent > 0)
                            <span class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">
@@ -155,6 +151,7 @@
                     
                    </div>
                </div>
+               
                
                     @empty
                         <div class="col-span-full flex flex-col items-center justify-center p-8 bg-gray-50 rounded-lg">
@@ -258,12 +255,25 @@
         
         <!-- Close Button (for reference) -->
         <button onclick="closeModal()" 
-        class="w-full bg-white text-gray-800 border border-gray-200 py-2 text-sm rounded-md hover:border-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+        class="w-full bg-white text-gray-800 border border-gray-200 py-2 text-sm rounded-md hover:border-1 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
     Close
 </button>        
     </div>
 </div>
 
+
+<script>
+    // Define the showProductModal function globally so it exists during page rendering
+    function showProductModal(productId) {
+        // This wrapper function will be available during HTML rendering
+        // It will call the fully implemented version after the page loads
+        if (window._showProductModalImpl) {
+            window._showProductModalImpl(productId);
+        } else {
+            console.log('Modal implementation not loaded yet, product ID:', productId);
+        }
+    }
+</script>
 
 
 
@@ -295,27 +305,25 @@
 <!-- Product Modal Script -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        window.showProductModal = function(productId) {
+        // Implement the actual modal functionality
+        window._showProductModalImpl = function(productId) {
             console.log('Opening modal for product:', productId);
-
             const modal = document.getElementById('productModal');
             if (!modal) {
                 console.error('Modal element not found!');
                 return;
             }
-
             document.getElementById('modalProductName').textContent = 'Loading...';
             modal.classList.remove('hidden');
-
             // Set the product ID in the hidden form field
             document.getElementById('modalProductId').value = productId;
-
             // Reset reviews section if it exists
             const reviewsContainer = document.getElementById('reviewsContainer');
             if (reviewsContainer) {
                 reviewsContainer.innerHTML = '<div class="text-center text-gray-500" id="noReviewsMessage">Loading reviews...</div>';
             }
             
+            // Rest of your existing implementation...
             if (document.getElementById('paginationContainer')) {
                 document.getElementById('paginationContainer').innerHTML = '';
             }
@@ -327,7 +335,6 @@
             if (document.getElementById('reviewCount')) {
                 document.getElementById('reviewCount').textContent = '0';
             }
-
             fetch(`/products/${productId}`)
                 .then(response => {
                     if (!response.ok) {

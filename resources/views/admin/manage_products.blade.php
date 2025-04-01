@@ -5,14 +5,26 @@
 @section('content')
 
 <div class="container mx-auto px-4 py-6 max-w-[112rem]">
-    <!-- Add Product Button -->
-    <div class="mb-4">
-        <button type="button" onclick="openProductModal()" class="text-sm px-4 py-3 bg-white text-gray-700 rounded-md border border-gray-200 hover:border-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
-            Add New Product
+<!-- Add Product Button -->
+ <!-- Add Categoty Button -->
+ <div class="container mx-auto px-4 py-2 max-w-[112rem]">
+    <!-- Add Product & Category Buttons -->
+    <div class="mb-4 flex justify-between">
+        <div class="flex space-x-2">
+            <button type="button" onclick="openProductModal()" class="text-sm px-4 py-3 bg-white text-gray-700 rounded-md border border-gray-200 hover:border-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+                Add New Product
+            </button>
+            <button type="button" onclick="openCategoryModal()" class="text-sm px-4 py-3 bg-white text-gray-700 rounded-md border border-gray-200 hover:border-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+                Add New Category 
+            </button>
+        </div>
+        <div>
+            <button type="button" onclick="openCategoryListModal()" 
+            class="text-sm px-4 py-3 bg-gray-900 text-white rounded-md transition-all duration-300 
+                   hover:bg-gray-800 hover:text-white hover:shadow-md">
+            Manage Categories
         </button>
-        <button type="button" onclick="openCategoryModal()" class="text-sm px-4 py-3 bg-white text-gray-700 rounded-md border border-gray-200 hover:border-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
-            Add New Category 
-        </button>
+        </div>
     </div>
     
 <!-- Product Modal -->
@@ -267,10 +279,7 @@
 
 
 
-
-
-
- <!-- Category Modal -->
+<!-- Add Category Modal -->
 <div id="categoryModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
     <!-- Background Overlay -->
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"></div>
@@ -312,28 +321,63 @@
                 </button>
             </div>
         </form>
-        <!-- Category List in Modal -->
-<div class="px-6 py-4">
-    <h3 class="text-lg font-medium text-gray-900 mb-2">Categories</h3>
-    <ul id="categoryList" class="space-y-2">
-        @foreach($categories as $category)
-        <li class="flex justify-between items-center bg-gray-100 px-4 py-2 rounded-md">
-            <span>{{ $category->name }}</span>
-            <button onclick="deleteCategory({{ $category->id }})"
-                class="text-red-500 hover:text-red-700 focus:outline-none">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </li>
-        @endforeach
-    </ul>
-</div>
-
     </div>
 </div>
 
+
+
+<!-- Category List Modal -->
+<div id="categoryListModal" class="fixed inset-0 z-50 hidden overflow-y-auto flex items-center justify-center">
+    <!-- Background Overlay -->
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"></div>
+
+    <!-- Modal Container (Now fully scrollable) -->
+    <div class="relative mx-auto w-11/12 sm:w-3/4 md:w-1/2 lg:max-w-md max-h-[90vh] overflow-y-auto border shadow-lg rounded-lg bg-white modal-container">
+        <!-- Modal Header -->
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h3 class="text-lg font-medium text-gray-900">Manage Categories</h3>
+            <button type="button" onclick="closeCategoryListModal()" class="text-gray-400 hover:text-gray-500">
+                <span class="sr-only">Close</span>
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Category List -->
+        <div class="px-6 py-4">
+            <div class="flex justify-between items-center mb-4">
+                <h4 class="text-md font-medium text-gray-700">All Categories</h4>
+            </div>
+            <ul id="categoryList" class="space-y-2">
+                @foreach($categories as $category)
+                <li class="flex justify-between items-center bg-gray-100 px-4 py-2 rounded-md">
+                    <span>{{ $category->name }}</span>
+                    <div class="flex space-x-2">
+                        <button onclick="openCategoryModal({{ $category->id }}, '{{ $category->name }}')" class="text-blue-500 hover:text-blue-700 focus:outline-none">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                        </button>
+                        <button onclick="deleteCategory({{ $category->id }})" class="text-red-500 hover:text-red-700 focus:outline-none">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
+            <button type="button" onclick="closeCategoryListModal()" class="px-4 py-3 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
 
 
 
@@ -476,7 +520,31 @@ function closeCategoryModal() {
 }
 
 
-   
+function openCategoryListModal() {
+    const modal = document.getElementById('categoryListModal');
+    
+    // Remove "hidden" so the modal is visible
+    modal.classList.remove('hidden');
+    
+    // Small delay to allow animation to trigger
+    setTimeout(() => modal.classList.add('modal-active'), 10);
+    
+    // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCategoryListModal() {
+    const modal = document.getElementById('categoryListModal');
+    
+    // Remove "modal-active" to start fade-out animation
+    modal.classList.remove('modal-active');
+    
+    // Wait for animation to finish before hiding the modal
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }, 300); // Match CSS transition duration
+}
 
     // Image Preview Before Upload
     document.getElementById('image').addEventListener('change', function (e) {

@@ -3,7 +3,7 @@
 @section('title', 'Your Orders')
 
 @section('content')
-<div class="container mx-auto">
+<div class="container mx-auto py-8">
    {{-- Orders Header & Total Orders in One Box --}}
    <div class="mx-3 bg-white py-3 px-2 sm:py-4 sm:px-6 rounded-lg shadow-sm flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-5">
         <h2 class="text-xl sm:text-2xl font-bold text-gray-700">Your Orders</h2>
@@ -19,7 +19,7 @@
     @else
         <div class="space-y-4">  {{-- Reduced spacing --}}
             @foreach($orders as $order)
-                <div class="mx-3 bg-white shadow-sm rounded-lg p-6 hover:shadow-lg transition duration-200">
+                <div class="mx-3 bg-white shadow-sm rounded-lg p-6 hover:shadow-md transition duration-200">
                     <div class="flex justify-between items-center border-b pb-4 mb-3"> {{-- Reduced bottom margin --}}
                         <div>
                             <h3 class="text-lg font-semibold text-gray-900">Order #{{ $order->id }}</h3>

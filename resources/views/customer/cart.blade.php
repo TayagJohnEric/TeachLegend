@@ -3,10 +3,10 @@
 @section('title', "Shopping Cart")
 
 @section('content')
-<div class="container mx-auto px-2 sm:px-4 py-0">
+<div class="container mx-auto px-2 py-8 sm:px-4 py-8">
 
     {{-- Cart Header & Total Products in One Box --}}
-    <div class="bg-white py-3 px-4 sm:py-4 sm:px-6 rounded-lg shadow-sm flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8">
+    <div class="bg-white shadow-sm py-3 px-4 sm:py-3 sm:px-6 rounded-lg flex flex-col sm:flex-row justify-between items-center mb-5 sm:mb-5">
         <h2 class="text-xl sm:text-2xl font-bold text-gray-700">Your Shopping Cart</h2>
         <div class="text-sm sm:text-md font-medium text-gray-500 mt-2 sm:mt-0">
             Total Products: <span class="text-base sm:text-lg font-medium">{{ $cartItems->sum('quantity') }}</span>

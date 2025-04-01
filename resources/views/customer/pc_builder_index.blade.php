@@ -50,6 +50,11 @@
          padding-bottom: 70px;
      }
  }
+
+ /* Enhanced shadow styles */
+ .enhanced-shadow {
+     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+ }
  </style>
 
 
@@ -85,7 +90,7 @@
                 <div class="sticky-sidebar">
                     
                     {{-- 💰 Budget Input --}}
-                    <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                    <div class="bg-white shadow-md rounded-lg overflow-hidden m-1">
                         <div class="bg-white text-white px-3 py-2 md:px-4 md:py-3">
                             <h3 class="text-lg md:text-xl font-semibold text-gray-800">Build Budget</h3>
                         </div>
@@ -112,7 +117,7 @@
                     </div>
             
                     {{-- 🛠️ Build Summary --}}
-                    <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                    <div class="bg-white shadow-md rounded-lg overflow-hidden m-1">
                         <div class="bg-white text-gray-800 px-3 py-2 md:px-4 md:py-3">
                             <h3 class="text-lg md:text-xl font-semibold">Build Summary</h3>
                         </div>
@@ -144,7 +149,7 @@
                     <button 
                         type="submit" 
                         id="save-build-btn"
-                        class="w-full bg-gray-900 text-white text-sm py-2 md:py-3 rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-800 text-white text-sm py-2 md:py-3 rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                     >
                         Save PC Build
                     </button>
@@ -154,13 +159,13 @@
             {{-- 🖥️ Components Selection - Middle --}}
             <div class="lg:col-span-6 md:col-span-12 space-y-4 md:space-y-6 order-3 lg:order-2">
                 @foreach ($categories as $categoryName => $products)
-                    <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                    <div class="bg-white shadow-md rounded-lg overflow-hidden">
                         <div class="bg-gradient-to-r from-blue-600 to-indigo-800 text-gray-800 px-3 py-2 md:px-4 md:py-3">
                             <h3 class="text-white text-lg md:text-xl font-semibold">{{ $categoryName }}</h3>
                         </div>
                         <div class="p-2 md:p-3 grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-4">
                             @foreach ($products as $product)
-                                <div class="border-2 border-gray-100 rounded-lg overflow-hidden md:max-w-[250px]">
+                                <div class="border-2 border-gray-100 rounded-lg overflow-hidden md:max-w-[250px] hover:shadow-lg transition duration-200">
                                     <div class="flex sm:block">
                                         <div class="w-24 h-24 sm:w-full sm:h-auto flex-shrink-0">
                                             <img 
@@ -198,7 +203,7 @@
             {{-- 📋 Selected Components - Right Side --}}
             <div class="lg:col-span-3 md:col-span-6 order-2 lg:order-3">
                 <div class="sticky-sidebar">
-                    <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                    <div class="bg-white shadow-sm rounded-lg overflow-visible m-1 z-10">
                         <div class="bg-white px-3 py-2 md:px-4 md:py-3">
                             <h3 class="text-gray-800 text-lg md:text-xl font-semibold">Selected Components</h3>
                         </div>
@@ -210,6 +215,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </form>
 
@@ -217,7 +223,7 @@
     <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white p-3 shadow-lg border-t z-50">
         <button 
             type="submit" 
-            class="w-full bg-gray-900 text-white text-sm py-3 rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            class="w-full bg-gradient-to-r from-blue-600 to-indigo-800 text-white text-sm py-3 rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             id="mobile-save-build-btn"
         >
             Save PC Build
