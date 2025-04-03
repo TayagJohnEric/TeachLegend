@@ -3,7 +3,7 @@
 @section('title', 'PC Build Details')
 
 @section('content')
-<div class="container mx-auto px-6 py-3 max-w-5xl">
+<div class="container mx-auto px-6 py-6 max-w-5xl">
     <div class="bg-white shadow-sm rounded-xl overflow-hidden">
         <!-- Header -->
         <div class="bg-white px-6 py-4 border-b-2 border-gray-50">
@@ -114,12 +114,12 @@
                 </div>
                 
                 <a href="{{ route('customer.checkout', ['pc_build_id' => $pcBuild->id]) }}" 
-                    class="flex items-center px-4 py-3 bg-gradient-to-r  text-sm from-blue-600 to-indigo-800 text-white font-medium rounded-lg hover:bg-blue-700 transition">
+                    class="bg-gradient-to-r from-blue-600 to-indigo-800 text-sm font-medium text-white px-4 py-3 rounded-md hover:bg-indigo-700 transition duration-200 flex items-center">
                     Proceed to Checkout
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
-                </a>
+                </a>     
             </div>
         </div>
     </div>

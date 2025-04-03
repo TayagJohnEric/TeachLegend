@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminManageProductController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\AdminRegisterController;
 use App\Http\Controllers\Customer\CustomerDashboardController;
 use App\Http\Controllers\Customer\CustomerCategoryController;
 use App\Http\Controllers\Customer\CustomerCartController;
@@ -15,6 +16,8 @@ use App\Http\Controllers\Customer\CustomerCheckoutController;
 use App\Http\Controllers\Customer\CustomerReviewController;
 use App\Http\Controllers\Customer\CustomerOrderController;
 use App\Http\Controllers\Customer\CustomerPcBuildConfigurationController;
+use App\Http\Controllers\Customer\CustomerServiceBookingController;
+
 use App\Http\Controllers\Technician\TeachnicianDashboardController;
 
 
@@ -38,6 +41,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 //Admin Route
+
+Route::get('/admin/register', [AdminRegisterController::class, 'showRegistrationForm'])->name('admin.register');
+Route::post('/admin/register', [AdminRegisterController::class, 'register'])->name('admin.register.submit');
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])
     ->name('admin.dashboard')
     ->middleware(['auth', 'role:admin']);
@@ -108,8 +114,20 @@ Route::get('/my-builds', [CustomerPcBuildConfigurationController::class, 'list']
     ->middleware('auth');
     Route::post('/pc-build/check-compatibility', [CustomerPcBuildConfigurationController::class, 'checkComponentCompatibility']);
 
+  // Services listing page with booking modal
+Route::get('/customer/services', [CustomerServiceBookingController::class, 'index'])
+->name('customer.services')
+->middleware('auth');
 
+// Store service booking
+Route::post('/customer/services/book', [CustomerServiceBookingController::class, 'store'])
+->name('customer.services.book')
+->middleware('auth');
 
+// View customer's bookings
+Route::get('/customer/bookings', [CustomerServiceBookingController::class, 'bookings'])
+->name('customer.bookings')
+->middleware('auth');
 
 
 

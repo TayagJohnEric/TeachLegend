@@ -7,8 +7,8 @@
     <div class=" rounded-lg p-6 md:p-8">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-xl md:text-2xl font-bold text-gray-800">My PC Builds</h1>
-            <a href="{{ route('pc-builder.index') }}" class=" bg-gradient-to-r from-blue-600 to-indigo-800 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-200 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <a href="{{ route('pc-builder.index') }}" class="bg-gradient-to-r from-blue-600 to-indigo-800 text-sm font-medium text-white px-4 py-3 rounded-md hover:bg-indigo-700 transition duration-200 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                 </svg>
                 Create New Build
@@ -25,7 +25,7 @@
         @endif
 
         @if($pcBuilds->isEmpty())
-            <div class="flex flex-col items-center justify-center py-12 bg-gray-50 rounded-lg">
+            <div class="flex flex-col items-center justify-center py-12 bg-[#F6F5FA] rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>

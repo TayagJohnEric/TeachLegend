@@ -351,7 +351,7 @@
             </div>
             <ul id="categoryList" class="space-y-2">
                 @foreach($categories as $category)
-                <li class="flex justify-between items-center bg-gray-100 px-4 py-2 rounded-md">
+                <li class="flex justify-between items-center bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-md">
                     <span>{{ $category->name }}</span>
                     <div class="flex space-x-2">
                         <button onclick="openCategoryModal({{ $category->id }}, '{{ $category->name }}')" class="text-blue-500 hover:text-blue-700 focus:outline-none">
