@@ -47,36 +47,56 @@
 </style>
 
 <div class="container mx-auto px-2 py-3 sm:px-4">
-    {{-- General Error Handling --}}
-    @if ($errors->any())
-    <div class="py-0">
-        <div class="bg-red-100 text-xs md:text-sm text-red-600 font-bold p-2 md:p-4 rounded-lg flex flex-col gap-2 md:gap-3 mb-1">
-            <div class="flex items-center gap-2 md:gap-3">
-                <span class="bg-white text-red-600 rounded-full p-1 md:p-2 flex items-center justify-center">
-                    <i class="fas fa-exclamation-circle"></i>
-                </span>
-                <strong>🚨 Oops! Some issues were found:</strong>
-            </div>
-            <ul class="list-none pl-8 md:pl-10">
-                @foreach ($errors->all() as $error)
-                    <li class="flex items-center gap-2 md:gap-3">
-                        <span class="text-red-600">⚠️</span>
-                        {{ $error }}
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
-    @endif
- 
-    <div class="py-3">
-        <p id="component-warning" class="bg-blue-100 text-xs md:text-sm text-blue-600 font-bold p-2 md:p-4 rounded-lg flex items-center gap-2 md:gap-3 hidden">
-            <span class="bg-white text-blue-600 rounded-full p-1 md:p-2 flex items-center justify-center">
-                <i class="fas fa-info-circle"></i>
+  {{-- General Error Handling --}}
+@if ($errors->any())
+<div id="error-alert" class="py-0">
+    <div class="bg-red-100 text-xs md:text-sm text-red-600 font-bold p-2 md:p-4 rounded-lg flex flex-col gap-2 md:gap-3 mb-1 relative">
+        {{-- Screen Reader Only Error Label --}}
+        <span class="sr-only">Error list:</span>
+
+        <div class="flex items-center gap-2 md:gap-3">
+            <span class="bg-white text-red-600 rounded-full p-1 md:p-2 flex items-center justify-center">
+                <i class="fas fa-exclamation-circle"></i>
             </span>
-            Reminder: A CPU, RAM, and Storage are required!
-        </p>
+            <strong>🚨 Oops! Some issues were found:</strong>
+        </div>
+
+        <ul class="list-none pl-8 md:pl-10">
+            @foreach ($errors->all() as $error)
+                <li class="flex items-center gap-2 md:gap-3">
+                    <span class="text-red-600">⚠️</span>
+                    {{ $error }}
+                </li>
+            @endforeach
+        </ul>
+
+        {{-- Dismiss Button --}}
+        <button type="button" class="close-alert absolute top-2 right-2 text-red-600 hover:text-red-800 p-1">
+            <span class="sr-only">Dismiss error message</span>
+            <i class="fas fa-times"></i> {{-- FontAwesome close (X) icon --}}
+        </button>
     </div>
+</div>
+@endif
+
+{{-- Component Warning Message --}}
+<div class="py-3">
+    <p id="component-warning" class="bg-blue-100 text-xs md:text-sm text-blue-600 font-bold p-2 md:p-4 rounded-lg flex items-center gap-2 md:gap-3 relative">
+        {{-- Screen Reader Only Warning Label --}}
+        <span class="sr-only">Important reminder:</span>
+
+        <span class="bg-white text-blue-600 rounded-full p-1 md:p-2 flex items-center justify-center">
+            <i class="fas fa-info-circle"></i>
+        </span>
+        Reminder: A CPU, RAM, and Storage are required!
+
+        {{-- Dismiss Button --}}
+        <button type="button" class="close-alert absolute top-2 right-2 text-blue-600 hover:text-blue-800 p-1">
+            <span class="sr-only">Dismiss warning message</span>
+            <i class="fas fa-times"></i> {{-- FontAwesome close (X) icon --}}
+        </button>
+    </p>
+</div>
 
     <form action="{{ route('pc-builder.store') }}" method="POST" class="page-bottom-padding">
         @csrf
@@ -234,6 +254,12 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".close-alert").forEach(button => {
+            button.addEventListener("click", function () {
+                this.closest("div, p").remove(); // Removes the parent alert container
+            });
+        });
+
     const checkboxes = document.querySelectorAll('.component-checkbox');
     const totalCostDisplay = document.getElementById('total-cost');
     const remainingBudgetDisplay = document.getElementById('remaining-budget');

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminManageProductController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminRegisterController;
+use App\Http\Controllers\Admin\AdminServiceBookingController;
 use App\Http\Controllers\Customer\CustomerDashboardController;
 use App\Http\Controllers\Customer\CustomerCategoryController;
 use App\Http\Controllers\Customer\CustomerCartController;
@@ -17,8 +18,10 @@ use App\Http\Controllers\Customer\CustomerReviewController;
 use App\Http\Controllers\Customer\CustomerOrderController;
 use App\Http\Controllers\Customer\CustomerPcBuildConfigurationController;
 use App\Http\Controllers\Customer\CustomerServiceBookingController;
-
+use App\Http\Controllers\Technician\TechnicianRegisterController;
 use App\Http\Controllers\Technician\TeachnicianDashboardController;
+use App\Http\Controllers\Technician\TechnicianServiceBookingController;
+
 
 
 
@@ -59,7 +62,24 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/orders/update-status/{order}', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.update-status');
 });
 Route::delete('/admin/categories/{id}', [AdminCategoryController::class, 'destroy'])->name('admin.categories.destroy');
-
+// Admin Booking Management Routes
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Booking management
+    Route::get('/bookings', [AdminServiceBookingController::class, 'index'])
+        ->name('bookings.index');
+    Route::get('/bookings/{id}', [AdminServiceBookingController::class, 'show'])
+        ->name('bookings.show');
+    Route::post('/bookings/{id}/assign-technician', [AdminServiceBookingController::class, 'assignTechnician'])
+        ->name('bookings.assign');
+    Route::post('/bookings/{id}/update-status', [AdminServiceBookingController::class, 'updateStatus'])
+        ->name('bookings.status');
+    Route::post('/bookings/{id}/cancel', [AdminServiceBookingController::class, 'handleCancellation'])
+        ->name('bookings.cancel');
+    Route::delete('/bookings/{id}', [AdminServiceBookingController::class, 'softDelete'])
+        ->name('bookings.delete');
+    Route::post('/bookings/bulk-delete', [AdminServiceBookingController::class, 'bulkSoftDelete'])
+        ->name('bookings.bulk-delete');
+});
 
 
 
@@ -129,6 +149,11 @@ Route::get('/customer/bookings', [CustomerServiceBookingController::class, 'book
 ->name('customer.bookings')
 ->middleware('auth');
 
+//Customer Cancel a booking 
+Route::patch('/customer/bookings/{id}/cancel', [CustomerServiceBookingController::class, 'cancelBooking'])->name('customer.bookings.cancel');
+
+
+
 
 
 
@@ -137,3 +162,16 @@ Route::get('/customer/bookings', [CustomerServiceBookingController::class, 'book
 Route::get('/technician/dashboard', [TeachnicianDashboardController::class, 'dashboard'])
     ->name('technician.dashboard')
     ->middleware(['auth', 'role:technician']);
+
+    Route::get('/technician/signup', [TechnicianRegisterController::class, 'showRegistrationForm'])->name('technician.signup');
+Route::post('/technician/register', [TechnicianRegisterController::class, 'registerTechnician'])->name('technician.register');
+
+Route::prefix('technician')->name('technician.')->middleware(['auth', 'role:technician'])->group(function () {
+    // Bookings
+    Route::get('/bookings', [TechnicianServiceBookingController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings/{booking}', [TechnicianServiceBookingController::class, 'show'])->name('bookings.show');
+    Route::post('/bookings/{booking}/accept', [TechnicianServiceBookingController::class, 'accept'])->name('bookings.accept');
+    Route::post('/bookings/{booking}/cancel', [TechnicianServiceBookingController::class, 'cancel'])->name('bookings.cancel');
+    Route::post('/bookings/{booking}/complete', [TechnicianServiceBookingController::class, 'complete'])->name('bookings.complete');
+    Route::post('/bookings/{booking}/notes', [TechnicianServiceBookingController::class, 'addNotes'])->name('bookings.add-notes');
+});

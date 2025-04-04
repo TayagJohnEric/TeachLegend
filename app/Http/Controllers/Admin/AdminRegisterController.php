@@ -13,7 +13,7 @@ class AdminRegisterController extends Controller
      // Show the registration form
      public function showRegistrationForm()
      {
-         return view('auth.admin_register');
+         return view('auth.admin_signup');
      }
  
      // Handle the registration logic

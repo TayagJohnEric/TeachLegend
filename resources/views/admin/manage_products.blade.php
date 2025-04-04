@@ -11,10 +11,10 @@
     <!-- Add Product & Category Buttons -->
     <div class="mb-4 flex justify-between">
         <div class="flex space-x-2">
-            <button type="button" onclick="openProductModal()" class="text-sm px-4 py-3 bg-white text-gray-700 rounded-md border border-gray-200 hover:border-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+            <button type="button" onclick="openProductModal()" class="text-sm px-4 py-3 bg-white text-gray-700 rounded-md border border-gray-200 hover:border hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
                 Add New Product
             </button>
-            <button type="button" onclick="openCategoryModal()" class="text-sm px-4 py-3 bg-white text-gray-700 rounded-md border border-gray-200 hover:border-2 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+            <button type="button" onclick="openCategoryModal()" class="text-sm px-4 py-3 bg-white text-gray-700 rounded-md border border-gray-200 hover:border hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
                 Add New Category 
             </button>
         </div>
@@ -327,12 +327,12 @@
 
 
 <!-- Category List Modal -->
-<div id="categoryListModal" class="fixed inset-0 z-50 hidden overflow-y-auto flex items-center justify-center">
+<div id="categoryListModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
     <!-- Background Overlay -->
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-overlay"></div>
 
-    <!-- Modal Container (Now fully scrollable) -->
-    <div class="relative mx-auto w-11/12 sm:w-3/4 md:w-1/2 lg:max-w-md max-h-[90vh] overflow-y-auto border shadow-lg rounded-lg bg-white modal-container">
+    <!-- Modal Container (Positioned at Top Center) -->
+    <div class="relative top-20 mx-auto w-11/12 sm:w-3/4 md:w-1/2 lg:max-w-md max-h-[90vh] overflow-y-auto border shadow-lg rounded-lg bg-white modal-container">
         <!-- Modal Header -->
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h3 class="text-lg font-medium text-gray-900">Manage Categories</h3>

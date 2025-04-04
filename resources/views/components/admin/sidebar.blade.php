@@ -2,7 +2,7 @@
   <!-- Mobile Overlay Backdrop -->
   <div id="sidebar-backdrop" class="fixed inset-0 bg-gray-800 bg-opacity-50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
   
-  <div id="sidebar" class="fixed lg:sticky xl:sticky top-0 inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 xl:translate-x-0 w-64 bg-white border-r border-gray-200 flex flex-col shadow-sm z-30 transition-transform duration-300 ease-in-out h-screen overflow-hidden">
+  <div id="sidebar" class="fixed lg:sticky xl:sticky top-0 inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 xl:translate-x-0 w-64 bg-white shadow-sm flex flex-col  z-30 transition-transform duration-300 ease-in-out h-screen overflow-hidden">
     <!-- Logo/Title -->
     <div class="p-4 border-b border-gray-200">
       <h1 class="text-xl font-semibold text-gray-800">TechStore</h1>

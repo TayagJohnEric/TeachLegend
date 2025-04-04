@@ -50,6 +50,7 @@ class CustomerServiceBookingController extends Controller
         $bookings = ServiceBooking::where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
+
             
         return view('customer.my_bookings', compact('bookings'));
     }
@@ -83,4 +84,17 @@ class CustomerServiceBookingController extends Controller
                 ->with('error', 'Failed to create booking. Please try again.');
         }
     }
+
+    public function cancelBooking($id)
+{
+    $booking = ServiceBooking::findOrFail($id);
+
+    if ($booking->status === 'cancelled') {
+        return redirect()->back()->with('error', 'This booking has already been cancelled.');
+    }
+
+    $booking->update(['status' => 'cancelled']);
+
+    return redirect()->back()->with('success', 'Your booking has been successfully cancelled.');
+}
 }

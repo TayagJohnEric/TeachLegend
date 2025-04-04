@@ -79,6 +79,20 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $booking->created_at->format('M d, Y') }}
                             </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if($booking->status !== 'cancelled' && $booking->status !== 'completed')
+                                    <form action="{{ route('customer.bookings.cancel', $booking->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                @else
+                                    <span class="text-gray-500">N/A</span>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
