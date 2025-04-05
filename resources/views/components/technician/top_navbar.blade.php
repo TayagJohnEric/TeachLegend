@@ -19,9 +19,6 @@
       <!-- Right Side - Search, Notifications, and Profile -->
       <div class="flex items-center space-x-4">
   
-        <!-- Search Bar -->
-        @include('components.searchbar')
-  
         <div class="relative">
           <a href="#" class="p-1 text-gray-600 hover:text-gray-900 focus:outline-none">
             <div class="bg-white p-1.5 rounded-full border border-gray-200 relative">

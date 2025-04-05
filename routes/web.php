@@ -18,9 +18,12 @@ use App\Http\Controllers\Customer\CustomerReviewController;
 use App\Http\Controllers\Customer\CustomerOrderController;
 use App\Http\Controllers\Customer\CustomerPcBuildConfigurationController;
 use App\Http\Controllers\Customer\CustomerServiceBookingController;
+use App\Http\Controllers\Customer\CustomerTechConsultationRequestController;
 use App\Http\Controllers\Technician\TechnicianRegisterController;
 use App\Http\Controllers\Technician\TeachnicianDashboardController;
 use App\Http\Controllers\Technician\TechnicianServiceBookingController;
+use App\Http\Controllers\Technician\TechnicianTechConsultationRequestController;
+
 
 
 
@@ -152,6 +155,17 @@ Route::get('/customer/bookings', [CustomerServiceBookingController::class, 'book
 //Customer Cancel a booking 
 Route::patch('/customer/bookings/{id}/cancel', [CustomerServiceBookingController::class, 'cancelBooking'])->name('customer.bookings.cancel');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/consultations', [CustomerTechConsultationRequestController::class, 'index'])->name('consultations.index');
+    Route::get('/consultations/create', [CustomerTechConsultationRequestController::class, 'create'])->name('consultations.create');
+    Route::post('/consultations', [CustomerTechConsultationRequestController::class, 'store'])->name('consultations.store');
+    Route::get('/consultations/{id}', [CustomerTechConsultationRequestController::class, 'show'])->name('consultations.show');
+    Route::patch('/consultations/{id}/close', [CustomerTechConsultationRequestController::class, 'close'])->name('consultations.close');
+});
+
+
+
+
 
 
 
@@ -174,4 +188,10 @@ Route::prefix('technician')->name('technician.')->middleware(['auth', 'role:tech
     Route::post('/bookings/{booking}/cancel', [TechnicianServiceBookingController::class, 'cancel'])->name('bookings.cancel');
     Route::post('/bookings/{booking}/complete', [TechnicianServiceBookingController::class, 'complete'])->name('bookings.complete');
     Route::post('/bookings/{booking}/notes', [TechnicianServiceBookingController::class, 'addNotes'])->name('bookings.add-notes');
+});
+Route::middleware(['auth'])->prefix('technician')->name('technician.')->group(function () {
+    Route::get('/consultations', [TechnicianTechConsultationRequestController::class, 'index'])->name('consultations.index');
+    Route::get('/consultations/{id}', [TechnicianTechConsultationRequestController::class, 'show'])->name('consultations.show');
+    Route::patch('/consultations/{id}/status', [TechnicianTechConsultationRequestController::class, 'updateStatus'])->name('consultations.updateStatus');
+    Route::post('/consultations/{id}/responses', [TechnicianTechConsultationRequestController::class, 'storeResponse'])->name('consultations.storeResponse');
 });
