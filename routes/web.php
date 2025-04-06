@@ -19,6 +19,7 @@ use App\Http\Controllers\Customer\CustomerOrderController;
 use App\Http\Controllers\Customer\CustomerPcBuildConfigurationController;
 use App\Http\Controllers\Customer\CustomerServiceBookingController;
 use App\Http\Controllers\Customer\CustomerTechConsultationRequestController;
+use App\Http\Controllers\Customer\CustomerTradeInController;
 use App\Http\Controllers\Technician\TechnicianRegisterController;
 use App\Http\Controllers\Technician\TeachnicianDashboardController;
 use App\Http\Controllers\Technician\TechnicianServiceBookingController;
@@ -162,6 +163,21 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/consultations/{id}', [CustomerTechConsultationRequestController::class, 'show'])->name('consultations.show');
     Route::patch('/consultations/{id}/close', [CustomerTechConsultationRequestController::class, 'close'])->name('consultations.close');
 });
+
+// routes/web.php
+Route::prefix('trade-in')->name('trade-in.')->group(function () {
+    Route::get('/', [CustomerTradeInController::class, 'index'])->name('index');
+    Route::get('/create', [CustomerTradeInController::class, 'create'])->name('create');
+    Route::post('/', [CustomerTradeInController::class, 'store'])->name('store');
+    Route::get('/{tradeIn}', [CustomerTradeInController::class, 'show'])->name('show');
+    Route::get('/{tradeIn}/edit', [CustomerTradeInController::class, 'edit'])->name('edit');
+    Route::put('/{tradeIn}', [CustomerTradeInController::class, 'update'])->name('update');
+    Route::patch('/{tradeIn}/status', [CustomerTradeInController::class, 'updateStatus'])->name('update-status');
+    Route::delete('/{tradeIn}', [CustomerTradeInController::class, 'destroy'])->name('destroy');
+});
+
+Route::get('/my-listing', [CustomerTradeInController::class, 'myListings'])->name('trade-in.my-listings');
+
 
 
 

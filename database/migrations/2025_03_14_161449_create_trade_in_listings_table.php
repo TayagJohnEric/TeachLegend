@@ -15,8 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('component_details');
-            $table->string('condition');
+            $table->enum('condition', ['Like New', 'Used', 'Needs Repair']);
             $table->decimal('pricing', 10, 2);
+            $table->enum('status', ['Available', 'Pending', 'Sold', 'Removed'])->default('Available'); 
+            $table->string('component_type')->nullable()->index(); // e.g., CPU, GPU, RAM
+            $table->string('brand')->nullable()->index(); // Easier filtering
+            $table->text('image_path')->nullable(); // Upload image of component
+            $table->unsignedInteger('views')->default(0);
             $table->timestamps();
         });
     }

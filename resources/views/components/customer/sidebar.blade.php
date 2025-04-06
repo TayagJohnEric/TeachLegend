@@ -55,7 +55,15 @@
         </svg>
         <span class="font-medium">My Bookings</span>
     </a>
-    
+            
+    <a href="{{ route('products.index') }}" 
+    class="flex items-center px-4 py-3 rounded-md transition-colors 
+           {{ request()->is('products') ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600' }}">
+     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+     </svg>
+     <span class="font-medium">Trade-In Marketplace</span>
+ </a>
             
             <a href="/trade-in" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-blue-600 rounded-md transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
