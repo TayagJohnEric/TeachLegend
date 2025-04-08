@@ -45,80 +45,81 @@
         }
     }
 </style>
-
-<div class="container mx-auto px-2 py-3 sm:px-4">
-  {{-- General Error Handling --}}
-@if ($errors->any())
-<div id="error-alert" class="py-0">
-    <div class="bg-red-100 text-xs md:text-sm text-red-600 font-bold p-2 md:p-4 rounded-lg flex flex-col gap-2 md:gap-3 mb-1 relative">
-        {{-- Screen Reader Only Error Label --}}
-        <span class="sr-only">Error list:</span>
-
-        <div class="flex items-center gap-2 md:gap-3">
-            <span class="bg-white text-red-600 rounded-full p-1 md:p-2 flex items-center justify-center">
-                <i class="fas fa-exclamation-circle"></i>
-            </span>
-            <strong>🚨 Oops! Some issues were found:</strong>
-        </div>
-
-        <ul class="list-none pl-8 md:pl-10">
-            @foreach ($errors->all() as $error)
-                <li class="flex items-center gap-2 md:gap-3">
-                    <span class="text-red-600">⚠️</span>
-                    {{ $error }}
-                </li>
-            @endforeach
-        </ul>
-
-        {{-- Dismiss Button --}}
-        <button type="button" class="close-alert absolute top-2 right-2 text-red-600 hover:text-red-800 p-1">
-            <span class="sr-only">Dismiss error message</span>
-            <i class="fas fa-times"></i> {{-- FontAwesome close (X) icon --}}
-        </button>
-    </div>
-</div>
-@endif
-
-{{-- Component Warning Message --}}
-<div class="py-3">
-    <p id="component-warning" class="bg-blue-100 text-xs md:text-sm text-blue-600 font-bold p-2 md:p-4 rounded-lg flex items-center gap-2 md:gap-3 relative">
-        {{-- Screen Reader Only Warning Label --}}
-        <span class="sr-only">Important reminder:</span>
-
-        <span class="bg-white text-blue-600 rounded-full p-1 md:p-2 flex items-center justify-center">
-            <i class="fas fa-info-circle"></i>
-        </span>
-        Reminder: A CPU, RAM, and Storage are required!
-
-        {{-- Dismiss Button --}}
-        <button type="button" class="close-alert absolute top-2 right-2 text-blue-600 hover:text-blue-800 p-1">
-            <span class="sr-only">Dismiss warning message</span>
-            <i class="fas fa-times"></i> {{-- FontAwesome close (X) icon --}}
-        </button>
-    </p>
-</div>
-
-    <form action="{{ route('pc-builder.store') }}" method="POST" class="page-bottom-padding">
-        @csrf
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6">
+<div class="container mx-auto px-4 py-6">
+    <!-- Error Handling Section -->
+    @if ($errors->any())
+    <div id="error-alert" class="mb-6">
+        <div class="bg-red-50 border-l-4 border-red-400 p-4 rounded-md text-sm text-red-700 relative">
+            <span class="sr-only">Error list:</span>
             
-            {{-- Budget & Summary Sidebar - Left Side --}}
-            <div class="lg:col-span-3 md:col-span-6 order-1 lg:order-1">
-                <div class="sticky-sidebar">
-                    
-                    {{-- Budget Input --}}
-                    <div class="bg-white shadow-sm rounded-lg overflow-hidden m-1">
-                        <div class="px-3 py-2 md:px-4 md:py-3">
-                            <h3 class="text-lg md:text-xl font-semibold text-gray-800">Build Budget</h3>
+            <div class="flex items-start gap-3">
+                <span class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10A8 8 0 11 2 10a8 8 0 0116 0zm-8.707-3.707a1 1 0 111.414 1.414L10.414 10l.293.293a1 1 0 11-1.414 1.414L9 11.414l-.293.293a1 1 0 01-1.414-1.414L8.586 10l-.293-.293a1 1 0 111.414-1.414L9 8.586l.293-.293z" clip-rule="evenodd"/>
+                    </svg>
+                </span>
+                <strong>🚨 Oops! Some issues were found:</strong>
+            </div>
+            
+            <ul class="list-none pl-8 md:pl-10 mt-2">
+                @foreach ($errors->all() as $error)
+                    <li class="flex items-center gap-2">
+                        <span class="text-red-600">⚠️</span>
+                        {{ $error }}
+                    </li>
+                @endforeach
+            </ul>
+            
+            <button type="button" class="close-alert absolute top-2 right-2 text-red-600 hover:text-red-800 p-1">
+                <span class="sr-only">Dismiss error message</span>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    @endif
+
+    <!-- Component Warning Message -->
+    <div class="mb-6">
+        <div id="component-warning" class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-md flex items-start gap-3 relative text-sm text-blue-700">
+            <span class="sr-only">Important reminder:</span>
+            
+            <span class="flex-shrink-0">
+                <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+            </span>
+            
+            <div class="flex-1">
+                Reminder: A CPU, RAM, and Storage are required!
+            </div>
+            
+            <button type="button" class="close-alert absolute top-2 right-2 text-blue-600 hover:text-blue-800 p-1">
+                <span class="sr-only">Dismiss warning message</span>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <form action="{{ route('pc-builder.store') }}" method="POST" class="pb-20 md:pb-6">
+        @csrf
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            
+            <!-- Budget & Summary Section -->
+            <div class="md:col-span-3 lg:col-span-3 order-1">
+                <div class="space-y-4 sticky top-4">
+                    <!-- Budget Input Card -->
+                    <div class="bg-white shadow rounded-lg overflow-hidden">
+                        <div class="px-4 py-3 border-b border-gray-100">
+                            <h3 class="text-lg font-semibold text-gray-800">Build Budget</h3>
                         </div>
                         
-                        <div class="px-3 py-2 md:px-4 md:py-3">
+                        <div class="px-4 py-4">
                             <p class="text-xs text-gray-500 pb-2">Budget range: $500 - $500,000</p>
                             <input 
                                 type="number" 
                                 name="budget" 
                                 id="budget-input"
-                                class="w-full pl-3 pr-3 py-2 border-2 border-gray-100 rounded-xl mb-3 focus:ring-2 focus:ring-blue-300 focus:border-blue-500" 
+                                class="w-full px-3 py-2 border-2 border-gray-100 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500" 
                                 placeholder="Enter your budget" 
                                 min="500" 
                                 max="500000"
@@ -131,120 +132,127 @@
                             @enderror
                         </div>
                     </div>
-            
-                 {{-- Build Summary --}}
-<div class="bg-white shadow-sm rounded-lg overflow-hidden m-1">
-    <div class="px-3 py-2 md:px-4 md:py-3">
-        <h3 class="text-lg md:text-xl font-semibold text-gray-800">Build Summary</h3>
-    </div>
-    <div class="p-3 md:p-4 space-y-2">
-        <div class="grid grid-cols-2 text-gray-500 text-sm">
-            <p>Total Cost:</p>
-            <p id="total-cost" class="font-bold text-gray-700 text-right">$0.00</p>
-        </div>
-        <div class="grid grid-cols-2 text-gray-500 text-sm">
-            <p>Remaining Budget:</p>
-            <p id="remaining-budget" class="font-bold text-gray-700 text-right">$0.00</p>
-        </div>
-        
-        {{-- Display Compatibility Warnings --}}
-        @error('selected_components')
-            <div class="py-3">
-                <div class="bg-yellow-50 text-xs md:text-sm text-yellow-600 font-bold p-2 md:p-4 rounded-lg flex items-center gap-2 md:gap-3">
-                    <span class="bg-white text-yellow-600 rounded-full p-1 md:p-2 flex items-center justify-center">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </span>
-                    <div>
-                        <strong>Compatibility Issues Detected:</strong>
-                        <ul class="list-disc list-inside mt-1">
-                            @foreach ($errors->get('selected_components') as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                    
+                    <!-- Build Summary Card -->
+                    <div class="bg-white shadow rounded-lg overflow-hidden">
+                        <div class="px-4 py-3 border-b border-gray-100">
+                            <h3 class="text-lg font-semibold text-gray-800">Build Summary</h3>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <div class="grid grid-cols-2 text-gray-600 text-sm">
+                                <p>Total Cost:</p>
+                                <p id="total-cost" class="font-bold text-gray-700 text-right">$0.00</p>
+                            </div>
+                            <div class="grid grid-cols-2 text-gray-600 text-sm">
+                                <p>Remaining Budget:</p>
+                                <p id="remaining-budget" class="font-bold text-gray-700 text-right">$0.00</p>
+                            </div>
+                            
+                            <!-- Compatibility Warnings -->
+                            @error('selected_components')
+                            <div class="mt-3">
+                                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-md text-sm text-yellow-700">
+                                    <div class="flex items-start gap-2">
+                                        <span class="flex-shrink-0">
+                                            <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.516 11.591c.75 1.334-.213 2.99-1.742 2.99H3.483c-1.53 0-2.492-1.656-1.743-2.99L8.257 3.1zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-2a1 1 0 01-1-1V8a1 1 0 112 0v2a1 1 0 01-1 1z" clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                        <strong>⚠️ Compatibility Issues:</strong>
+                                    </div>
+                                    <ul class="list-disc list-inside mt-2 pl-6">
+                                        @foreach ($errors->get('selected_components') as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            @enderror
+                        </div>
                     </div>
-                </div>
-            </div>
-        @enderror
-    </div>
-</div>
-                    {{-- Submit Button --}}
+                    
+                    <!-- Desktop Save Button -->
                     <button 
                         type="submit" 
                         id="save-build-btn"
-                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-800 text-white text-sm py-2 md:py-3 rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-3 rounded-lg hover:opacity-90 transition-opacity disabled:bg-gray-400 disabled:cursor-not-allowed hidden md:block"
                     >
                         Save PC Build
                     </button>
                 </div>
             </div>
-
-            {{-- Components Selection - Middle --}}
-            <div class="lg:col-span-6 md:col-span-12 space-y-4 md:space-y-6 order-3 lg:order-2">
-                @foreach ($categories as $categoryName => $products)
-                    <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                        <div class="bg-gradient-to-r from-blue-600 to-indigo-800 px-3 py-2 md:px-4 md:py-3">
-                            <h3 class="text-white text-lg md:text-xl font-semibold">{{ $categoryName }}</h3>
+            
+            <!-- Selected Components Section -->
+            <div class="md:col-span-3 lg:col-span-3 order-2 md:order-3">
+                <div class="sticky top-4">
+                    <div class="bg-white shadow rounded-lg overflow-hidden">
+                        <div class="px-4 py-3 border-b border-gray-100">
+                            <h3 class="text-lg font-semibold text-gray-800">Selected Components</h3>
                         </div>
-                        <div class="p-2 md:p-3 grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-4">
-                            @foreach ($products as $product)
-                                <div class="border-2 border-gray-100 rounded-lg overflow-hidden md:max-w-[250px] hover:shadow-lg transition duration-200">
-                                    <div class="flex sm:block">
-                                        <div class="w-24 h-24 sm:w-full sm:h-auto flex-shrink-0">
-                                            <img 
-                                                src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/placeholder.png') }}" 
-                                                alt="{{ $product->name }}"
-                                                class="w-full h-full object-contain sm:max-h-40"
-                                            />
-                                        </div>
-                                        <div class="flex-1 p-2 sm:p-3">
-                                            <h4 class="font-semibold text-gray-800 mb-1 sm:mb-2 text-sm sm:text-base truncate">
-                                                {{ $product->name }}
-                                            </h4>
-                                            <div class="flex justify-between items-center">
-                                                <span class="text-blue-600 font-bold text-sm sm:text-base">
-                                                    ${{ number_format($product->price, 2) }}
-                                                </span>
-                                                <input 
-                                                    type="checkbox" 
-                                                    name="selected_components[]" 
-                                                    value="{{ $product->id }}"
-                                                    data-price="{{ $product->price }}"  
-                                                    data-category="{{ $categoryName }}"
-                                                    class="component-checkbox"
-                                                >
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            {{-- Selected Components - Right Side --}}
-            <div class="lg:col-span-3 md:col-span-6 order-2 lg:order-3">
-                <div class="sticky-sidebar">
-                    <div class="bg-white shadow-sm rounded-lg overflow-visible m-1 z-10">
-                        <div class="px-3 py-2 md:px-4 md:py-3">
-                            <h3 class="text-gray-800 text-lg md:text-xl font-semibold">Selected Components</h3>
-                        </div>
-                        <div class="p-3 md:p-4">
-                            <div id="selected-components-list" class="selected-components-container space-y-2">
+                        <div class="p-4">
+                            <div id="selected-components-list" class="space-y-3 min-h-40">
                                 <p class="text-sm text-gray-500">No components selected yet.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Components Selection Section -->
+            <div class="md:col-span-6 lg:col-span-6 order-3 md:order-2">
+                <div class="space-y-6">
+                    @foreach ($categories as $categoryName => $products)
+                        <div class="bg-white shadow rounded-lg overflow-hidden">
+                            <div class="bg-gradient-to-r from-blue-600 to-indigo-800 px-4 py-3">
+                                <h3 class="text-white text-lg font-semibold">{{ $categoryName }}</h3>
+                            </div>
+                            <div class="p-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    @foreach ($products as $product)
+                                        <div class="border border-gray-100 rounded-lg overflow-hidden hover:shadow-md transition duration-200">
+                                            <div class="flex flex-col h-full">
+                                                <div class="h-40 bg-gray-50 flex items-center justify-center p-2">
+                                                    <img 
+                                                        src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/placeholder.png') }}" 
+                                                        alt="{{ $product->name }}"
+                                                        class="max-h-36 max-w-full object-contain"
+                                                    />
+                                                </div>
+                                                <div class="p-3 flex flex-col flex-grow">
+                                                    <h4 class="font-medium text-gray-800 mb-2 line-clamp-2">
+                                                        {{ $product->name }}
+                                                    </h4>
+                                                    <div class="flex justify-between items-center mt-auto">
+                                                        <span class="text-blue-600 font-bold">
+                                                            ${{ number_format($product->price, 2) }}
+                                                        </span>
+                                                        <input 
+                                                            type="checkbox" 
+                                                            name="selected_components[]" 
+                                                            value="{{ $product->id }}"
+                                                            data-price="{{ $product->price }}"  
+                                                            data-category="{{ $categoryName }}"
+                                                            class="component-checkbox h-5 w-5 text-blue-600"
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
     </form>
 
-    <!-- Mobile-only Save button that appears fixed at bottom -->
-    <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white p-3 shadow-lg border-t z-50">
+    <!-- Mobile Save Button (Fixed at Bottom) -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg border-t z-50">
         <button 
             type="submit" 
-            class="w-full bg-gradient-to-r from-blue-600 to-indigo-800 text-white text-sm py-3 rounded-lg hover:bg-gray-800 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            class="w-full bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-3 rounded-lg hover:opacity-90 transition-opacity disabled:bg-gray-400 disabled:cursor-not-allowed"
             id="mobile-save-build-btn"
         >
             Save PC Build
@@ -289,8 +297,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (category.includes("RAM")) hasRAM = true;
                 if (category.includes("Storage")) hasStorage = true;
                 
-                // Extract product details
-                const productContainer = checkbox.closest('.border-2');
+                // Extract product details - Fixed to properly locate the parent container
+                const productContainer = checkbox.closest('.border.border-gray-100');
                 const productName = productContainer.querySelector('h4').textContent.trim();
                 const productImage = productContainer.querySelector('img').src;
                 
@@ -310,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         // Show placeholder text if no components selected
         if (selectedCount === 0) {
-            selectedComponentsList.innerHTML = `<p class="text-sm text-gray-500 italic">No components selected yet.</p>`;
+            selectedComponentsList.innerHTML = `<p class="text-sm text-gray-500">No components selected yet.</p>`;
         }
         
         // Update total cost display

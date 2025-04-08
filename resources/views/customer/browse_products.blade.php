@@ -80,89 +80,106 @@
                     </div>
                 </div>
 
-                <!-- Product Grid - Modified to show 2 products per row on mobile -->
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-                    @forelse ($products as $product)
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:scale-105 relative cursor-pointer" 
-                    onclick="showProductModal({{ $product->id }})">
-                   
-                   <div class="relative pt-[100%]">
-                       <!-- Product Image -->
-                       <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/placeholder.png') }}" 
-                           alt="{{ $product->name }}" 
-                           class="absolute inset-0 w-full h-full object-contain p-2">
+             <!-- Product Grid - Improved responsive grid with modern styling -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+    @forelse ($products as $product)
+    <div class="bg-white rounded-xl shadow-sm hover:shadow-lg overflow-hidden transition-all duration-300 border border-gray-100 relative group" 
+         onclick="showProductModal({{ $product->id }})">
         
-               
-                       @if(isset($product->discount_percent) && $product->discount_percent > 0)
-                           <span class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md">
-                               -{{ $product->discount_percent }}%
-                           </span>
-                       @endif
-                   </div>
-               
-                   <div class="p-3 sm:p-4 text-left"> <!-- Added text-left here -->
+        <!-- Image container with consistent aspect ratio -->
+        <div class="relative pt-[100%] bg-gray-50 overflow-hidden">
+            <!-- Product Image with hover zoom effect -->
+            <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/placeholder.png') }}" 
+                alt="{{ $product->name }}" 
+                class="absolute inset-0 w-full h-full object-contain p-3 transition-transform duration-500 group-hover:scale-110">
+            
+            <!-- Discount badge with improved styling -->
+            @if(isset($product->discount_percent) && $product->discount_percent > 0)
+                <span class="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-md shadow-sm">
+                    -{{ $product->discount_percent }}%
+                </span>
+            @endif
 
-               
-                       <!-- Product Name -->
-                       <h3 class="text-gray-900 font-semibold text-sm sm:text-base md:text-lg mb-1 line-clamp-1">
-                           {{ $product->name }}
-                       </h3>
-
-                         <!-- Category -->
-                         <div class="text-sm text-gray-500 mb-1">
-                            {{ $product->category->name }}
-                        </div>
-               
-                       <!-- Product Price -->
-                       <div class="flex items-center mb-2 sm:mb-3">
-                           @if(isset($product->sale_price) && $product->sale_price < $product->price)
-                               <span class="text-gray-900 font-medium text-sm sm:text-base md:text-lg">
-                                ₱{{ number_format($product->sale_price, 2) }}
-                               </span>
-                               <span class="text-gray-500 line-through text-xs ml-1 sm:ml-2">
-                                ₱{{ number_format($product->price, 2) }}
-                               </span>
-                           @else
-                               <span class="text-gray-900 font-bold text-sm sm:text-base md:text-lg">
-                                ₱{{ number_format($product->price, 2) }}
-                               </span>
-                           @endif
-                       </div>
-               
-                       <!-- Stock Status -->
-                       @if($product->stock <= 0)
-                           <div class="text-red-500 text-xs mb-2 sm:mb-3">Out of stock</div>
-                       @elseif($product->stock < 5)
-                           <div class="text-orange-500 text-xs mb-2 sm:mb-3">Only {{ $product->stock }} left!</div>
-                       @endif
-               
-                       <form method="POST" action="{{ route('cart.add', $product->id) }}" onclick="event.stopPropagation();">
-                        @csrf                 
-                        <button type="submit" 
-                                class="w-full flex items-center justify-center gap-1 sm:gap-2 bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-blue-700 text-white py-1 sm:py-2 px-2 sm:px-4 text-xs sm:text-sm rounded-md transition-colors duration-200 {{ $product->stock <= 0 ? 'opacity-50 cursor-not-allowed' : '' }}" 
-                                {{ $product->stock <= 0 ? 'disabled' : '' }}>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                            </svg>
-                            <span>{{ $product->stock <= 0 ? 'Out of Stock' : 'Add to Cart' }}</span>
-                        </button>
-                    </form>
-                    
-                   </div>
-               </div>
-               
-               
-                    @empty
-                        <div class="col-span-full flex flex-col items-center justify-center p-8 bg-gray-50 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                            </svg>
-                            <p class="text-gray-500 text-base sm:text-lg font-medium">No products available</p>
-                            <p class="text-gray-400 text-xs sm:text-sm mt-1">Try adjusting your filters or check back later for new products</p>
-                        </div>
-                    @endforelse
+            <!-- Quick view button appearing on hover -->
+            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span class="bg-white/90 text-gray-800 text-xs font-medium px-3 py-1.5 rounded-full shadow-sm backdrop-blur-sm">
+                    Quick View
+                </span>
+            </div>
+        </div>
+        
+        <div class="p-3 sm:p-4 text-left">
+            <!-- Category with subtle styling -->
+            <div class="text-xs text-gray-500 font-medium mb-1">
+                {{ $product->category->name }}
+            </div>
+            
+            <!-- Product Name with improved typography -->
+            <h3 class="text-gray-900 font-semibold text-sm sm:text-base line-clamp-1 mb-1 group-hover:text-blue-700 transition-colors">
+                {{ $product->name }}
+            </h3>
+            
+            <!-- Product Price with improved layout -->
+            <div class="flex items-center mb-2 sm:mb-3">
+                @if(isset($product->sale_price) && $product->sale_price < $product->price)
+                    <span class="text-gray-900 font-bold text-sm sm:text-base">
+                        ₱{{ number_format($product->sale_price, 2) }}
+                    </span>
+                    <span class="text-gray-400 line-through text-xs ml-2">
+                        ₱{{ number_format($product->price, 2) }}
+                    </span>
+                @else
+                    <span class="text-gray-900 font-bold text-sm sm:text-base">
+                        ₱{{ number_format($product->price, 2) }}
+                    </span>
+                @endif
+            </div>
+            
+            <!-- Stock Status with improved indicators -->
+            @if($product->stock <= 0)
+                <div class="flex items-center text-red-600 text-xs mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Out of stock
                 </div>
+            @elseif($product->stock < 5)
+                <div class="flex items-center text-amber-600 text-xs mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    Only {{ $product->stock }} left!
+                </div>
+            @else
+                <div class="flex items-center text-green-600 text-xs mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    In Stock
+                </div>
+            @endif
+            
+            <!-- Add to Cart Button with improved styling and interaction -->
+            <form method="POST" action="{{ route('cart.add', $product->id) }}" onclick="event.stopPropagation();">
+                @csrf                 
+                <button type="submit" 
+                      class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white py-2 px-4 text-sm rounded-lg transition-all duration-200 shadow-sm {{ $product->stock <= 0 ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-md' }}"
+                      {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                    <span class="font-medium">{{ $product->stock <= 0 ? 'Out of Stock' : 'Add to Cart' }}</span>
+                </button>
+            </form>
+        </div>
+    </div>
+    @empty
+    <div class="col-span-full text-center py-8">
+        <p class="text-gray-500">No products found</p>
+    </div>
+    @endforelse
+</div>
                 
                 <!-- Pagination -->
                 <div class="mt-6 sm:mt-8 flex justify-center">

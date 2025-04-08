@@ -26,18 +26,19 @@
     
     <!-- Action Buttons -->
     <div class="flex flex-col sm:flex-row justify-between gap-3 mb-6">
-        <a href="{{ route('trade-in.index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <button onclick="window.location='{{ route('trade-in.index') }}'" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Back to All Listings
-        </a>
-        <a href="{{ route('trade-in.create') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Create New Listing
-        </a>
+        </button>
+        <a href="{{ route('trade-in.create') }}" 
+   class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+    <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+    Create New Listing
+</a>
     </div>
     
     <!-- Listings Card -->
@@ -142,15 +143,18 @@
                                         </a>
                                         
                                         <!-- Edit button -->
-                                        <a href="{{ route('trade-in.edit', $listing) }}" class="text-yellow-600 hover:text-yellow-900" aria-label="Edit listing">
+                                        <a href="{{ route('trade-in.edit', $listing) }}" class="text-blue-600 hover:text-blue-900" aria-label="View listing details">
                                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                            </svg>
+                                                </svg>
                                         </a>
                                         
-                                        <!-- Delete button -->
-                                        <button type="button" class="text-red-600 hover:text-red-900" aria-label="Delete listing" 
-                                                onclick="document.getElementById('deleteModal{{ $listing->id }}').classList.remove('hidden')">
+
+                                        <!-- Delete button (with modal) -->  
+                                        <button type="button" 
+                                                onclick="openDeleteModal({{ $listing->id }}, '{{ $listing->brand }} {{ $listing->component_type }}')" 
+                                                class="text-red-600 hover:text-red-900" 
+                                                aria-label="Delete listing">
                                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                             </svg>
@@ -158,50 +162,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            
-                            <!-- Delete Modal -->
-                            <div id="deleteModal{{ $listing->id }}" class="fixed inset-0 z-10 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                                    <!-- Background overlay -->
-                                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                                         onclick="document.getElementById('deleteModal{{ $listing->id }}').classList.add('hidden')"></div>
-                                    
-                                    <!-- Modal panel -->
-                                    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                            <div class="sm:flex sm:items-start">
-                                                <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                                    <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                                    </svg>
-                                                </div>
-                                                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                                        Confirm Delete
-                                                    </h3>
-                                                    <div class="mt-2">
-                                                        <p class="text-sm text-gray-500">
-                                                            Are you sure you want to permanently delete this listing? This action cannot be undone.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                            <form action="{{ route('trade-in.destroy', $listing) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                                                    Delete Permanently
-                                                </button>
-                                            </form>
-                                            <button type="button" onclick="document.getElementById('deleteModal{{ $listing->id }}').classList.add('hidden')" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         @endforeach
                     </tbody>
                 </table>
@@ -213,14 +173,7 @@
                     </svg>
                     <h3 class="mt-2 text-lg font-medium text-gray-900">No listings yet</h3>
                     <p class="mt-1 text-sm text-gray-500">Get started by creating your first trade-in listing.</p>
-                    <div class="mt-6">
-                        <a href="{{ route('trade-in.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                            <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                            Create New Listing
-                        </a>
-                    </div>
+                   
                 </div>
             @endif
         </div>
@@ -236,17 +189,76 @@
     </div>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-start justify-center pt-12 z-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg max-w-md w-full mx-4">
+        <div class="p-6">
+            <div class="flex items-start justify-between">
+                <div class="flex items-center text-red-600">
+                    <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <h3 class="text-lg font-medium text-gray-900">Delete Confirmation</h3>
+                </div>
+                <button onclick="closeDeleteModal()" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="mt-4">
+                <p class="text-sm text-gray-500">Are you sure you want to delete <span id="deleteItemName" class="font-medium"></span>? This action cannot be undone.</p>
+            </div>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button onclick="closeDeleteModal()" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Cancel
+                </button>
+                <form id="deleteForm" method="POST" action="">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+   
+
+<!-- JavaScript for Modal Control -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Handle modal close when clicking on background
-    const modals = document.querySelectorAll('[id^="deleteModal"]');
-    modals.forEach(modal => {
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                modal.classList.add('hidden');
-            }
-        });
+    function openDeleteModal(listingId, listingName) {
+        // Set the form action
+        document.getElementById('deleteForm').action = "{{ route('trade-in.destroy', '') }}/" + listingId;
+        
+        // Set the item name in the confirmation message
+        document.getElementById('deleteItemName').textContent = listingName;
+        
+        // Show the modal
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+    
+    function closeDeleteModal() {
+        // Hide the modal
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+    
+    // Close modal if user clicks outside of it
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById('deleteModal');
+        if (event.target === modal) {
+            closeDeleteModal();
+        }
     });
-});
+    
+    // Close modal on escape key press
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && !document.getElementById('deleteModal').classList.contains('hidden')) {
+            closeDeleteModal();
+        }
+    });
 </script>
 @endsection

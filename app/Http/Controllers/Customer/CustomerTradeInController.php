@@ -99,7 +99,7 @@ class CustomerTradeInController extends Controller
             'status' => 'Available',
         ]);
 
-        return redirect()->route('trade-in.show', $listing)
+        return redirect()->route('trade-in.index', $listing)
             ->with('success', 'Trade-in listing created successfully!');
     }
 
@@ -110,10 +110,7 @@ public function show(TradeInListing $tradeIn)
 {
     // Check if the user is authorized to view the details
     // This is optional but a good security measure
-    if (Auth::id() !== $tradeIn->user_id && !$tradeIn->is_public) {
-        return redirect()->route('trade-in.index')
-            ->with('error', 'You are not authorized to view this listing.');
-    }
+   
     
     // Increment view count only if the viewer is not the owner
     if (Auth::id() !== $tradeIn->user_id) {

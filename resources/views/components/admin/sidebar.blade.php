@@ -48,12 +48,15 @@
 </a>
 
 
-        <a href="/trade-in" class="flex items-center px-4 py-3 rounded-md transition-colors text-gray-700 hover:bg-gray-100 hover:text-blue-600">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-          <span class="font-medium">Service Bookings</span>
-        </a>
+<a href="{{ route('admin.bookings.index') }}" 
+class="flex items-center px-4 py-3 rounded-md transition-colors 
+       {{ request()->is('admin/bookings') ? 'bg-blue-100 text-blue-600' : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600' }}">
+       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+      </svg>
+<span class="font-medium">Service Bookings</span>
+</a>
+
 
         <a href="/trade-in/listings" class="flex items-center px-4 py-3 rounded-md transition-colors text-gray-700 hover:bg-gray-100 hover:text-blue-600">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
