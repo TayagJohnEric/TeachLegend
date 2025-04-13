@@ -5,15 +5,22 @@
 @section('content')
 <div class="container mx-auto px-4 py-0">
     <div class=" rounded-lg p-6 md:p-8">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-xl md:text-2xl font-bold text-gray-800">My PC Builds</h1>
-            <a href="{{ route('pc-builder.index') }}" class="bg-gradient-to-r from-blue-600 to-indigo-800 text-sm font-medium text-white px-4 py-3 rounded-md hover:bg-indigo-700 transition duration-200 flex items-center">
+        <div class="flex justify-between items-start mb-9 flex-wrap gap-4">
+            <div>
+                <h1 class="text-xl md:text-3xl font-bold text-gray-900">Your Custom PC Builds</h1>
+                <p class="mt-1 text-gray-600">
+                    Explore your personalized computer setups and manage every build with ease.
+                </p>
+            </div>
+            
+            <a href="{{ route('pc-builder.index') }}" class="bg-gradient-to-r from-blue-600 to-indigo-800 text-sm font-medium text-white px-4 py-3 rounded-md hover:bg-indigo-700 transition duration-200 flex items-center h-fit">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                 </svg>
                 Create New Build
             </a>
         </div>
+        
 
         @if(session('success'))
             <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded mb-6 flex items-center">
@@ -33,7 +40,7 @@
                 <p class="text-gray-400 mt-2">Create your first custom PC build to get started!</p>
             </div>
         @else
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 mt-5 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($pcBuilds as $pcBuild)
                     <div class=" bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition duration-200">
                         <div class="p-5">
@@ -49,8 +56,8 @@
                                     <span class="font-bold text-green-500">${{ number_format($pcBuild->total_cost, 2) }}</span>
                                 </div>
                                 <div class="flex justify-between text-sm">
-                                    <span class="font-bold text-gray-600">Created:</span>
-                                    <span>{{ $pcBuild->created_at->format('M d, Y') }}</span>
+                                    <span class="text-gray-600">Created:</span>
+                                    <span class="font-bold text-gray-600">{{ $pcBuild->created_at->format('M d, Y') }}</span>
                                 </div>
                             </div>
 

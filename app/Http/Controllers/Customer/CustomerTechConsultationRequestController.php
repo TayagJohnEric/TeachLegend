@@ -56,7 +56,7 @@ public function index()
     $consultationRequests = TechConsultationRequest::where('user_id', Auth::id())
         ->with('responses.technician')
         ->orderBy('created_at', 'desc')
-        ->get();
+        ->paginate(10); // ✅ paginate instead of get
         
     return view('customer.consultations_index', compact('consultationRequests'));
 }

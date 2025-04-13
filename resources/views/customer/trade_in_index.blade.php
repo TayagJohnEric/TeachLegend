@@ -7,7 +7,7 @@
     <!-- Page Header -->
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900">Trade-In Components</h1>
-        <p class="mt-2 text-gray-600">Buy and sell pre-owned computer components</p>
+        <p class="text-gray-600 mt-1">Buy and sell pre-owned computer components</p>
     </div>
     
     <div class="flex flex-col lg:flex-row gap-6">
@@ -26,7 +26,7 @@
                     <form action="{{ route('trade-in.index') }}" method="GET">
                         <div class="mb-4">
                             <label for="component_type" class="block text-sm font-medium text-gray-700 mb-1">Component Type</label>
-                            <select name="component_type" id="component_type" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <select name="component_type" id="component_type" class=" px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <option value="">All Types</option>
                                 @foreach($componentTypes as $type)
                                     <option value="{{ $type }}" {{ request('component_type') == $type ? 'selected' : '' }}>
@@ -38,7 +38,7 @@
                         
                         <div class="mb-4">
                             <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">Brand</label>
-                            <select name="brand" id="brand" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <select name="brand" id="brand" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <option value="">All Brands</option>
                                 @foreach($brands as $brand)
                                     <option value="{{ $brand }}" {{ request('brand') == $brand ? 'selected' : '' }}>
@@ -50,7 +50,7 @@
                         
                         <div class="mb-4">
                             <label for="condition" class="block text-sm font-medium text-gray-700 mb-1">Condition</label>
-                            <select name="condition" id="condition" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <select name="condition" id="condition" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 <option value="">Any Condition</option>
                                 <option value="Like New" {{ request('condition') == 'Like New' ? 'selected' : '' }}>Like New</option>
                                 <option value="Used" {{ request('condition') == 'Used' ? 'selected' : '' }}>Used</option>
@@ -60,28 +60,29 @@
                         
                         <div class="mb-4">
                             <label for="min_price" class="block text-sm font-medium text-gray-700 mb-1">Min Price ($)</label>
-                            <input type="number" name="min_price" id="min_price" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ request('min_price') }}">
+                            <input type="number" name="min_price" id="min_price" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ request('min_price') }}">
                         </div>
                         
                         <div class="mb-4">
                             <label for="max_price" class="block text-sm font-medium text-gray-700 mb-1">Max Price ($)</label>
-                            <input type="number" name="max_price" id="max_price" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ request('max_price') }}">
+                            <input type="number" name="max_price" id="max_price" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ request('max_price') }}">
                         </div>
                         
                         <div class="flex space-x-2">
-                            <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out">
+                            <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white hover:bg-gray-800 font-medium text-sm py-2 px-4 rounded-md transition duration-150 ease-in-out">
                                 Apply Filters
                             </button>
-                            <a href="{{ route('trade-in.index') }}" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out text-center">
+                            <a href="{{ route('trade-in.index') }}" class="bg-white hover:bg-gray-300 text-gray-700 border border-gray-300 shadow-sm font-medium text-sm py-2 px-4 rounded-md transition duration-150 ease-in-out text-center">
                                 Clear
                             </a>
                         </div>
+                        
                     </form>
                 </div>
             </div>
             
             <div class="space-y-3">
-                <a href="{{ route('trade-in.create') }}" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white text-center font-medium py-3 px-4 rounded-md transition duration-150 ease-in-out">
+                <a href="{{ route('trade-in.create') }}" class="block w-full bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-emerald-700 text-white text-center font-medium text-sm py-2 px-4 rounded-md transition duration-150 ease-in-out">
                     <span class="flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -90,14 +91,17 @@
                     </span>
                 </a>
                 @auth
-                    <a href="{{ route('trade-in.my-listings') }}" class="block w-full bg-sky-600 hover:bg-sky-700 text-white text-center font-medium py-3 px-4 rounded-md transition duration-150 ease-in-out">
-                        <span class="flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                            My Listings
-                        </span>
-                    </a>
+                <a href="{{ route('trade-in.my-listings') }}"
+                class="block w-full bg-white border border-gray-300 hover:bg-gray-300 text-center py-2 px-4 font-medium text-sm rounded-md transition duration-150 ease-in-out">
+                 <span class="flex items-center justify-center">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                               d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                     </svg>
+                     Your Listings
+                 </span>
+             </a>
+             
                 @endauth
             </div>
         </div>
@@ -137,7 +141,7 @@
                                 </span>
                                 <span class="font-bold text-gray-900">${{ number_format($listing->pricing, 2) }}</span>
                             </div>
-                            <a href="{{ route('trade-in.show', $listing) }}" class="block w-full bg-indigo-600 hover:bg-indigo-700 text-white text-center font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out">
+                            <a href="{{ route('trade-in.show', $listing) }}" class="block w-full bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-indigo-700 text-white text-center text-sm font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out">
                                 View Details
                             </a>
                         </div>

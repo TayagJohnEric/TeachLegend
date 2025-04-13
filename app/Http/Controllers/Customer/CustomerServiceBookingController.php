@@ -17,25 +17,25 @@ class CustomerServiceBookingController extends Controller
                 'id' => 'pc-repair',
                 'name' => 'PC Repair',
                 'description' => 'Professional computer repair and maintenance services',
-                'image' => 'images/services/pc-repair.jpg'
+                'image' => 'images/pc-repair.jpg'
             ],
             [
                 'id' => 'virus-removal',
                 'name' => 'Virus Removal',
                 'description' => 'Complete virus and malware removal services',
-                'image' => 'images/services/virus-removal.jpg'
+                'image' => 'images/virus-removal.jpg'
             ],
             [
                 'id' => 'data-recovery',
                 'name' => 'Data Recovery',
                 'description' => 'Recover lost or deleted data from your storage devices',
-                'image' => 'images/services/data-recovery.jpg'
+                'image' => 'images/data-recovery.jpg'
             ],
             [
                 'id' => 'hardware-upgrade',
                 'name' => 'Hardware Upgrade',
                 'description' => 'Upgrade your computer components for better performance',
-                'image' => 'images/services/hardware-upgrade.jpg'
+                'image' => 'images/hardware-upgrade.jpg'
             ]
         ];
 

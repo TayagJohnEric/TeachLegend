@@ -4,27 +4,37 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">Our Services</h1>
-
-    <a href="{{ route('consultations.index') }}" class="inline-block mb-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-md transition duration-300">
-        View Consultation
-      </a>
-      
-      
+    <!-- Header section with improved responsive layout -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div class="max-w-2xl">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Our Services</h1>
+            <p class="text-gray-600 mt-1">Professional IT support to keep your technology running smoothly.</p>
+        </div>
+        
+        <a href="{{ route('consultations.index') }}" class="mt-2 sm:mt-0">
+            <button class="bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-gray-800 text-white font-medium text-sm py-2 px-4 rounded shadow-md transition duration-300 whitespace-nowrap">
+                View Consultation
+            </button>
+        </a>
+    </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Services grid with improved responsiveness -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @foreach($services as $service)
-            <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
-                <img src="{{ asset($service['image']) }}" 
-                     class="w-full h-48 object-cover object-center" 
-                     alt="{{ $service['name'] }}">
-                <div class="p-5">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col h-full">
+                <div class="relative">
+                    <img src="{{ asset($service['image']) }}" 
+                        class="w-full h-48 object-cover object-center" 
+                        alt="{{ $service['name'] }}">
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
                     <h5 class="text-xl font-semibold text-gray-900 mb-2">{{ $service['name'] }}</h5>
-                    <p class="text-gray-600 mb-4">{{ $service['description'] }}</p>
+                    <p class="text-gray-600 mb-4 flex-grow">{{ \Illuminate\Support\Str::limit($service['description'], 100, '...') }}</p>
                     <button type="button" 
-                            class="book-now-btn w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200 ease-in-out"
-                            data-service="{{ $service['id'] }}"
-                            data-service-name="{{ $service['name'] }}">
+                        class="book-now-btn w-full bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-blue-700 text-white font-medium text-sm py-2 px-4 rounded transition duration-200 ease-in-out"
+                        data-service="{{ $service['id'] }}"
+                        data-service-name="{{ $service['name'] }}"
+                        data-service-description="{{ $service['description'] }}">
                         Book Now
                     </button>
                 </div>
@@ -77,38 +87,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 flex flex-wrap justify-end gap-2">
+                <div class="bg-white px-4 py-3 sm:px-6 flex flex-wrap justify-end gap-2">
                     <button type="button" 
-                            class="close-modal bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md transition duration-200">
+                            class="close-modal bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium py-2 px-4 rounded-md transition duration-200">
                         Cancel
                     </button>
                     <button type="submit" 
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-200">
-                        Confirm Booking
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2 px-4 rounded-md transition duration-200">
+                        Submit
                     </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-@if(session('error'))
-    <div class="fixed bottom-4 right-4 z-50">
-        <div class="bg-red-500 text-white rounded-lg shadow-lg overflow-hidden max-w-md">
-            <div class="flex items-center justify-between px-4 py-2 bg-red-600">
-                <strong class="font-medium">Error</strong>
-                <button type="button" class="text-white hover:text-gray-100 focus:outline-none">
-                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <div class="px-4 py-3">
-                {{ session('error') }}
-            </div>
-        </div>
-    </div>
-@endif
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

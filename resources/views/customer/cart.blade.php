@@ -26,74 +26,93 @@
             </a>
         </div>
     @else
-        <div class="space-y-4 sm:space-y-6">
-            @foreach($cartItems as $item)
-                <div class="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 group relative">
-                    {{-- Mobile Delete Button (Top Right) --}}
-                    <div class="absolute top-2 right-2 block sm:hidden">
-                        <form method="POST" action="{{ route('cart.remove', $item->id) }}" 
-                              onsubmit="return confirm('Are you sure you want to remove this item?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-gray-500 hover:text-gray-600 transition-colors p-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-
-                    <div class="p-4 sm:p-6 grid grid-cols-12 gap-2 sm:gap-6 items-center">
+    <div class="space-y-4 sm:space-y-6">
+        @foreach($cartItems as $item)
+            <div class="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 group relative">
+                {{-- Mobile Delete Button (Top Right) --}}
+                <button form="remove-form-{{ $item->id }}" type="submit" 
+                        class="absolute top-2 right-2 block sm:hidden text-gray-500 hover:text-red-500 transition-colors p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </button>
+    
+                <div class="p-3 sm:p-6">
+                    <div class="grid grid-cols-12 gap-2 sm:gap-6 items-center">
                         {{-- Product Image --}}
-                        <div class="col-span-3 sm:col-span-2 flex justify-center">
+                        <div class="col-span-4 sm:col-span-2 flex justify-center">
                             <div class="w-16 h-16 sm:w-24 sm:h-24 rounded-lg overflow-hidden group-hover:scale-105 transition-transform duration-300">
                                 <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover">
                             </div>
                         </div>
-
+    
                         {{-- Product Details --}}
-                        <div class="col-span-9 sm:col-span-4 space-y-1 sm:space-y-2">
-                            <a href="{{ route('products.show', $item->product->id) }}" class="text-base sm:text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors">
+                        <div class="col-span-8 sm:col-span-4 space-y-1">
+                            <a href="{{ route('products.show', $item->product->id) }}" class="text-sm sm:text-lg font-semibold text-gray-700 hover:text-blue-600 transition-colors line-clamp-2">
                                 {{ $item->product->name }}
                             </a>
-                            <p class="text-xs sm:text-sm text-gray-500">Unit Price: ${{ number_format($item->product->price, 2) }}</p>
+                            <p class="text-xs sm:text-sm text-gray-500">Unit: ${{ number_format($item->product->price, 2) }}</p>
                         </div>
-
-                        {{-- Quantity Control --}}
-                        <div class="col-span-6 sm:col-span-2 flex flex-col items-center justify-center">
-                            <label for="quantity{{ $item->id }}" class="text-xs sm:text-sm text-gray-500 font-semibold mb-1">Quantity:</label>
+    
+                        {{-- Mobile Layout: Quantity & Total in one row --}}
+                        <div class="col-span-12 grid grid-cols-2 gap-2 mt-3 sm:hidden">
+                            {{-- Quantity Control --}}
+                            <div class="flex items-center justify-start">
+                                <label for="quantity{{ $item->id }}" class="text-xs text-gray-500 font-medium mr-2">Qty:</label>
+                                <input type="number" name="quantity" id="quantity{{ $item->id }}" 
+                                    value="{{ $item->quantity }}" 
+                                    min="1" max="{{ $item->product->stock }}" 
+                                    class="update-quantity w-14 text-center text-gray-700 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    data-id="{{ $item->id }}">
+                            </div>
+    
+                            {{-- Total Price --}}
+                            <div class="flex items-center justify-end">
+                                <span class="text-xs text-gray-500 font-medium mr-2">Total:</span>
+                                <span class="text-sm font-bold text-gray-700">
+                                    ${{ number_format($item->product->price * $item->quantity, 2) }}
+                                </span>
+                            </div>
+                        </div>
+    
+                        {{-- Desktop Layout: Separate Quantity & Total --}}
+                        <div class="hidden sm:block sm:col-span-2 text-center">
+                            <label for="quantity{{ $item->id }}" class="block text-xs sm:text-sm text-gray-500 font-medium mb-1">Quantity:</label>
                             <input type="number" name="quantity" id="quantity{{ $item->id }}" 
                                 value="{{ $item->quantity }}" 
                                 min="1" max="{{ $item->product->stock }}" 
-                                class="update-quantity w-14 sm:w-16 text-center text-gray-700 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                class="update-quantity w-16 text-center text-gray-700 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 data-id="{{ $item->id }}">
                         </div>
-
-                        <!-- Total Price -->
-                        <div class="col-span-6 sm:col-span-2 text-center">
+    
+                        <div class="hidden sm:block sm:col-span-2 text-center">
                             <label class="block text-xs sm:text-sm font-medium text-gray-500">Total:</label>
                             <span class="text-base sm:text-lg font-bold text-gray-700">
                                 ${{ number_format($item->product->price * $item->quantity, 2) }}
                             </span>
                         </div>
-
+    
                         {{-- Desktop Delete Button --}}
-                        <div class="hidden sm:flex sm:col-span-2 justify-center space-x-4">
-                            <form method="POST" action="{{ route('cart.remove', $item->id) }}" 
-                                onsubmit="return confirm('Are you sure you want to remove this item?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="bg-gray-50 text-gray-500 px-3 py-2 rounded-md hover:bg-gray-100 transition duration-200">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                            </form>
+                        <div class="hidden sm:flex sm:col-span-2 justify-center">
+                            <button form="remove-form-{{ $item->id }}" type="submit" 
+                                    class="bg-gray-50 text-gray-500 px-3 py-2 rounded-md hover:bg-red-50 hover:text-red-500 transition duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
+    
+                {{-- Hidden Remove Form --}}
+                <form id="remove-form-{{ $item->id }}" method="POST" action="{{ route('cart.remove', $item->id) }}" 
+                      onsubmit="return confirm('Are you sure you want to remove this item?');" class="hidden">
+                    @csrf
+                    @method('DELETE')
+                </form>
+            </div>
+        @endforeach
+    </div>
     @endif
 
     @if(!$cartItems->isEmpty())

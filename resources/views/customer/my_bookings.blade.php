@@ -4,7 +4,10 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">My Service Bookings</h1>
+    <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Your Service Bookings</h1>
+    <p class="text-gray-600 mt-1">Here’s a quick look at your upcoming and past bookings!</p>
+    </div>
     
     @if(session('success'))
         <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6 rounded-md">
@@ -41,6 +44,8 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -82,11 +87,15 @@
 
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($booking->status !== 'cancelled' && $booking->status !== 'completed')
-                                    <form action="{{ route('customer.bookings.cancel', $booking->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                                    <form action="{{ route('customer.bookings.cancel', $booking->id) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-                                            Cancel
+                                        <button type="submit" 
+                                        class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                        <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                        Cancel
                                         </button>
                                     </form>
                                 @else

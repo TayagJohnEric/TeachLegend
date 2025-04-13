@@ -4,21 +4,14 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Page Header -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Create Trade-In Listing</h1>
-        <p class="mt-2 text-gray-600">List your component for sale on our marketplace</p>
-    </div>
-
     <div class="max-w-3xl mx-auto">
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <div class="p-5 bg-gray-50 border-b border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-800 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
+            <div class="p-5  border-b border-gray-200">
+                <h2 class="text-xl font-bold text-gray-800 flex items-center">
                     Component Information
                 </h2>
+                <p class="mt-1 text-gray-400">List your component for sale on our marketplace</p>
+
             </div>
             
             <div class="p-6">
@@ -32,7 +25,7 @@
                                 Component Type <span class="text-red-500">*</span>
                             </label>
                             <select id="component_type" name="component_type" required
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('component_type') border-red-500 @enderror">
+                                class="w-full px-3 py-2 rounded-md border-gray-50 bg-gray-50 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('component_type') border-red-500 @enderror">
                                 <option value="">Select Component Type</option>
                                 <option value="CPU">CPU</option>
                                 <option value="GPU">GPU</option>
@@ -55,7 +48,7 @@
                                 Brand <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="brand" name="brand" required
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('brand') border-red-500 @enderror"
+                                class="w-full px-3 py-2 rounded-mdborder-gray-50 bg-gray-50 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('brand') border-red-500 @enderror"
                                 placeholder="e.g. ASUS, Nvidia, Intel">
                             @error('brand')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -68,7 +61,7 @@
                                 Condition <span class="text-red-500">*</span>
                             </label>
                             <select id="condition" name="condition" required
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('condition') border-red-500 @enderror">
+                                class="w-full px-3 py-2 rounded-mdborder-gray-50 bg-gray-50 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('condition') border-red-500 @enderror">
                                 <option value="Like New">Like New</option>
                                 <option value="Used">Used</option>
                                 <option value="Needs Repair">Needs Repair</option>
@@ -84,7 +77,7 @@
                                 Component Details <span class="text-red-500">*</span>
                             </label>
                             <textarea id="component_details" name="component_details" rows="4" required
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('component_details') border-red-500 @enderror"
+                                class="w-full rounded-md px-3 py-2 border-gray-50 bg-gray-50 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('component_details') border-red-500 @enderror"
                                 placeholder="Describe your component including model number, specifications, and any relevant details about its condition..."></textarea>
                             @error('component_details')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -101,7 +94,7 @@
                                     <span class="text-gray-500 sm:text-sm">$</span>
                                 </div>
                                 <input type="number" step="0.01" min="0" id="pricing" name="pricing" required
-                                    class="pl-7 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('pricing') border-red-500 @enderror"
+                                    class="pl-7 w-full px-3 py-2 rounded-md border-gray-50 bg-gray-50 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('pricing') border-red-500 @enderror"
                                     placeholder="0.00">
                             </div>
                             @error('pricing')
@@ -120,7 +113,7 @@
                                         <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                     <div class="flex text-sm text-gray-600">
-                                        <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                        <label for="image" class="relative cursor-pointer border-gray-50 bg-gray-50 rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                             <span>Upload a file</span>
                                             <input id="image" name="image" type="file" class="sr-only" accept="image/*">
                                         </label>
@@ -141,7 +134,7 @@
                             <a href="{{ route('trade-in.index') }}" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Cancel
                             </a>
-                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Create Listing
                             </button>
                         </div>
@@ -151,4 +144,42 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const imageInput = document.getElementById("image");
+    
+        // Get the target container inside the upload area
+        const uploadContainer = imageInput.closest(".space-y-1.text-center");
+    
+        // Create a preview image element
+        const imgPreview = document.createElement("img");
+        imgPreview.className = "mt-4 mx-auto max-h-40 rounded-md border border-gray-300";
+        imgPreview.style.display = "none";
+    
+        // Insert it at the end of the upload container
+        uploadContainer.appendChild(imgPreview);
+    
+        // Handle file input changes
+        imageInput.addEventListener("change", function () {
+            const file = this.files[0];
+    
+            if (file && file.type.startsWith("image/")) {
+                const reader = new FileReader();
+    
+                reader.onload = function (e) {
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.display = "block";
+                };
+    
+                reader.readAsDataURL(file);
+            } else {
+                imgPreview.src = "";
+                imgPreview.style.display = "none";
+            }
+        });
+    });
+    </script>
+    
+
 @endsection

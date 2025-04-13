@@ -4,10 +4,7 @@
 
 
 <style>
-    body {
-        text-align: center;
-        font-family: Arial, sans-serif;
-    }
+
 
     .stars {
         display: flex;
