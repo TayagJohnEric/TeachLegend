@@ -3,24 +3,23 @@
 @section('title', 'Create Trade-in Listing')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="max-w-3xl mx-auto">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <div class="p-5  border-b border-gray-200">
+<div class="w-full px-4 sm:px-6 lg:px-8 py-4">
+    <div class="w-full">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-4 border-b border-gray-200">
                 <h2 class="text-xl font-bold text-gray-800 flex items-center">
                     Component Information
                 </h2>
-                <p class="mt-1 text-gray-400">List your component for sale on our marketplace</p>
-
+                <p class="text-gray-400">List your component for sale on our marketplace</p>
             </div>
             
-            <div class="p-6">
-                <form method="POST" action="{{ route('trade-in.store') }}" enctype="multipart/form-data" class="space-y-6">
+            <div class="p-4">
+                <form method="POST" action="{{ route('trade-in.store') }}" enctype="multipart/form-data">
                     @csrf
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Component Type -->
-                        <div class="md:col-span-3">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                        <!-- First row -->
+                        <div class="md:col-span-4">
                             <label for="component_type" class="block text-sm font-medium text-gray-700 mb-1">
                                 Component Type <span class="text-red-500">*</span>
                             </label>
@@ -42,26 +41,24 @@
                             @enderror
                         </div>
 
-                        <!-- Brand -->
-                        <div class="md:col-span-2">
+                        <div class="md:col-span-5">
                             <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">
                                 Brand <span class="text-red-500">*</span>
                             </label>
                             <input type="text" id="brand" name="brand" required
-                                class="w-full px-3 py-2 rounded-mdborder-gray-50 bg-gray-50 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('brand') border-red-500 @enderror"
+                                class="w-full px-3 py-2 rounded-md border-gray-50 bg-gray-50 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('brand') border-red-500 @enderror"
                                 placeholder="e.g. ASUS, Nvidia, Intel">
                             @error('brand')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Condition -->
-                        <div class="md:col-span-1">
+                        <div class="md:col-span-3">
                             <label for="condition" class="block text-sm font-medium text-gray-700 mb-1">
                                 Condition <span class="text-red-500">*</span>
                             </label>
                             <select id="condition" name="condition" required
-                                class="w-full px-3 py-2 rounded-mdborder-gray-50 bg-gray-50 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('condition') border-red-500 @enderror">
+                                class="w-full px-3 py-2 rounded-md border-gray-50 bg-gray-50 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('condition') border-red-500 @enderror">
                                 <option value="Like New">Like New</option>
                                 <option value="Used">Used</option>
                                 <option value="Needs Repair">Needs Repair</option>
@@ -71,12 +68,12 @@
                             @enderror
                         </div>
 
-                        <!-- Component Details -->
-                        <div class="md:col-span-3">
+                        <!-- Second row -->
+                        <div class="md:col-span-9">
                             <label for="component_details" class="block text-sm font-medium text-gray-700 mb-1">
                                 Component Details <span class="text-red-500">*</span>
                             </label>
-                            <textarea id="component_details" name="component_details" rows="4" required
+                            <textarea id="component_details" name="component_details" rows="3" required
                                 class="w-full rounded-md px-3 py-2 border-gray-50 bg-gray-50 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('component_details') border-red-500 @enderror"
                                 placeholder="Describe your component including model number, specifications, and any relevant details about its condition..."></textarea>
                             @error('component_details')
@@ -84,8 +81,7 @@
                             @enderror
                         </div>
 
-                        <!-- Price -->
-                        <div class="md:col-span-1">
+                        <div class="md:col-span-3">
                             <label for="pricing" class="block text-sm font-medium text-gray-700 mb-1">
                                 Price ($) <span class="text-red-500">*</span>
                             </label>
@@ -102,34 +98,41 @@
                             @enderror
                         </div>
 
-                        <!-- Component Image -->
-                        <div class="md:col-span-3">
+                        <!-- Third row -->
+                        <div class="md:col-span-12">
                             <label for="image" class="block text-sm font-medium text-gray-700 mb-1">
                                 Component Image
                             </label>
-                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                                <div class="space-y-1 text-center">
-                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                            <div class="flex flex-col md:flex-row mt-1 p-4 border-2 border-gray-300 border-dashed rounded-md h-44">
+                                <div class="w-full md:w-1/4 flex items-center justify-center mb-4 md:mb-0">
+                                    <svg class="h-16 w-16 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                                         <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                    <div class="flex text-sm text-gray-600">
+                                </div>
+                                <div class="w-full md:w-3/4 flex flex-col justify-center">
+                                    <div class="flex text-sm text-gray-600 justify-center md:justify-start">
                                         <label for="image" class="relative cursor-pointer border-gray-50 bg-gray-50 rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                             <span>Upload a file</span>
                                             <input id="image" name="image" type="file" class="sr-only" accept="image/*">
                                         </label>
                                         <p class="pl-1">or drag and drop</p>
                                     </div>
-                                    <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                                    <p class="text-xs text-gray-500 text-center md:text-left mt-2">PNG, JPG, GIF up to 10MB</p>
+                                    <p class="text-xs text-gray-500 text-center md:text-left">Clear images help your listing sell faster.</p>
+                                    
+                                    <!-- Image preview placeholder - will be shown when image is selected -->
+                                    <div id="preview-container" class="mt-3 hidden">
+                                        <img id="image-preview" class="max-h-20 rounded-md mx-auto md:mx-0" src="" alt="Image preview">
+                                    </div>
                                 </div>
                             </div>
-                            <p class="mt-1 text-sm text-gray-500">Clear images help your listing sell faster.</p>
                             @error('image')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="mt-8 pt-5 border-t border-gray-200">
+                    <div class="mt-4 pt-3 border-t border-gray-200">
                         <div class="flex justify-end space-x-3">
                             <a href="{{ route('trade-in.index') }}" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Cancel
@@ -148,38 +151,27 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const imageInput = document.getElementById("image");
-    
-        // Get the target container inside the upload area
-        const uploadContainer = imageInput.closest(".space-y-1.text-center");
-    
-        // Create a preview image element
-        const imgPreview = document.createElement("img");
-        imgPreview.className = "mt-4 mx-auto max-h-40 rounded-md border border-gray-300";
-        imgPreview.style.display = "none";
-    
-        // Insert it at the end of the upload container
-        uploadContainer.appendChild(imgPreview);
-    
+        const imagePreview = document.getElementById("image-preview");
+        const previewContainer = document.getElementById("preview-container");
+        
         // Handle file input changes
         imageInput.addEventListener("change", function () {
             const file = this.files[0];
-    
+            
             if (file && file.type.startsWith("image/")) {
                 const reader = new FileReader();
-    
+                
                 reader.onload = function (e) {
-                    imgPreview.src = e.target.result;
-                    imgPreview.style.display = "block";
+                    imagePreview.src = e.target.result;
+                    previewContainer.classList.remove("hidden");
                 };
-    
+                
                 reader.readAsDataURL(file);
             } else {
-                imgPreview.src = "";
-                imgPreview.style.display = "none";
+                imagePreview.src = "";
+                previewContainer.classList.add("hidden");
             }
         });
     });
-    </script>
-    
-
+</script>
 @endsection

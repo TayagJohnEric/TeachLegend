@@ -6,7 +6,7 @@
 <div class="container mx-auto py-8">
    {{-- Orders Header & Total Orders in One Box --}}
    <div class="mx-3 bg-white py-3 px-2 sm:py-4 sm:px-6 rounded-lg shadow-sm flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-5">
-        <h2 class="text-xl sm:text-3xl font-bold text-gray-900">Your Orders</h2>
+        <h2 class="text-2xl sm:text-2xl font-bold text-gray-900">Your Orders</h2>
    </div>
 
     @if($orders->isEmpty())

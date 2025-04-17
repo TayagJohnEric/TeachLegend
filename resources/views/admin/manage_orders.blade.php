@@ -15,7 +15,7 @@
                 <select 
                     name="order_status" 
                     id="order_status" 
-                    class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300" 
+                    class="px-4 py-2 border border-gray-200 rounded-md font-medium text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300" 
                     onchange="this.form.submit()"
                 >
                     <option value="">All Orders</option>

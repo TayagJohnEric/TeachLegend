@@ -40,7 +40,7 @@ class ServiceBooking extends Model
         return [
             'pending' => 'Pending',
             'assigned' => 'Assigned to Technician',
-            'in-progress' => 'In Progress',
+            'in_progress' => 'In Progress',
             'approved' => 'Approved',
             'completed' => 'Completed',
             'cancelled' => 'Cancelled',

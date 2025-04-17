@@ -1,6 +1,6 @@
 @extends('layouts.customer.app')
 
-@section('title', 'Consultation')
+@section('title', 'Your Consultations')
 
 @section('content')
 <div class="container mx-auto px-4 py-10 max-w-7xl">
@@ -37,11 +37,11 @@
     @endif
     
   <!-- Page Header and Action Button Container -->
-<div class="flex justify-between items-center mb-6">
+<div class="flex justify-between items-center mb-9">
     <!-- Page Header -->
     <div>
-        <h1 class="text-2xl md:text-3xl font-bold text-gray-800">My Consultation Requests</h1>
-        <p class="text-gray-600 mt-1">Manage and track all your consultation requests in one place</p>
+        <h1 class="text-2xl md:text-2xl font-bold text-gray-800">Your Consultation Requests</h1>
+        <p class="text-gray-400 ">Manage and track all your consultation requests in one place</p>
     </div>
     
     <!-- Action Button -->
@@ -130,7 +130,7 @@
                                 <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end space-x-2">
                                         <!-- View button -->
-                                        <a href="{{ route('consultations.show', $request->id) }}" class="text-blue-600 hover:text-blue-900" aria-label="View consultation details">
+                                        <a href="{{ route('consultations.show', $request->id) }}" class="text-gray-600 mr-5 hover:text-blue-900" aria-label="View consultation details">
                                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />

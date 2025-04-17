@@ -6,103 +6,104 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Page Header -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Trade-In Components</h1>
-        <p class="text-gray-600 mt-1">Buy and sell pre-owned computer components</p>
+        <h1 class="text-2xl font-bold text-gray-900">Trade-In Components</h1>
+        <p class="text-gray-400">Buy and sell pre-owned computer components</p>
     </div>
     
     <div class="flex flex-col lg:flex-row gap-6">
-        <!-- Filters Sidebar -->
+        <!-- Filters Sidebar - Made sticky -->
         <div class="w-full lg:w-1/4">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
-                <div class="p-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
-                    <h2 class="font-semibold text-gray-800 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                        </svg>
-                        Filters
-                    </h2>
+            <div class="lg:sticky lg:top-4">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+                    <div class="p-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
+                        <h2 class="font-semibold text-gray-800 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                            </svg>
+                            Filters
+                        </h2>
+                    </div>
+                    <div class="p-4">
+                        <form action="{{ route('trade-in.index') }}" method="GET">
+                            <div class="mb-4">
+                                <label for="component_type" class="block text-sm font-medium text-gray-700 mb-1">Component Type</label>
+                                <select name="component_type" id="component_type" class=" px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">All Types</option>
+                                    @foreach($componentTypes as $type)
+                                        <option value="{{ $type }}" {{ request('component_type') == $type ? 'selected' : '' }}>
+                                            {{ $type }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">Brand</label>
+                                <select name="brand" id="brand" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">All Brands</option>
+                                    @foreach($brands as $brand)
+                                        <option value="{{ $brand }}" {{ request('brand') == $brand ? 'selected' : '' }}>
+                                            {{ $brand }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="condition" class="block text-sm font-medium text-gray-700 mb-1">Condition</label>
+                                <select name="condition" id="condition" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">Any Condition</option>
+                                    <option value="Like New" {{ request('condition') == 'Like New' ? 'selected' : '' }}>Like New</option>
+                                    <option value="Used" {{ request('condition') == 'Used' ? 'selected' : '' }}>Used</option>
+                                    <option value="Needs Repair" {{ request('condition') == 'Needs Repair' ? 'selected' : '' }}>Needs Repair</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="min_price" class="block text-sm font-medium text-gray-700 mb-1">Min Price ($)</label>
+                                <input type="number" name="min_price" id="min_price" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ request('min_price') }}">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="max_price" class="block text-sm font-medium text-gray-700 mb-1">Max Price ($)</label>
+                                <input type="number" name="max_price" id="max_price" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ request('max_price') }}">
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white hover:bg-gray-800 font-medium text-sm py-2 px-4 rounded-md transition duration-150 ease-in-out">
+                                    Apply Filters
+                                </button>
+                                <a href="{{ route('trade-in.index') }}" class="bg-white text-gray-700 hover:border-gray-400 border border-gray-300 shadow-sm font-medium text-sm py-2 px-4 rounded-md transition duration-150 ease-in-out text-center">
+                                    Clear
+                                </a>
+                            </div>
+                            
+                        </form>
+                    </div>
                 </div>
-                <div class="p-4">
-                    <form action="{{ route('trade-in.index') }}" method="GET">
-                        <div class="mb-4">
-                            <label for="component_type" class="block text-sm font-medium text-gray-700 mb-1">Component Type</label>
-                            <select name="component_type" id="component_type" class=" px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="">All Types</option>
-                                @foreach($componentTypes as $type)
-                                    <option value="{{ $type }}" {{ request('component_type') == $type ? 'selected' : '' }}>
-                                        {{ $type }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label for="brand" class="block text-sm font-medium text-gray-700 mb-1">Brand</label>
-                            <select name="brand" id="brand" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="">All Brands</option>
-                                @foreach($brands as $brand)
-                                    <option value="{{ $brand }}" {{ request('brand') == $brand ? 'selected' : '' }}>
-                                        {{ $brand }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label for="condition" class="block text-sm font-medium text-gray-700 mb-1">Condition</label>
-                            <select name="condition" id="condition" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="">Any Condition</option>
-                                <option value="Like New" {{ request('condition') == 'Like New' ? 'selected' : '' }}>Like New</option>
-                                <option value="Used" {{ request('condition') == 'Used' ? 'selected' : '' }}>Used</option>
-                                <option value="Needs Repair" {{ request('condition') == 'Needs Repair' ? 'selected' : '' }}>Needs Repair</option>
-                            </select>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label for="min_price" class="block text-sm font-medium text-gray-700 mb-1">Min Price ($)</label>
-                            <input type="number" name="min_price" id="min_price" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ request('min_price') }}">
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label for="max_price" class="block text-sm font-medium text-gray-700 mb-1">Max Price ($)</label>
-                            <input type="number" name="max_price" id="max_price" class="px-3 py-2 w-full bg-gray-50 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ request('max_price') }}">
-                        </div>
-                        
-                        <div class="flex space-x-2">
-                            <button type="submit" class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white hover:bg-gray-800 font-medium text-sm py-2 px-4 rounded-md transition duration-150 ease-in-out">
-                                Apply Filters
-                            </button>
-                            <a href="{{ route('trade-in.index') }}" class="bg-white hover:bg-gray-300 text-gray-700 border border-gray-300 shadow-sm font-medium text-sm py-2 px-4 rounded-md transition duration-150 ease-in-out text-center">
-                                Clear
-                            </a>
-                        </div>
-                        
-                    </form>
+                
+                <div class="space-y-3">
+                    <a href="{{ route('trade-in.create') }}" class="block w-full bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-emerald-700 text-white text-center font-medium text-sm py-2 px-4 rounded-md transition duration-150 ease-in-out">
+                        <span class="flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            List Your Component
+                        </span>
+                    </a>
+                    @auth
+                    <a href="{{ route('trade-in.my-listings') }}"
+                    class="block w-full bg-white border border-gray-300 text-gray-700 hover:border-gray-400 text-center py-2 px-4 font-medium text-sm rounded-md transition duration-150 ease-in-out">
+                     <span class="flex items-center justify-center">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                         </svg>
+                         Your Listings
+                     </span>
+                 </a>
+                    @endauth
                 </div>
-            </div>
-            
-            <div class="space-y-3">
-                <a href="{{ route('trade-in.create') }}" class="block w-full bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-emerald-700 text-white text-center font-medium text-sm py-2 px-4 rounded-md transition duration-150 ease-in-out">
-                    <span class="flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        List Your Component
-                    </span>
-                </a>
-                @auth
-                <a href="{{ route('trade-in.my-listings') }}"
-                class="block w-full bg-white border border-gray-300 hover:bg-gray-300 text-center py-2 px-4 font-medium text-sm rounded-md transition duration-150 ease-in-out">
-                 <span class="flex items-center justify-center">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                               d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                     </svg>
-                     Your Listings
-                 </span>
-             </a>
-             
-                @endauth
             </div>
         </div>
         

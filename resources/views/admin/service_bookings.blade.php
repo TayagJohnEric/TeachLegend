@@ -10,9 +10,17 @@
             <h2 class="text-2xl font-bold text-gray-800">Booking Management</h2>
         </div>
         <div>
-            <button type="button" onclick="openModal('bulkDeleteModal')" class="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500">
-                Archive Old Bookings
-            </button>
+           <button 
+    type="button" 
+    onclick="openModal('bulkDeleteModal')" 
+    class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-600 font-medium text-sm rounded-lg hover:border-gray-400 transition-colors focus:outline-none"
+>
+    <!-- Archive Icon (from Heroicons - outline) -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7H4m16 0v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7m16 0H4m2-3h12a1 1 0 011 1v1H5V5a1 1 0 011-1zm4 9h4" />
+    </svg>
+    Archive Old Bookings
+</button>
         </div>
     </div>
 
@@ -26,15 +34,15 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">Date From</label>
-                        <input type="date" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="date_from" name="date_from" value="{{ request('date_from') }}">
+                        <input type="date" class="px-4 py-2 text-sm font-medium border border-gray-200 w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="date_from" name="date_from" value="{{ request('date_from') }}">
                     </div>
                     <div>
                         <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">Date To</label>
-                        <input type="date" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="date_to" name="date_to" value="{{ request('date_to') }}">
+                        <input type="date" class="px-4 py-2 text-sm font-medium border border-gray-200 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="date_to" name="date_to" value="{{ request('date_to') }}">
                     </div>
                     <div>
                         <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                        <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="status" name="status">
+                        <select class="px-4 py-2 text-sm font-medium border border-gray-200 w-full rounded-md  shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="status" name="status">
                             <option value="">All Statuses</option>
                             @foreach($statuses as $status)
                                 <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>
@@ -45,7 +53,7 @@
                     </div>
                     <div>
                         <label for="user_id" class="block text-sm font-medium text-gray-700 mb-1">Customer</label>
-                        <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="user_id" name="user_id">
+                        <select class="px-4 py-2 text-sm font-medium border border-gray-200 w-full rounded-md  shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="user_id" name="user_id">
                             <option value="">All Customers</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
@@ -56,7 +64,7 @@
                     </div>
                     <div>
                         <label for="technician_id" class="block text-sm font-medium text-gray-700 mb-1">Technician</label>
-                        <select class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="technician_id" name="technician_id">
+                        <select class="px-4 py-2 text-sm font-medium border border-gray-200 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" id="technician_id" name="technician_id">
                             <option value="">All Technicians</option>
                             <option value="null" {{ request('technician_id') === 'null' ? 'selected' : '' }}>Unassigned</option>
                             @foreach($technicians as $technician)
@@ -67,8 +75,8 @@
                         </select>
                     </div>
                     <div class="flex items-end">
-                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 mr-2">Apply Filters</button>
-                        <a href="{{ route('admin.bookings.index') }}" class="px-4 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500">Reset</a>
+                        <button type="submit" class="px-4 py-2 bg-gray-800 text-white font-medium text-sm rounded-lg hover:bg-gray-700 transition-colors mr-2">Apply Filters</button>
+                        <a href="{{ route('admin.bookings.index') }}" class="px-4 py-2 bg-gray-200 text-gray-700 font-medium text-sm rounded-lg hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500">Reset</a>
                     </div>
                 </div>
             </form>
@@ -127,21 +135,42 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     <div class="flex space-x-2">
-                                        <a href="{{ route('admin.bookings.show', $booking->id) }}" class="px-3 py-1 bg-blue-600 text-white text-xs font-medium rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">View</a>
-                                        
-                                        @if($booking->status != 'cancelled')
-                                            <button type="button" 
-                                                onclick="openModal('cancelModal{{ $booking->id }}')"
-                                                class="px-3 py-1 bg-yellow-600 text-white text-xs font-medium rounded hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                                                Cancel
-                                            </button>
-                                        @endif
-                                        
-                                        <button type="button" 
-                                            onclick="openModal('deleteModal{{ $booking->id }}')"
-                                            class="px-3 py-1 bg-red-600 text-white text-xs font-medium rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
-                                            Archive
-                                        </button>
+                                     
+                                        <!-- View Button -->
+<a href="{{ route('admin.bookings.show', $booking->id) }}"
+    class="inline-flex items-center gap-1 px-4 py-2 bg-indigo-100 text-indigo-700 text-xs font-medium rounded hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+     <!-- Eye Icon -->
+     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+     </svg>
+     View
+ </a>
+ 
+ <!-- Cancel Button (changed to white background and X icon) -->
+ @if($booking->status != 'cancelled')
+     <button type="button"
+         onclick="openModal('cancelModal{{ $booking->id }}')"
+         class="inline-flex items-center gap-1 px-4 py-2 bg-white text-gray-700 text-xs font-medium rounded border border-gray-200 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+         <!-- X Icon -->
+         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+         </svg>
+         Cancel
+     </button>
+ @endif
+ 
+ <!-- Archive Button (changed to red background) -->
+ <button type="button"
+     onclick="openModal('deleteModal{{ $booking->id }}')"
+     class="inline-flex items-center gap-1 px-3 py-1 bg-red-100 text-red-700 text-xs font-medium rounded hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500">
+     <!-- Archive Box Icon -->
+     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7H4m16 0v10a2 2 0 01-2 2H6a2 2 0 01-2-2V7m16 0H4m2-3h12a1 1 0 011 1v1H5V5a1 1 0 011-1zm4 9h4" />
+     </svg>
+     Archive
+ </button>
+ 
                                     </div>
                                 </td>
                             </tr>

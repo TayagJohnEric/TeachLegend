@@ -5,10 +5,10 @@
 @section('content')
 <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
     <!-- Header section with improved responsive layout -->
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-9">
         <div class="max-w-2xl">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Our Services</h1>
-            <p class="text-gray-600 mt-1">Professional IT support to keep your technology running smoothly.</p>
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">Our Services</h1>
+            <p class="text-gray-400 ">Professional IT support to keep your technology running smoothly.</p>
         </div>
         
         <a href="{{ route('consultations.index') }}" class="mt-2 sm:mt-0">
@@ -29,7 +29,7 @@
                 </div>
                 <div class="p-5 flex flex-col flex-grow">
                     <h5 class="text-xl font-semibold text-gray-900 mb-2">{{ $service['name'] }}</h5>
-                    <p class="text-gray-600 mb-4 flex-grow">{{ \Illuminate\Support\Str::limit($service['description'], 100, '...') }}</p>
+                    <p class="text-blue-500 font-medium text-sm mb-4 flex-grow">{{ \Illuminate\Support\Str::limit($service['description'], 100, '...') }}</p>
                     <button type="button" 
                         class="book-now-btn w-full bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-blue-700 text-white font-medium text-sm py-2 px-4 rounded transition duration-200 ease-in-out"
                         data-service="{{ $service['id'] }}"

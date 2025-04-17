@@ -7,7 +7,7 @@
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <!-- Header -->
         <div class="border-b border-gray-200 bg-gray-50 px-6 py-4 flex items-center justify-between">
-            <h1 class="text-xl font-semibold text-gray-800">My Service Bookings</h1>
+            <h1 class="text-xl font-semibold text-gray-800">Your Service Bookings</h1>
         </div>
 
         <!-- Content -->

@@ -4,8 +4,6 @@
 
 
 <style>
-
-
     .stars {
         display: flex;
         flex-direction: row-reverse;

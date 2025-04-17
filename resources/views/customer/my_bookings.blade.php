@@ -5,8 +5,8 @@
 @section('content')
 <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
     <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-2">Your Service Bookings</h1>
-    <p class="text-gray-600 mt-1">Here’s a quick look at your upcoming and past bookings!</p>
+    <h1 class="text-2xl font-bold text-gray-900 mb-2">Your Service Bookings</h1>
+    <p class="text-gray-400">Here’s a quick look at your upcoming and past bookings!</p>
     </div>
     
     @if(session('success'))

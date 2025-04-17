@@ -7,10 +7,7 @@
     <div class=" rounded-lg p-6 md:p-8">
         <div class="flex justify-between items-start mb-9 flex-wrap gap-4">
             <div>
-                <h1 class="text-xl md:text-3xl font-bold text-gray-900">Your Custom PC Builds</h1>
-                <p class="mt-1 text-gray-600">
-                    Explore your personalized computer setups and manage every build with ease.
-                </p>
+                <h1 class="text-xl md:text-2xl font-bold text-gray-900">Your Custom PC Builds</h1>
             </div>
             
             <a href="{{ route('pc-builder.index') }}" class="bg-gradient-to-r from-blue-600 to-indigo-800 text-sm font-medium text-white px-4 py-3 rounded-md hover:bg-indigo-700 transition duration-200 flex items-center h-fit">
