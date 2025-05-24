@@ -252,16 +252,15 @@
             </div>
         </div>
 
-        <form method="POST" action="{{ route('cart.add', $product->id) }}" onclick="event.stopPropagation();">
-            @csrf                 
-            <button type="submit" 
-                    class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-blue-700 text-white py-2 text-sm rounded-md transition-colors duration-200 {{ $product->stock <= 0 ? 'opacity-50 cursor-not-allowed' : '' }}" 
-                    {{ $product->stock <= 0 ? 'disabled' : '' }}>
+        <form id="modalAddToCartForm" method="POST" action="{{ route('cart.add', 0) }}" onclick="event.stopPropagation();">
+            @csrf
+            <input type="hidden" id="modalCartProductId" name="product_id" value="">
+            <button id="modalAddToCartBtn" type="submit" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-800 hover:bg-blue-700 text-white py-2 text-sm rounded-md transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                           d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                 </svg>
-                <span>{{ $product->stock <= 0 ? 'Out of Stock' : 'Add to Cart' }}</span>
+                <span id="modalAddToCartBtnText">Add to Cart</span>
             </button>
         </form>
         
@@ -371,6 +370,26 @@
                     
                     // Fetch reviews for this product
                     fetchProductReviews(productId, 1);
+
+                    // Update Add to Cart form in modal
+                    const addToCartForm = document.getElementById('modalAddToCartForm');
+                    const addToCartBtn = document.getElementById('modalAddToCartBtn');
+                    const addToCartBtnText = document.getElementById('modalAddToCartBtnText');
+                    const cartProductIdInput = document.getElementById('modalCartProductId');
+                    if (addToCartForm && cartProductIdInput && addToCartBtn && addToCartBtnText) {
+                        cartProductIdInput.value = product.id;
+                        // Update form action to use the correct product id
+                        addToCartForm.action = `/cart/add/${product.id}`;
+                        if (product.stock <= 0) {
+                            addToCartBtn.disabled = true;
+                            addToCartBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                            addToCartBtnText.textContent = 'Out of Stock';
+                        } else {
+                            addToCartBtn.disabled = false;
+                            addToCartBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                            addToCartBtnText.textContent = 'Add to Cart';
+                        }
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching product:', error);

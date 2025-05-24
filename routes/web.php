@@ -9,6 +9,10 @@ use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminRegisterController;
 use App\Http\Controllers\Admin\AdminServiceBookingController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminTradeInController;
+
+
 use App\Http\Controllers\Customer\CustomerDashboardController;
 use App\Http\Controllers\Customer\CustomerCategoryController;
 use App\Http\Controllers\Customer\CustomerCartController;
@@ -83,6 +87,20 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         ->name('bookings.delete');
     Route::post('/bookings/bulk-delete', [AdminServiceBookingController::class, 'bulkSoftDelete'])
         ->name('bookings.bulk-delete');
+});
+
+
+Route::prefix('admin')->middleware('auth', 'role:admin')->group(function () {
+    Route::get('users', [AdminUserController::class, 'index'])->name('admin.users.index');
+    Route::get('users/create', [AdminUserController::class, 'create'])->name('admin.users.create');
+    Route::post('users', [AdminUserController::class, 'store'])->name('admin.users.store');
+    Route::get('users/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
+    Route::delete('users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+});
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('trade-ins', AdminTradeInController::class);
 });
 
 

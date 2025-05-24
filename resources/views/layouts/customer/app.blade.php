@@ -115,12 +115,7 @@
             <span class="font-medium">My Bookings</span>
           </a>
           
-          <a href="/subscriptions" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-blue-600 rounded-md transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5z" />
-            </svg>
-            <span class="font-medium">Subscriptions</span>
-          </a>
+       
           
           <!-- Trade-In Marketplace Section -->
           <div class="px-4 py-2 mt-4">

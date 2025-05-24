@@ -31,7 +31,7 @@
 </a>
 
 
-        <a href="/services" class="flex items-center px-4 py-3 rounded-md transition-colors text-gray-700 hover:bg-gray-100 hover:text-blue-600">
+        <a href="{{ route('admin.users.index') }}"  class="flex items-center px-4 py-3 rounded-md transition-colors text-gray-700 hover:bg-gray-100 hover:text-blue-600">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
@@ -57,19 +57,18 @@ class="flex items-center px-4 py-3 rounded-md transition-colors
 <span class="font-medium">Service Bookings</span>
 </a>
 
-
-        <a href="/trade-in/listings" class="flex items-center px-4 py-3 rounded-md transition-colors text-gray-700 hover:bg-gray-100 hover:text-blue-600">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          <span class="font-medium">Moderate Reviews</span>
-        </a>
-
-        <a href="/orders" class="flex items-center px-4 py-3 rounded-md transition-colors text-gray-700 hover:bg-gray-100 hover:text-blue-600">
+  <a href="{{ route('admin.trade-ins.index') }}"  class="flex items-center px-4 py-3 rounded-md transition-colors text-gray-700 hover:bg-gray-100 hover:text-blue-600">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
           <span class="font-medium">Manage Trade-Ins</span>
+        </a>
+
+    <!--    <a href="/trade-in/listings" class="flex items-center px-4 py-3 rounded-md transition-colors text-gray-700 hover:bg-gray-100 hover:text-blue-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <span class="font-medium">Moderate Reviews</span>
         </a>
 
         <a href="/subscriptions" class="flex items-center px-4 py-3 rounded-md transition-colors text-gray-700 hover:bg-gray-100 hover:text-blue-600">
@@ -77,7 +76,8 @@ class="flex items-center px-4 py-3 rounded-md transition-colors
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
           </svg>
           <span class="font-medium">Manage Subscriptions</span>
-        </a>
+        </a>   -->
+
       </nav>
     </div>
   </div>
